@@ -600,10 +600,10 @@ before packages are loaded."
     :ensure t
     :after (org-roam))
 
-  (use-package org-roam-bibtex
-    :ensure t
-    :after (org-roam bibtex)
-    :commands (org-roam-bibtex-mode))
+  ;; (use-package org-roam-bibtex
+  ;;   :ensure t
+  ;;   :after (org-roam bibtex)
+  ;;   :commands (org-roam-bibtex-mode))
 
   (defun cn/org-roam-dailies-scheduled-time ()
     (let ((scheduled-time (org-read-date nil nil nil "Date: ")))
@@ -613,7 +613,7 @@ before packages are loaded."
   ;;   (interactive)
   ;;   (setq org-agenda-files (append (file-expand-wildcards "~/org/roam/daily/????-??-??.org"))))
 
-  (setq ledger-default-date-format ledger-iso-date-format)
+  ;; (setq ledger-default-date-format ledger-iso-date-format)
 
   (setq org-agenda-files '("~/org/roam/daily/"))
 
@@ -692,8 +692,6 @@ before packages are loaded."
   (add-hook 'org-roam-db-autosync-mode-hook 'vulpea-db-autosync-enable)
   ;; (add-hook 'org-roam-mode 'org-roam-bibtex-mode)
 
-  (eval-after-load 'org-agenda
-    (cn/org-agenda-set-agenda-files))
   (eval-after-load 'org-roam
     (org-roam-db-autosync-enable)))
 
