@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(yaml
+   '(
+     (ansible)
      (auto-completion :variables
                       auto-complete-enable-help-tooltip t
                       auto-completion-use-company-box t)
@@ -69,6 +70,7 @@ This function should only modify configuration layer settings."
                      enable-flyspell-auto-completion t
                      spell-checking-enable-auto-dictionary t)
      (syntax-checking)
+     (tabs)
      (terraform)
      (treemacs :variables
                treemacs-use-follow-mode t
@@ -77,7 +79,8 @@ This function should only modify configuration layer settings."
                treemacs-lock-width t)
      (typescript)
      (unicode-fonts :variables
-                    unicode-fonts-enable-ligatures t))
+                    unicode-fonts-enable-ligatures t)
+     (yaml))
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -283,7 +286,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("FiraCode Nerd Font"
-                               :size 12.0
+                               :size 11.0
                                :weight normal
                                :width normal)
 
@@ -596,9 +599,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (use-package vulpea
-    :ensure t
-    :after (org-roam))
+  ;; (use-package vulpea
+  ;;   :ensure t
+  ;;   :after (org-roam))
 
   ;; (use-package org-roam-bibtex
   ;;   :ensure t
@@ -709,7 +712,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(flyspell-popup auto-dictionary flyspell-correct-ivy flyspell-correct guix geiser-guile geiser org-roam-bibtex ivy-bibtex org-ref ox-pandoc citeproc bibtex-completion biblio biblio-core parsebib vulpea org-roam-ql-ql org-roam-ql org-ql org-wild-notifier typescript-mode verb yaml-mode org-brain org-contacts org-journal org-vcard dap-mode lsp-docker bui ligature unicode-fonts ucs-utils font-utils persistent-soft pcache auto-yasnippet blacken bundler chruby code-cells company-anaconda anaconda-mode company-box frame-local company-nixos-options company-terraform company counsel-projectile counsel cython-mode docker tablist aio dockerfile-mode evil-ledger evil-org flycheck-ledger flycheck-pos-tip pos-tip git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot htmlize importmagic epc ctable concurrent deferred ivy-avy ivy-hydra ivy-purpose ivy-xref ivy-yasnippet js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kubernetes-evil kubernetes magit-popup ledger-mode live-py-mode livid-mode lsp-ivy lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode minitest nix-mode nixos-options nodejs-repl nose npm-mode org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank org-roam-ui websocket org-roam orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy pip-requirements pipenv load-env-vars pippel poetry prettier-js py-isort pydoc pyenv-mode pythonic pylookup pytest pyvenv rake rbenv rjsx-mode robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing skewer-mode js2-mode simple-httpd smeargle smex sphinx-doc swiper ivy terraform-mode hcl-mode treemacs-magit magit magit-section git-commit dash with-editor transient web-beautify wgrep yapfify yasnippet-snippets yasnippet evil-easymotion treemacs-evil use-package org-babel-eval-in-repl ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
+   '(centaur-tabs ansible ansible-doc company-ansible jinja2-mode flyspell-popup auto-dictionary flyspell-correct-ivy flyspell-correct guix geiser-guile geiser org-roam-bibtex ivy-bibtex org-ref ox-pandoc citeproc bibtex-completion biblio biblio-core parsebib vulpea org-roam-ql-ql org-roam-ql org-ql org-wild-notifier typescript-mode verb yaml-mode org-brain org-contacts org-journal org-vcard dap-mode lsp-docker bui ligature unicode-fonts ucs-utils font-utils persistent-soft pcache auto-yasnippet blacken bundler chruby code-cells company-anaconda anaconda-mode company-box frame-local company-nixos-options company-terraform company counsel-projectile counsel cython-mode docker tablist aio dockerfile-mode evil-ledger evil-org flycheck-ledger flycheck-pos-tip pos-tip git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot htmlize importmagic epc ctable concurrent deferred ivy-avy ivy-hydra ivy-purpose ivy-xref ivy-yasnippet js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kubernetes-evil kubernetes magit-popup ledger-mode live-py-mode livid-mode lsp-ivy lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode minitest nix-mode nixos-options nodejs-repl nose npm-mode org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank org-roam-ui websocket org-roam orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy pip-requirements pipenv load-env-vars pippel poetry prettier-js py-isort pydoc pyenv-mode pythonic pylookup pytest pyvenv rake rbenv rjsx-mode robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing skewer-mode js2-mode simple-httpd smeargle smex sphinx-doc swiper ivy terraform-mode hcl-mode treemacs-magit magit magit-section git-commit dash with-editor transient web-beautify wgrep yapfify yasnippet-snippets yasnippet evil-easymotion treemacs-evil use-package org-babel-eval-in-repl ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
  '(safe-local-variable-values
    '((eval progn
            (require 'lisp-mode)
