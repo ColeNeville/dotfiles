@@ -41,6 +41,7 @@ This function should only modify configuration layer settings."
      (c-c++ :variables
             c-c++-backend 'lsp-clangd)
      (docker)
+     (html)
      (lsp)
      (emacs-lisp)
      (finance)
@@ -50,6 +51,7 @@ This function should only modify configuration layer settings."
           ivy-count-format "(%d/%d) "
           ivy-use-selectable-prompt t)
      (javascript)
+     (json)
      (kubernetes)
      (multiple-cursors)
      (nixos)
@@ -61,19 +63,20 @@ This function should only modify configuration layer settings."
           org-enable-verb-support t
           org-notifications-daemon-on-start t)
      (python)
-     (react :variables
-            scheme-implementations '(guile))
+     (react)
      (ruby :variables
            ruby-version-manager 'rbenv)
-     (scheme)
+     (scheme :variables
+             scheme-implementations '(guile))
      (spell-checking :variables
                      enable-flyspell-auto-completion t
                      spell-checking-enable-auto-dictionary t)
      (syntax-checking)
      (tabs)
      (terraform)
+     (themes-megapack)
      (treemacs :variables
-               treemacs-use-follow-mode t
+               treemacs-use-follow-mode nil
                treemacs-use-git-mode 'deferred
                treemacs-filewatch-mode t
                treemacs-lock-width t)
@@ -264,8 +267,7 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(darkokai)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -274,7 +276,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(doom :separator wave :separator-scale 1.5)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -599,24 +601,28 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; (use-package vulpea
-  ;;   :ensure t
-  ;;   :after (org-roam))
-
-  ;; (use-package org-roam-bibtex
-  ;;   :ensure t
-  ;;   :after (org-roam bibtex)
-  ;;   :commands (org-roam-bibtex-mode))
-
   (defun cn/org-roam-dailies-scheduled-time ()
     (let ((scheduled-time (org-read-date nil nil nil "Date: ")))
       (princ scheduled-time)))
 
-  ;; (defun cn/org-agenda-set-agenda-files ()
-  ;;   (interactive)
-  ;;   (setq org-agenda-files (append (file-expand-wildcards "~/org/roam/daily/????-??-??.org"))))
-
-  ;; (setq ledger-default-date-format ledger-iso-date-format)
+  (defun cn/org-roam-rename-file-from-title ()
+    "Update the org roam file at point's filename to match the new title"
+    (interactive)
+    (unless (org-roam-buffer-p)
+      (error "Not currently in an org roam buffer."))
+    (when-let*
+        ((old-file-name (buffer-file-name))
+         (file-node (save-excursion
+                      ; Prevents heading nodes from being selected
+                      (goto-char 1)
+                      (org-roam-node-at-point)))
+         (slug (org-roam-node-slug file-node))
+         (new-file-name (expand-file-name (concat slug ".org")))
+         (different-name? (not (string-equal old-file-name new-file-name))))
+      (rename-buffer new-file-name)
+      (rename-file old-file-name new-file-name)
+      (set-visited-file-name new-file-name)
+      (set-buffer-modified-p nil)))
 
   (setq org-agenda-files '("~/org/roam/daily/"))
 
@@ -633,7 +639,7 @@ before packages are loaded."
         org-ref-pdf-directory "~/org/bibtex/pdfs")
 
   (setq org-roam-capture-templates
-        (let ((filename "%<%Y%m%d%H%M%S>-${slug}.org")
+        (let ((filename "${slug}.org")
               (head "#+TITLE: ${title}"))
           `(("d" "Default" plain "%?"
              :target (file+head ,filename ,head))
@@ -643,7 +649,8 @@ before packages are loaded."
              :target (file+head+olp ,filename ,head ("Information"))))))
 
   (setq org-roam-dailies-capture-templates
-        (let ((filename "%<%Y-%m-%d>.org")
+        (let (; This recreates the slug, but ${slug} doesn't work for daily notes
+              (filename "%<%Y_%m_%d>.org")
               (head "#+TITLE: %<%Y-%m-%d>"))
           `(("d" "Default" plain "%?"
              :target (file+head ,filename ,head)
@@ -691,6 +698,11 @@ before packages are loaded."
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'visual-line-mode)
 
+  (add-hook 'after-save-hook
+            '(lambda ()
+               (if (org-roam-buffer-p)
+                   (cn/org-roam-rename-file-from-title))))
+
   ;; (add-hook 'org-agenda-mode-hook 'cn/org-agenda-set-agenda-files)
   (add-hook 'org-roam-db-autosync-mode-hook 'vulpea-db-autosync-enable)
   ;; (add-hook 'org-roam-mode 'org-roam-bibtex-mode)
@@ -712,7 +724,8 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(centaur-tabs ansible ansible-doc company-ansible jinja2-mode flyspell-popup auto-dictionary flyspell-correct-ivy flyspell-correct guix geiser-guile geiser org-roam-bibtex ivy-bibtex org-ref ox-pandoc citeproc bibtex-completion biblio biblio-core parsebib vulpea org-roam-ql-ql org-roam-ql org-ql org-wild-notifier typescript-mode verb yaml-mode org-brain org-contacts org-journal org-vcard dap-mode lsp-docker bui ligature unicode-fonts ucs-utils font-utils persistent-soft pcache auto-yasnippet blacken bundler chruby code-cells company-anaconda anaconda-mode company-box frame-local company-nixos-options company-terraform company counsel-projectile counsel cython-mode docker tablist aio dockerfile-mode evil-ledger evil-org flycheck-ledger flycheck-pos-tip pos-tip git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot htmlize importmagic epc ctable concurrent deferred ivy-avy ivy-hydra ivy-purpose ivy-xref ivy-yasnippet js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kubernetes-evil kubernetes magit-popup ledger-mode live-py-mode livid-mode lsp-ivy lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode minitest nix-mode nixos-options nodejs-repl nose npm-mode org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank org-roam-ui websocket org-roam orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy pip-requirements pipenv load-env-vars pippel poetry prettier-js py-isort pydoc pyenv-mode pythonic pylookup pytest pyvenv rake rbenv rjsx-mode robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing skewer-mode js2-mode simple-httpd smeargle smex sphinx-doc swiper ivy terraform-mode hcl-mode treemacs-magit magit magit-section git-commit dash with-editor transient web-beautify wgrep yapfify yasnippet-snippets yasnippet evil-easymotion treemacs-evil use-package org-babel-eval-in-repl ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
+   '(nerd-icons afternoon-theme alect-themes ample-theme ample-zen-theme anti-zenburn-theme apropospriate-theme badwolf-theme birds-of-paradise-plus-theme bubbleberry-theme busybee-theme cherry-blossom-theme chocolate-theme clues-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cyberpunk-theme dakrone-theme darkmine-theme darkokai-theme darktooth-theme django-theme doom-themes dracula-theme espresso-theme exotica-theme eziam-themes farmhouse-themes flatland-theme flatui-theme gandalf-theme gotham-theme grandshell-theme gruber-darker-theme gruvbox-theme hc-zenburn-theme hemisu-theme heroku-theme inkpot-theme ir-black-theme jazz-theme jbeans-theme kaolin-themes light-soap-theme lush-theme madhat2r-theme majapahit-themes material-theme minimal-theme modus-themes moe-theme molokai-theme monochrome-theme monokai-theme mustang-theme naquadah-theme noctilux-theme obsidian-theme occidental-theme oldlace-theme omtose-phellack-theme organic-green-theme phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme professional-theme purple-haze-theme railscasts-theme rebecca-theme reverse-theme seti-theme smyx-theme soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme soothe-theme autothemer spacegray-theme subatomic-theme subatomic256-theme sublime-themes sunny-day-theme tango-2-theme tango-plus-theme tangotango-theme tao-theme toxi-theme twilight-anti-bright-theme twilight-bright-theme twilight-theme ujelly-theme underwater-theme white-sand-theme zen-and-art-theme zenburn-theme zonokai-emacs company-web web-completion-data counsel-css emmet-mode impatient-mode pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode centaur-tabs ansible ansible-doc company-ansible jinja2-mode flyspell-popup auto-dictionary flyspell-correct-ivy flyspell-correct guix geiser-guile geiser org-roam-bibtex ivy-bibtex org-ref ox-pandoc citeproc bibtex-completion biblio biblio-core parsebib vulpea org-roam-ql-ql org-roam-ql org-ql org-wild-notifier typescript-mode verb yaml-mode org-brain org-contacts org-journal org-vcard dap-mode lsp-docker bui ligature unicode-fonts ucs-utils font-utils persistent-soft pcache auto-yasnippet blacken bundler chruby code-cells company-anaconda anaconda-mode company-box frame-local company-nixos-options company-terraform company counsel-projectile counsel cython-mode docker tablist aio dockerfile-mode evil-ledger evil-org flycheck-ledger flycheck-pos-tip pos-tip git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot htmlize importmagic epc ctable concurrent deferred ivy-avy ivy-hydra ivy-purpose ivy-xref ivy-yasnippet js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kubernetes-evil kubernetes magit-popup ledger-mode live-py-mode livid-mode lsp-ivy lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode minitest nix-mode nixos-options nodejs-repl nose npm-mode org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank org-roam-ui websocket org-roam orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy pip-requirements pipenv load-env-vars pippel poetry prettier-js py-isort pydoc pyenv-mode pythonic pylookup pytest pyvenv rake rbenv rjsx-mode robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing skewer-mode js2-mode simple-httpd smeargle smex sphinx-doc swiper ivy terraform-mode hcl-mode treemacs-magit magit magit-section git-commit dash with-editor transient web-beautify wgrep yapfify yasnippet-snippets yasnippet evil-easymotion treemacs-evil use-package org-babel-eval-in-repl ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
+ '(paradox-github-token t)
  '(safe-local-variable-values
    '((eval progn
            (require 'lisp-mode)
