@@ -143,6 +143,14 @@ screens = [
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
     ),
+    Screen(
+        bottom=bar.Gap(20),
+        top=bar.Gap(20),
+        left=bar.Gap(20),
+        right=bar.Gap(20),
+        wallpaper=os.path.expanduser("~/.config/qtile/wallpaper.png"),
+        wallpaper_mode="fill",
+    )
 ]
 
 dgroups_key_binder = None
