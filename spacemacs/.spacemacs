@@ -28,7 +28,7 @@ This function should only modify configuration layer settings."
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
@@ -39,15 +39,18 @@ This function should only modify configuration layer settings."
       auto-complete-enable-help-tooltip t
       auto-completion-use-company-box t
       auto-completion-tab-key-behavior nil)
-     (bibtex)
      (c-c++
       :variables
       c-c++-backend 'lsp-clangd)
+     (diminish
+      :variables
+      diminish-modes '(org-roam-ui-mode
+                       org-roam-ui-follow-mode
+                       org-roam-bibtex-mode))
      (docker)
-     (html)
-     (lsp)
      (emacs-lisp)
      (finance)
+     (html)
      (git)
      (ivy
       :variables
@@ -57,13 +60,15 @@ This function should only modify configuration layer settings."
      (javascript)
      (json)
      (kubernetes)
+     (lsp)
      (multiple-cursors)
      (nixos)
-     (org
+     (org-with-extras
       :variables
       org-enable-notifications t
       org-enable-modern-support t
       org-enable-transclusion-support t
+      org-enable-roam-bibtex t
       org-enable-roam-support t
       org-enable-roam-ui t
       org-enable-roam-protocol t
@@ -115,11 +120,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages
-   '(diminish
-     org-modern-indent
-     org-roam-bibtex
-     helm-bibtex)
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -621,15 +622,13 @@ This function is called only while dumping Spacemacs configuration. You can
 dump.")
 
 
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (require 'org-ref)
-  (require 'org-tempo)
-
   (defun cn/org-roam-dailies-scheduled-time ()
     (let ((scheduled-time (org-read-date nil nil nil "Date: ")))
       (princ scheduled-time)))
@@ -647,16 +646,35 @@ before packages are loaded."
          (slug (org-roam-node-slug file-node))
          (new-file-name (expand-file-name (concat slug ".org")))
          (different-name? (not (string-equal old-file-name new-file-name))))
-      (rename-buffer new-file-name)
-      (rename-file old-file-name new-file-name)
-      (set-visited-file-name new-file-name)
-      (set-buffer-modified-p nil)))
+      (when different-name?
+        (rename-buffer new-file-name)
+        (rename-file old-file-name new-file-name)
+        (set-visited-file-name new-file-name)
+        (set-buffer-modified-p nil))))
 
-  (setq org-agenda-files '("~/org/roam/daily/"))
+  (defun cn/org-roam-create-node-from-heading ()
+    (interactive)
+    (unless (org-roam-buffer-p)
+      (error "Not currently in an org roam buffer."))
+    (when-let*
+        ((heading
+          (buffer-substring
+           (+ (line-beginning-position) 4)
+           (line-end-position))))
+      (princ heading)))
 
-  (setq bibtex-completion-bibliography "~/org/bibtex/ref.bib"
-        bibtex-completion-library-path "~/org/bibtex/pdfs"
-        bibtex-completion-notes-path "~/org/bibtex/notes")
+  (setq cn/org-roam-agenda-file "~/notes/org/roam/schedule.org")
+  (setq org-agenda-files `("~/notes/org/roam/daily/" ,cn/org-roam-agenda-file))
+
+  (setq org-capture-templates
+        `(("m" "Schedule Meeting" entry
+           (file+olp ,cn/org-roam-agenda-file "Meetings")
+           "** %<%Y-%m-%d> %?\n<%<%Y-%m-%d %a %H:%M>>"
+           :jump-to-captured t)))
+
+  (setq bibtex-completion-bibliography "~/notes/bibtex/ref.bib"
+        bibtex-completion-library-path "~/notes/pdfs"
+        bibtex-completion-notes-path "~/notes/org/roam/bibtex")
 
   (setq-default display-line-numbers-width 4)
 
@@ -664,11 +682,9 @@ before packages are loaded."
 
   (setq org-link-frame-setup '((file . find-file)))
 
-  (setq org-modern-hide-stars nil)
-
   (setq org-ref-bibliography-notes "~/org/ref_notes.org"
-        org-ref-default-bibliography "~/org/bibtex/ref.bib"
-        org-ref-pdf-directory "~/org/bibtex/pdfs")
+        org-ref-default-bibliography "~/notes/bibtex/ref.bib"
+        org-ref-pdf-directory "~/notes/pdfs")
 
   (setq org-roam-capture-templates
         (let ((filename "${slug}.org")
@@ -704,9 +720,6 @@ before packages are loaded."
              "** %<%Y-%m-%d> %?\n<%<%Y-%m-%d %a %H:%M>>\n*** Location\n*** Attending\n*** Notes\n*** Takeaways [/]\n**** TODO"
              :target (file+head+olp ,filename ,head ("Meetings"))
              :jump-to-captured t))))
-  (setq org-roam-dailies-directory "daily/")
-
-  (setq org-roam-directory "~/org/roam")
 
   (setq org-todo-keywords
         '((sequence "TODO" "DOING" "BLOCKED" "DONE")
@@ -721,6 +734,8 @@ before packages are loaded."
   (setq yatemplate-dir
         "~/.spacemacs.d/templates")
 
+  (setq use-package-compute-statistics t)
+
   (add-to-list 'display-buffer-alist
                '("\\*org-roam\\*"
                  (display-buffer-in-atom-window)
@@ -731,27 +746,10 @@ before packages are loaded."
   (add-to-list 'yas-snippet-dirs
                "~/.spacemacs.d/snippets")
 
-  (diminish 'org-roam-ui-mode)
-  (diminish 'org-roam-ui-follow-mode)
-  (diminish 'org-roam-bibtex-mode)
-
-  (add-hook 'org-mode-hook 'org-indent-mode)
-  (add-hook 'org-mode-hook 'visual-line-mode)
-  ;; (add-hook 'org-mode-hook #'org-modern-indent-mode 90)
-
-  (add-hook 'org-roam-mode 'org-roam-bibtex-mode)
-
   (add-hook 'after-save-hook
             '(lambda ()
                (if (org-roam-buffer-p)
-                   (cn/org-roam-rename-file-from-title))))
-
-  (add-hook 'org-roam-db-autosync-mode-hook 'vulpea-db-autosync-enable)
-
-  (eval-after-load 'org-roam
-    (org-roam-db-autosync-enable))
-
-  (global-set-key (kbd "TAB") 'hippie-expand))
+                   (cn/org-roam-rename-file-from-title)))))
 
 
 ;; Do not write anything past this comment. This is where Emacs will
