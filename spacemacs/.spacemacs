@@ -63,16 +63,16 @@ This function should only modify configuration layer settings."
      (lsp)
      (multiple-cursors)
      (nixos)
-     (org-with-extras
+     (org+extras
       :variables
       org-enable-notifications t
       org-enable-modern-support t
       org-enable-transclusion-support t
-      org-enable-roam-bibtex t
       org-enable-roam-support t
       org-enable-roam-ui t
       org-enable-roam-protocol t
       org-enable-verb-support t
+      org-extras-enable-roam-bibtex t
       org-notifications-daemon-on-start t)
      (plantuml
       :variables
