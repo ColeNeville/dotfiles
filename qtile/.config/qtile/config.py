@@ -121,7 +121,7 @@ layouts = [
 
 
 widget_defaults = dict(
-    font="Fira Code",
+    font="CaskaydiaCove Nerd Font Mono",
     fontsize=16,
     padding=5,
 )
@@ -199,3 +199,8 @@ def autorun_startup_complete():
     # config.xdg.configFile."qtile/start_polybar.sh"
     run_polybar = os.path.expanduser("~/.config/qtile/start_polybar.sh")
     subprocess.run([run_polybar])
+
+@hook.subscribe.startup_once
+def start_once():
+    home = os.path.expanduser("~")
+    subprocess.call([home + "/.config/qtile/autostart.sh"])
