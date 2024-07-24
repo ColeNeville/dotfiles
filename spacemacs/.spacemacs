@@ -61,6 +61,7 @@ This function should only modify configuration layer settings."
      (json)
      (kubernetes)
      (lsp)
+     (mermaid)
      (multiple-cursors)
      (nixos)
      (org+extras
@@ -97,7 +98,11 @@ This function should only modify configuration layer settings."
      (terraform)
      (templates)
      (themes-megapack)
-     (theming)
+     (theming
+      :variables
+      theming-modifications '((darkokai))
+      theming-headings-inherit-from-default 'all
+      theming-headings-same-size 'all)
      (toml)
      (treemacs
       :variables
@@ -604,8 +609,7 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  (spacemacs/load-spacemacs-env)
-)
+  (spacemacs/load-spacemacs-env))
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -725,13 +729,6 @@ before packages are loaded."
         '((sequence "TODO" "DOING" "BLOCKED" "DONE")
           (sequence "TASK" "COMPLETE")))
 
-  (setq theming-modifications
-        '((darkokai)))
-
-  (eval-after-load 'org
-    (setq theming-headings-inherit-from-default 'all
-          theming-headings-same-size 'all))
-
   (setq yatemplate-dir
         "~/.spacemacs.d/templates")
 
@@ -760,87 +757,87 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(toml-mode yatemplate org-modern org-transclusion plantuml-mode spaceline-all-the-icons memoize nerd-icons afternoon-theme alect-themes ample-theme ample-zen-theme anti-zenburn-theme apropospriate-theme badwolf-theme birds-of-paradise-plus-theme bubbleberry-theme busybee-theme cherry-blossom-theme chocolate-theme clues-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cyberpunk-theme dakrone-theme darkmine-theme darkokai-theme darktooth-theme django-theme doom-themes dracula-theme espresso-theme exotica-theme eziam-themes farmhouse-themes flatland-theme flatui-theme gandalf-theme gotham-theme grandshell-theme gruber-darker-theme gruvbox-theme hc-zenburn-theme hemisu-theme heroku-theme inkpot-theme ir-black-theme jazz-theme jbeans-theme kaolin-themes light-soap-theme lush-theme madhat2r-theme majapahit-themes material-theme minimal-theme modus-themes moe-theme molokai-theme monochrome-theme monokai-theme mustang-theme naquadah-theme noctilux-theme obsidian-theme occidental-theme oldlace-theme omtose-phellack-theme organic-green-theme phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme professional-theme purple-haze-theme railscasts-theme rebecca-theme reverse-theme seti-theme smyx-theme soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme soothe-theme autothemer spacegray-theme subatomic-theme subatomic256-theme sublime-themes sunny-day-theme tango-2-theme tango-plus-theme tangotango-theme tao-theme toxi-theme twilight-anti-bright-theme twilight-bright-theme twilight-theme ujelly-theme underwater-theme white-sand-theme zen-and-art-theme zenburn-theme zonokai-emacs company-web web-completion-data counsel-css emmet-mode impatient-mode pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode centaur-tabs ansible ansible-doc company-ansible jinja2-mode flyspell-popup auto-dictionary flyspell-correct-ivy flyspell-correct guix geiser-guile geiser org-roam-bibtex ivy-bibtex org-ref ox-pandoc citeproc bibtex-completion biblio biblio-core parsebib vulpea org-roam-ql-ql org-roam-ql org-ql org-wild-notifier typescript-mode verb yaml-mode org-brain org-contacts org-journal org-vcard dap-mode lsp-docker bui ligature unicode-fonts ucs-utils font-utils persistent-soft pcache auto-yasnippet blacken bundler chruby code-cells company-anaconda anaconda-mode company-box frame-local company-nixos-options company-terraform company counsel-projectile counsel cython-mode docker tablist aio dockerfile-mode evil-ledger evil-org flycheck-ledger flycheck-pos-tip pos-tip git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot htmlize importmagic epc ctable concurrent deferred ivy-avy ivy-hydra ivy-purpose ivy-xref ivy-yasnippet js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kubernetes-evil kubernetes magit-popup ledger-mode live-py-mode livid-mode lsp-ivy lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode minitest nix-mode nixos-options nodejs-repl nose npm-mode org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank org-roam-ui websocket org-roam orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy pip-requirements pipenv load-env-vars pippel poetry prettier-js py-isort pydoc pyenv-mode pythonic pylookup pytest pyvenv rake rbenv rjsx-mode robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing skewer-mode js2-mode simple-httpd smeargle smex sphinx-doc swiper ivy terraform-mode hcl-mode treemacs-magit magit magit-section git-commit dash with-editor transient web-beautify wgrep yapfify yasnippet-snippets yasnippet evil-easymotion treemacs-evil use-package org-babel-eval-in-repl ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
- '(paradox-github-token t)
- '(safe-local-variable-values
-   '((eval progn
-           (require 'lisp-mode)
-           (defun emacs27-lisp-fill-paragraph
-               (&optional justify)
-             (interactive "P")
-             (or
-              (fill-comment-paragraph justify)
-              (let
-                  ((paragraph-start
-                    (concat paragraph-start "\\|\\s-*\\([(;\"]\\|\\s-:\\|`(\\|#'(\\)"))
-                   (paragraph-separate
-                    (concat paragraph-separate "\\|\\s-*\".*[,\\.]$"))
-                   (fill-column
-                    (if
-                        (and
-                         (integerp emacs-lisp-docstring-fill-column)
-                         (derived-mode-p 'emacs-lisp-mode))
-                        emacs-lisp-docstring-fill-column fill-column)))
-                (fill-paragraph justify))
-              t))
-           (setq-local fill-paragraph-function #'emacs27-lisp-fill-paragraph))
-     (eval modify-syntax-entry 43 "'")
-     (eval modify-syntax-entry 36 "'")
-     (eval modify-syntax-entry 126 "'")
-     (geiser-repl-per-project-p . t)
-     (eval with-eval-after-load 'yasnippet
-           (let
-               ((guix-yasnippets
-                 (expand-file-name "etc/snippets/yas"
-                                   (locate-dominating-file default-directory ".dir-locals.el"))))
-             (unless
-                 (member guix-yasnippets yas-snippet-dirs)
-               (add-to-list 'yas-snippet-dirs guix-yasnippets)
-               (yas-reload-all))))
-     (eval setq-local guix-directory
-           (locate-dominating-file default-directory ".dir-locals.el"))
-     (eval add-to-list 'completion-ignored-extensions ".go")
-     (typescript-backend . tide)
-     (typescript-backend . lsp)
-     (javascript-backend . tide)
-     (javascript-backend . tern)
-     (javascript-backend . lsp))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(font-latex-sectioning-0-face ((t (:inherit default))))
- '(font-latex-sectioning-1-face ((t (:inherit default))))
- '(font-latex-sectioning-2-face ((t (:inherit default))))
- '(font-latex-sectioning-3-face ((t (:inherit default))))
- '(font-latex-sectioning-4-face ((t (:inherit default))))
- '(font-latex-sectioning-5-face ((t (:inherit default))))
- '(font-latex-slide-title-face ((t (:inherit default))))
- '(info-title-1 ((t (:inherit default))))
- '(info-title-2 ((t (:inherit default))))
- '(info-title-3 ((t (:inherit default))))
- '(info-title-4 ((t (:inherit default))))
- '(markdown-header-face ((t (:inherit default))))
- '(markdown-header-face-1 ((t (:inherit default))))
- '(markdown-header-face-2 ((t (:inherit default))))
- '(markdown-header-face-3 ((t (:inherit default))))
- '(markdown-header-face-4 ((t (:inherit default))))
- '(markdown-header-face-5 ((t (:inherit default))))
- '(markdown-header-face-6 ((t (:inherit default))))
- '(org-document-title ((t (:inherit default))))
- '(org-level-1 ((t (:inherit default))))
- '(org-level-2 ((t (:inherit default))))
- '(org-level-3 ((t (:inherit default))))
- '(org-level-4 ((t (:inherit default))))
- '(org-level-5 ((t (:inherit default))))
- '(org-level-6 ((t (:inherit default))))
- '(org-level-7 ((t (:inherit default))))
- '(org-level-8 ((t (:inherit default)))))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     '(mermaid-mode ob-mermaid toml-mode yatemplate org-modern org-transclusion plantuml-mode spaceline-all-the-icons memoize nerd-icons afternoon-theme alect-themes ample-theme ample-zen-theme anti-zenburn-theme apropospriate-theme badwolf-theme birds-of-paradise-plus-theme bubbleberry-theme busybee-theme cherry-blossom-theme chocolate-theme clues-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cyberpunk-theme dakrone-theme darkmine-theme darkokai-theme darktooth-theme django-theme doom-themes dracula-theme espresso-theme exotica-theme eziam-themes farmhouse-themes flatland-theme flatui-theme gandalf-theme gotham-theme grandshell-theme gruber-darker-theme gruvbox-theme hc-zenburn-theme hemisu-theme heroku-theme inkpot-theme ir-black-theme jazz-theme jbeans-theme kaolin-themes light-soap-theme lush-theme madhat2r-theme majapahit-themes material-theme minimal-theme modus-themes moe-theme molokai-theme monochrome-theme monokai-theme mustang-theme naquadah-theme noctilux-theme obsidian-theme occidental-theme oldlace-theme omtose-phellack-theme organic-green-theme phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme professional-theme purple-haze-theme railscasts-theme rebecca-theme reverse-theme seti-theme smyx-theme soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme soothe-theme autothemer spacegray-theme subatomic-theme subatomic256-theme sublime-themes sunny-day-theme tango-2-theme tango-plus-theme tangotango-theme tao-theme toxi-theme twilight-anti-bright-theme twilight-bright-theme twilight-theme ujelly-theme underwater-theme white-sand-theme zen-and-art-theme zenburn-theme zonokai-emacs company-web web-completion-data counsel-css emmet-mode impatient-mode pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode centaur-tabs ansible ansible-doc company-ansible jinja2-mode flyspell-popup auto-dictionary flyspell-correct-ivy flyspell-correct guix geiser-guile geiser org-roam-bibtex ivy-bibtex org-ref ox-pandoc citeproc bibtex-completion biblio biblio-core parsebib vulpea org-roam-ql-ql org-roam-ql org-ql org-wild-notifier typescript-mode verb yaml-mode org-brain org-contacts org-journal org-vcard dap-mode lsp-docker bui ligature unicode-fonts ucs-utils font-utils persistent-soft pcache auto-yasnippet blacken bundler chruby code-cells company-anaconda anaconda-mode company-box frame-local company-nixos-options company-terraform company counsel-projectile counsel cython-mode docker tablist aio dockerfile-mode evil-ledger evil-org flycheck-ledger flycheck-pos-tip pos-tip git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot htmlize importmagic epc ctable concurrent deferred ivy-avy ivy-hydra ivy-purpose ivy-xref ivy-yasnippet js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kubernetes-evil kubernetes magit-popup ledger-mode live-py-mode livid-mode lsp-ivy lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode minitest nix-mode nixos-options nodejs-repl nose npm-mode org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank org-roam-ui websocket org-roam orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy pip-requirements pipenv load-env-vars pippel poetry prettier-js py-isort pydoc pyenv-mode pythonic pylookup pytest pyvenv rake rbenv rjsx-mode robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing skewer-mode js2-mode simple-httpd smeargle smex sphinx-doc swiper ivy terraform-mode hcl-mode treemacs-magit magit magit-section git-commit dash with-editor transient web-beautify wgrep yapfify yasnippet-snippets yasnippet evil-easymotion treemacs-evil use-package org-babel-eval-in-repl ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
+   '(paradox-github-token t)
+   '(safe-local-variable-values
+     '((eval progn
+             (require 'lisp-mode)
+             (defun emacs27-lisp-fill-paragraph
+                 (&optional justify)
+               (interactive "P")
+               (or
+                (fill-comment-paragraph justify)
+                (let
+                    ((paragraph-start
+                      (concat paragraph-start "\\|\\s-*\\([(;\"]\\|\\s-:\\|`(\\|#'(\\)"))
+                     (paragraph-separate
+                      (concat paragraph-separate "\\|\\s-*\".*[,\\.]$"))
+                     (fill-column
+                      (if
+                          (and
+                           (integerp emacs-lisp-docstring-fill-column)
+                           (derived-mode-p 'emacs-lisp-mode))
+                          emacs-lisp-docstring-fill-column fill-column)))
+                  (fill-paragraph justify))
+                t))
+             (setq-local fill-paragraph-function #'emacs27-lisp-fill-paragraph))
+       (eval modify-syntax-entry 43 "'")
+       (eval modify-syntax-entry 36 "'")
+       (eval modify-syntax-entry 126 "'")
+       (geiser-repl-per-project-p . t)
+       (eval with-eval-after-load 'yasnippet
+             (let
+                 ((guix-yasnippets
+                   (expand-file-name "etc/snippets/yas"
+                                     (locate-dominating-file default-directory ".dir-locals.el"))))
+               (unless
+                   (member guix-yasnippets yas-snippet-dirs)
+                 (add-to-list 'yas-snippet-dirs guix-yasnippets)
+                 (yas-reload-all))))
+       (eval setq-local guix-directory
+             (locate-dominating-file default-directory ".dir-locals.el"))
+       (eval add-to-list 'completion-ignored-extensions ".go")
+       (typescript-backend . tide)
+       (typescript-backend . lsp)
+       (javascript-backend . tide)
+       (javascript-backend . tern)
+       (javascript-backend . lsp))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(font-latex-sectioning-0-face ((t (:inherit default))))
+   '(font-latex-sectioning-1-face ((t (:inherit default))))
+   '(font-latex-sectioning-2-face ((t (:inherit default))))
+   '(font-latex-sectioning-3-face ((t (:inherit default))))
+   '(font-latex-sectioning-4-face ((t (:inherit default))))
+   '(font-latex-sectioning-5-face ((t (:inherit default))))
+   '(font-latex-slide-title-face ((t (:inherit default))))
+   '(info-title-1 ((t (:inherit default))))
+   '(info-title-2 ((t (:inherit default))))
+   '(info-title-3 ((t (:inherit default))))
+   '(info-title-4 ((t (:inherit default))))
+   '(markdown-header-face ((t (:inherit default))))
+   '(markdown-header-face-1 ((t (:inherit default))))
+   '(markdown-header-face-2 ((t (:inherit default))))
+   '(markdown-header-face-3 ((t (:inherit default))))
+   '(markdown-header-face-4 ((t (:inherit default))))
+   '(markdown-header-face-5 ((t (:inherit default))))
+   '(markdown-header-face-6 ((t (:inherit default))))
+   '(org-document-title ((t (:inherit default))))
+   '(org-level-1 ((t (:inherit default))))
+   '(org-level-2 ((t (:inherit default))))
+   '(org-level-3 ((t (:inherit default))))
+   '(org-level-4 ((t (:inherit default))))
+   '(org-level-5 ((t (:inherit default))))
+   '(org-level-6 ((t (:inherit default))))
+   '(org-level-7 ((t (:inherit default))))
+   '(org-level-8 ((t (:inherit default)))))
+  )

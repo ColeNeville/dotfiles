@@ -1,17 +1,18 @@
 import os
 import subprocess
 
-from libqtile import bar, layout, widget, extension, hook
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile import bar, layout, hook, qtile
+from libqtile.config import  Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
+qtile_config_directory = os.path.expanduser('~/.config/qtile')
+qtile_wallpaper_path = f'{qtile_config_directory}/wallpaper.png'
+qtile_scripts_path = f'{qtile_config_directory}/scripts'
 
 mod = "mod4"
-terminal = "alacritty"
-editor = "emacsclient -c"
-
-lock_command = "betterlockscreen --lock"
-
+terminal_command = "alacritty"
+editor_command = "emacs"
+lock_command = f'betterlockscreen --lock'
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -36,7 +37,14 @@ keys = [
     Key([mod, "control"], "right", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "down", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "up", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    # Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
+    Key([mod], "i", lazy.layout.grow()),
+    Key([mod], "m", lazy.layout.shrink()),
+    Key([mod], "n", lazy.layout.reset()),
+
+    Key([mod, "shift"], "space", lazy.layout.flip()),
+    Key([mod, "shift"], "n", lazy.layout.normalize()),
 
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -66,11 +74,11 @@ keys = [
 
     Key([mod, "control", "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "t", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "Return", lazy.spawn(terminal_command), desc="Launch terminal"),
+    Key([mod], "t", lazy.spawn(terminal_command), desc="Launch terminal"),
     Key([mod], "d", lazy.spawn("rofi -show combi")),
     Key([mod], "l", lazy.spawn(lock_command), desc="Lock Session"),
-    Key([mod], "e", lazy.spawn(editor), desc="Run Editor"),
+    Key([mod], "e", lazy.spawn(editor_command), desc="Run Editor"),
     Key([mod], "w", lazy.spawn("firefox"), desc="Run Firefox"),
 
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pulsemixer --change-volume +5")),
@@ -80,10 +88,10 @@ keys = [
 
 
 groups = [
-    Group("1: Edit", spawn=editor),
+    Group("1: Edit"),
     Group("2: Web"),
-    Group("3: Files", spawn="thunar"),
-    Group("4: Term", spawn=terminal),
+    Group("3: Files"),
+    Group("4: Term", spawn=terminal_command),
     Group("5: Chat"),
     Group("6: Music"),
     Group("7: Misc"),
@@ -115,7 +123,7 @@ for index, group in enumerate(groups):
 
 
 layouts = [
-    layout.MonadTall(ratio=0.66),
+    layout.MonadTall(ratio=0.61830), # Trying out using the golden ratio here
     layout.Max(),
 ]
 
@@ -156,6 +164,7 @@ screens = [
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 follow_mouse_focus = True
+
 bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
@@ -192,15 +201,22 @@ wl_input_rules = None
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
 
-# Run the start polybar script after run
-@hook.subscribe.startup
-def autorun_startup_complete():
-    # This script needs to be placed here by the home-manager config
-    # config.xdg.configFile."qtile/start_polybar.sh"
-    run_polybar = os.path.expanduser("~/.config/qtile/start_polybar.sh")
-    subprocess.run([run_polybar])
+# @hook.subscribe.startup
+# def update_better_lockscreen_wallpaper():
+#     qtile.spawn(f'betterlockscreen --update ${qtile_wallpaper_path}')
+
+
+
+@hook.subscribe.startup_complete
+def on_startup():
+    qtile.spawn(f'{qtile_scripts_path}/on_startup.sh')
+
 
 @hook.subscribe.startup_once
-def start_once():
-    home = os.path.expanduser("~")
-    subprocess.call([home + "/.config/qtile/autostart.sh"])
+def on_initial_startup():
+    qtile.spawn(f'{qtile_scripts_path}/on_initial_startup.sh')
+
+
+# @hook.subscribe.suspend
+# def on_suspend():
+#     qtile.spawn(f'{qtile_scripts_path}/on_suspend.sh')

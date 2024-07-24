@@ -7,7 +7,8 @@
     (org-ref :require (org))
     (org-roam-bibtex
      :toggle org+extras-enable-roam-bibtex
-     :require '(org-roam bibtex org-ref))))
+     :require '(org-roam bibtex org-ref))
+    (ob-mermaid :require (org mermaid-mode))))
 
 (defun org+extras/init-org-modern-indent ()
   (use-package org-modern-indent
@@ -24,12 +25,16 @@
     :custom
     (orb-roam-ref-format 'org-ref-v3)))
 
+(defun org+extras/init-ob-mermaid ()
+  (use-package ob-mermaid))
 
 (eval-after-load 'org
   (lambda ()
     (setq org-startup-indented t)
 
-    (add-hook 'org-mode-hook 'visual-line-mode)))
+    (add-hook 'org-mode-hook 'visual-line-mode)
+
+    (add-to-list 'org-babel-load-languages '(mermaid . t))))
 
 (eval-after-load 'org-roam
   (lambda ()
@@ -37,6 +42,7 @@
     (setq org-roam-dailies-directory org+extras-roam-dailies-directory)
 
     (add-hook 'org-roam-mode-hook 'org-roam-bibtex-mode)
+
     (org-roam-db-autosync-enable)))
 
 (eval-after-load 'org-modern
