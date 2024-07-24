@@ -2,3 +2,6 @@
 	path = spacemacs/.emacs.d
 	url = https://github.com/syl20bnr/spacemacs
 	branch = develop
+[submodule "spacemacs/.spacemacs.d/layers/mermaid"]
+	path = spacemacs/.spacemacs.d/layers/mermaid
+	url = git@github.com:ColeNeville/mermaid-layer.git
