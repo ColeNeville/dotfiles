@@ -8,6 +8,7 @@
     (org-roam-bibtex
      :toggle org+extras-enable-roam-bibtex
      :require '(org-roam bibtex org-ref))
+    (mermaid-mode)
     (ob-mermaid :require (org mermaid-mode))))
 
 (defun org+extras/init-org-modern-indent ()
@@ -24,6 +25,11 @@
     (org-roam-bibtex-mode)
     :custom
     (orb-roam-ref-format 'org-ref-v3)))
+
+(defun org+extras/init-mermaid-mode ()
+  (use-package mermaid-mode
+    :commands
+    (mermaid-mode)))
 
 (defun org+extras/init-ob-mermaid ()
   (use-package ob-mermaid))
