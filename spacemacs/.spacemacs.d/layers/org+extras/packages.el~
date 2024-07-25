@@ -1,2 +1,0 @@
-(defconst org-extras-packages
-  org-modern-indent)
