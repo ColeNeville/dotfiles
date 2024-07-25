@@ -3,7 +3,7 @@ configuration {
     modes: [ "run", "filebrowser", "drun", "ssh", "window", "combi" ];
     combi-modes: [ "drun", "window", "ssh" ];
 
-    font: "FiraCode Nerd Font 16";
+    font: "CaskaydiaCove Nerd Font Mono 16";
     show-icons: true;
     icon-theme: "Papirus";
 

@@ -1,12 +1,14 @@
-[$Version]
-update_info=kwin.upd:replace-scalein-with-scale,kwin.upd:port-minimizeanimation-effect-to-js,kwin.upd:port-scale-effect-to-js,kwin.upd:port-dimscreen-effect-to-js,kwin.upd:auto-bordersize,kwin.upd:make-translucency-effect-disabled-by-default,kwin.upd:enable-scale-effect-by-default,kwin.upd:animation-speed-cleanup,kwin.upd:replace-cascaded-zerocornered,kwin.upd:desktop-grid-click-behavior,kwin.upd:no-swap-encourage,kwin.upd:remove-flip-switch-effect,kwin.upd:remove-cover-switch-effect,kwin.upd:remove-cubeslide-effect,kwin.upd:remove-xrender-backend,kwin.upd:overview-group-plugin-id
-
 [Desktops]
 Id_1=b434bff8-a9f6-424f-bb72-c7d887ba5156
 Id_2=1926ca98-e32e-4c32-aba1-abaeadd3163d
 Id_3=d798eced-6936-4cb2-a9a9-79d785208105
 Id_4=088e480e-69e8-4b2d-8a9c-cdfc35d31720
-Number=4
+Id_5=9fc32b86-e6d8-4aad-ae89-f5b8b68bc89c
+Id_6=5e9b2f78-e651-462d-80ce-ff7631d70bf2
+Id_7=cabb9e65-8987-46ce-85da-1b6bca2e48a3
+Id_8=9a1cf60b-01b1-4a7e-a588-1c48fdf6d9ca
+Name_1=Edit
+Number=8
 Rows=1
 
 [SubSession: a25603f5-10f3-44f1-9dfd-d904bcdcb0b4]
