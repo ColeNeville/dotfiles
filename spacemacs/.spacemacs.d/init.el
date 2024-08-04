@@ -323,7 +323,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("CaskaydiaCove Nerd Font Mono"
-                               :size 12.0
+                               :size 13.0
                                :weight normal
                                :width normal)
 
@@ -697,10 +697,8 @@ before packages are loaded."
   (setq org-roam-capture-templates
         (let ((filename "${slug}.org")
               (head "#+TITLE: ${title}"))
-          `(("d" "Description" entry "** %?"
-             :target (file+head+olp ,filename ,head ("Description")))
-            ("i" "Information" entry "** %?"
-             :target (file+head+olp ,filename ,head ("Information"))))))
+          `(("d" "Description" entry "\n** %?"
+             :target (file+head+olp ,filename ,head ("Description"))))))
 
   (setq org-roam-dailies-capture-templates
         (let (; This recreates the slug, but ${slug} doesn't work for daily notes

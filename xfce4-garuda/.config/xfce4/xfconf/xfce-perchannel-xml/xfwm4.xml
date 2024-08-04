@@ -6,7 +6,7 @@
     <property name="borderless_maximize" type="bool" value="true"/>
     <property name="box_move" type="bool" value="false"/>
     <property name="box_resize" type="bool" value="false"/>
-    <property name="button_layout" type="string" value="O|SHMC"/>
+    <property name="button_layout" type="string" value="O|HC"/>
     <property name="button_offset" type="int" value="0"/>
     <property name="button_spacing" type="int" value="0"/>
     <property name="click_to_focus" type="bool" value="true"/>
@@ -55,14 +55,14 @@
     <property name="show_frame_shadow" type="bool" value="true"/>
     <property name="show_popup_shadow" type="bool" value="false"/>
     <property name="snap_resist" type="bool" value="false"/>
-    <property name="snap_to_border" type="bool" value="true"/>
+    <property name="snap_to_border" type="bool" value="false"/>
     <property name="snap_to_windows" type="bool" value="false"/>
     <property name="snap_width" type="int" value="10"/>
     <property name="vblank_mode" type="string" value="auto"/>
-    <property name="theme" type="string" value="Default"/>
+    <property name="theme" type="string" value="Tgc-large"/>
     <property name="tile_on_move" type="bool" value="true"/>
     <property name="title_alignment" type="string" value="center"/>
-    <property name="title_font" type="string" value="CaskaydiaCove Nerd Font Mono 12"/>
+    <property name="title_font" type="string" value="CaskaydiaCove Nerd Font Mono 14"/>
     <property name="title_horizontal_offset" type="int" value="0"/>
     <property name="titleless_maximize" type="bool" value="false"/>
     <property name="title_shadow_active" type="string" value="false"/>
@@ -82,14 +82,15 @@
     <property name="zoom_desktop" type="bool" value="true"/>
     <property name="zoom_pointer" type="bool" value="true"/>
     <property name="workspace_names" type="array">
-      <value type="string" value="edit"/>
-      <value type="string" value="web"/>
-      <value type="string" value="term"/>
-      <value type="string" value="chat"/>
-      <value type="string" value="misc"/>
-      <value type="string" value="misc"/>
-      <value type="string" value="misc"/>
-      <value type="string" value="misc"/>
+      <value type="string" value="1: edit"/>
+      <value type="string" value="2: web"/>
+      <value type="string" value="3: term"/>
+      <value type="string" value="4: file"/>
+      <value type="string" value="5: chat"/>
+      <value type="string" value="6: music"/>
+      <value type="string" value="7: misc"/>
+      <value type="string" value="8: misc"/>
+      <value type="string" value="Workspace 9"/>
     </property>
     <property name="margin_right" type="int" value="0"/>
     <property name="margin_left" type="int" value="0"/>
