@@ -1,0 +1,6 @@
+[user]
+	name = Cole Neville
+	email = cole@vc.telushealth.com
+	signingkey = FDDA8774
+[commit]
+	gpgsign = true

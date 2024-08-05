@@ -1,11 +1,9 @@
 #!/bin/bash
 
 stow -S \
-     alacritty \
+     garuda-* \
      bash \
      git-personal \
-     polybar \
-     rofi \
+     keybase \
+     prusaslicer \
      spacemacs \
-     xdg \
-     xfce4-garuda
