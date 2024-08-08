@@ -1,3 +1,12 @@
 [submodule "spacemacs/.emacs.d"]
 	path = spacemacs/.emacs.d
 	url = https://github.com/syl20bnr/spacemacs
+[submodule "garuda-xmonad/.config/xmonad/xmonad-contrib"]
+	path = garuda-xmonad/.config/xmonad/xmonad-contrib
+	url = https://github.com/xmonad/xmonad-contrib
+[submodule "garuda-xmonad/.config/xmonad/xmonad"]
+	path = garuda-xmonad/.config/xmonad/xmonad
+	url = https://github.com/xmonad/xmonad
+[submodule "garuda-polybar/.config/polybar/spotify"]
+	path = garuda-polybar/.config/polybar/spotify
+	url = git@github.com:Jvanrhijn/polybar-spotify.git

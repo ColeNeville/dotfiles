@@ -50,6 +50,7 @@ This function should only modify configuration layer settings."
      (docker)
      (emacs-lisp)
      (finance)
+     (haskell)
      (html)
      (git)
      (ivy
@@ -61,7 +62,6 @@ This function should only modify configuration layer settings."
      (json)
      (kubernetes)
      (lsp)
-     (mermaid)
      (multiple-cursors)
      (nixos)
      (org+extras
@@ -644,8 +644,10 @@ before packages are loaded."
   (defun cn/org-roam-rename-file-from-title ()
     "Update the org roam file at point's filename to match the new title"
     (interactive)
+    (unless (boundp 'org-roam-buffer-p)
+      (error "org roam not initialized"))
     (unless (org-roam-buffer-p)
-      (error "Not currently in an org roam buffer."))
+      (error "not currently in an org roam buffer"))
     (when-let*
         ((old-file-name (buffer-file-name))
          (file-node (save-excursion
@@ -662,8 +664,10 @@ before packages are loaded."
 
   (defun cn/org-roam-create-node-from-heading ()
     (interactive)
+    (unless (boundp 'org-roam-buffer-p)
+      (error "org roam not initialized"))
     (unless (org-roam-buffer-p)
-      (error "Not currently in an org roam buffer."))
+      (error "not currently in an org roam buffer"))
     (when-let*
         ((heading
           (buffer-substring
@@ -748,9 +752,11 @@ before packages are loaded."
 
   (add-hook 'after-save-hook
             '(lambda ()
-               (if (org-roam-buffer-p)
+               (if (and (boundp 'org-roam-buffer-p) (org-roam-buffer-p))
                    (cn/org-roam-rename-file-from-title))))
 
   (setq js-indent-level 2)
 
-  (setq ob-mermaid-cli-path "/usr/local/bin/mmdc"))
+  (setq ob-mermaid-cli-path "/usr/local/bin/mmdc")
+
+  (treemacs t))

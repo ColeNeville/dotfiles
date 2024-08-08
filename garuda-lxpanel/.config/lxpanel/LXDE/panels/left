@@ -6,7 +6,7 @@ Global {
   monitor=-1
   height=32
   widthtype=percent
-  iconsize=24
+  iconsize=30
   transparent=0
   background=0
   setpartialstrut=1
