@@ -759,4 +759,7 @@ before packages are loaded."
 
   (setq ob-mermaid-cli-path "/usr/local/bin/mmdc")
 
+  (spacemacs/disable-background-transparency)
+  (spacemacs/disable-transparency)
+
   (treemacs t))
