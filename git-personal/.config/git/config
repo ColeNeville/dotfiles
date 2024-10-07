@@ -1,6 +1,6 @@
 [user]
 	name = Cole Neville
-	email = personal@coleneville.com
-	signingkey = FDDA8774
+	email = me@coleneville.com
+	signingkey = 14FEE86E0FF89260
 [commit]
 	gpgsign = true
