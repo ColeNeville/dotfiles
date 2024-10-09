@@ -33,6 +33,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-gruvbox)
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 12))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -75,9 +76,12 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(setq which-key-idle-delay 0)
+(after! which-key
+  (setq which-key-idle-delay 0))
 
 (setq typescript-indent-level 2)
 (setq javascript-indent-level 2)
 
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
+
+(add-hook 'lsp-mode-hook 'lsp-headerline-breadcrumb-enable)
