@@ -33,7 +33,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-gruvbox)
-(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 12))
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 14))
+(setq doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 16))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
