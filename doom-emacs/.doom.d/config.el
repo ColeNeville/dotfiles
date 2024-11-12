@@ -81,9 +81,16 @@
   (setq which-key-idle-delay 0))
 
 (setq typescript-indent-level 2)
-(setq js-indent-level 2)
+(setq javascript-indent-level 2)
 
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 (add-to-list '+format-on-save-disabled-modes 'typescript-mode)
 
 (add-hook 'lsp-mode-hook 'lsp-headerline-breadcrumb-enable)
+
+(use-package! xclip
+  :config
+  (setq xclip-program "wl-copy")
+  (setq xclip-select-enable-clipboard t)
+  (setq xclip-mode t)
+  (setq xclip-method (quote wl-copy)))
