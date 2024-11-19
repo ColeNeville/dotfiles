@@ -1,6 +1,6 @@
 [user]
 	name = Cole Neville
-	email = cole@vc.telushealth.com
-	signingkey = FDDA8774
+	email = 5910739+ColeNeville@users.noreply.github.com
+	signingkey = 14FEE86E0FF89260
 [commit]
 	gpgsign = true
