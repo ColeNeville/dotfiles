@@ -81,7 +81,7 @@
   (setq which-key-idle-delay 0))
 
 (setq typescript-indent-level 2)
-(setq javascript-indent-level 2)
+(setq js-indent-level 2)
 
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 (add-to-list '+format-on-save-disabled-modes 'typescript-mode)
