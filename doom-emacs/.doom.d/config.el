@@ -94,3 +94,15 @@
   (setq xclip-select-enable-clipboard t)
   (setq xclip-mode t)
   (setq xclip-method (quote wl-copy)))
+
+(use-package! dape
+  :config
+  (add-to-list
+   'dape-configs
+   '(homer-docker
+     modes nil
+     host "localhost"
+     port 1234
+     prefix-local "/Users/cneville/projects/homer"
+     :type "Ruby"
+     :request "attach")))
