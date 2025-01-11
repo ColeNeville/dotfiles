@@ -43,6 +43,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+(setq org-roam-directory "~/org/roam")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -80,20 +81,16 @@
 (after! which-key
   (setq which-key-idle-delay 0))
 
+(setq sh-basic-offset 2)
+(setq standard-indent 2)
 (setq typescript-indent-level 2)
 (setq js-indent-level 2)
+(setq yaml-indent-offset 2)
 
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 (add-to-list '+format-on-save-disabled-modes 'typescript-mode)
 
 (add-hook 'lsp-mode-hook 'lsp-headerline-breadcrumb-enable)
-
-(use-package! xclip
-  :config
-  (setq xclip-program "wl-copy")
-  (setq xclip-select-enable-clipboard t)
-  (setq xclip-mode t)
-  (setq xclip-method (quote wl-copy)))
 
 (use-package! dape
   :config

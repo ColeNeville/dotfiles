@@ -1,1 +1,0 @@
-(defvar diminish-modes '())
