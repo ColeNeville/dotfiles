@@ -90,6 +90,7 @@
 (setq typescript-indent-level 2)
 (setq js-indent-level 2)
 (setq yaml-indent-offset 2)
+(setq web-mode-css-indent-offset 2)
 
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 (add-to-list '+format-on-save-disabled-modes 'typescript-mode)
@@ -107,3 +108,9 @@
      prefix-local "/Users/cneville/projects/homer"
      :type "Ruby"
      :request "attach")))
+
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<TAB>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)))
