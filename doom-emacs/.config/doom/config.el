@@ -36,6 +36,10 @@
 (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 14))
 (setq doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 16))
 
+(when (string= (system-name) "garuda-v2")
+  (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 26))
+  (setq doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 30)))
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
