@@ -82,21 +82,31 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+
+;; This configuration file sets up various settings and packages for Doom Emacs, including indentation levels, formatting options, language servers, and custom configurations for specific modes.
+
 (after! which-key
+  ;; Set the idle delay for which-key to 0 for immediate display of keybindings.
   (setq which-key-idle-delay 0))
 
+;; Basic offset settings for different shells.
 (setq sh-basic-offset 2)
 (setq standard-indent 2)
+
+;; Indentation levels for specific modes: TypeScript, JavaScript, YAML, and Web mode.
 (setq typescript-indent-level 2)
 (setq js-indent-level 2)
 (setq yaml-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
 
+;; Add YAML and TypeScript modes to the list of disabled formats for on-save formatting.
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 (add-to-list '+format-on-save-disabled-modes 'typescript-mode)
 
+;; Enable headerline breadcrumb in lsp mode.
 (add-hook 'lsp-mode-hook 'lsp-headerline-breadcrumb-enable)
 
+;; Configuration for the dape debugger to attach to a Ruby application running on homer-docker.
 (use-package! dape
   :config
   (add-to-list
@@ -109,8 +119,20 @@
      :type "Ruby"
      :request "attach")))
 
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<TAB>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)))
+;; Configuration for the gptel package to interact with an Ollama model.
+(use-package! gptel
+  :commands
+  (gptel gptel-menu)
+  :config
+  ;; Define a connection to Titan Ollama (VPN) and specify models available.
+  (gptel-make-ollama "Titan Ollama (VPN)"
+                     :host "titan.vpn.coleslab.ca:11434"
+                     :stream t
+                     :models '(deepseek-r1:32b
+                               deepseek-coder-v2:16b))
+  ;; Define a connection to Titan Ollama and specify models available.
+  (gptel-make-ollama "Titan Ollama"
+                     :host "titan.local.coleslab.ca:11434"
+                     :stream t
+                     :models '(deepseek-r1:32b
+                              deepseek-coder-v2:16b)))
