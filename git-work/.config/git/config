@@ -1,6 +1,0 @@
-[user]
-	name = Cole Neville
-	email = 5910739+ColeNeville@users.noreply.github.com
-	signingkey = 14FEE86E0FF89260
-[commit]
-	gpgsign = true

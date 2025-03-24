@@ -36,10 +36,6 @@
 (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 14))
 (setq doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 16))
 
-(when (string= (system-name) "garuda-v2")
-  (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 26))
-  (setq doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 30)))
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
@@ -48,7 +44,6 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 (setq org-roam-directory "~/org/roam")
-
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -99,6 +94,11 @@
 (setq yaml-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
 
+(setq +terraform-runner "tofu")
+(setq terraform-command "tofu")
+
+(setq tramp-docker-program "podman-remote")
+
 ;; Add YAML and TypeScript modes to the list of disabled formats for on-save formatting.
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 (add-to-list '+format-on-save-disabled-modes 'typescript-mode)
@@ -136,3 +136,10 @@
                      :stream t
                      :models '(deepseek-r1:32b
                               deepseek-coder-v2:16b)))
+
+(use-package! ellama
+  ;; Define commands provided by this package
+  :commands (ellama-transient-main-menu)
+  ;; Initialize the package and require necessary modules
+  :init
+  (require 'llm-ollama))

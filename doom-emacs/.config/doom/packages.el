@@ -51,3 +51,4 @@
 
 (package! dape)
 (package! gptel)
+(package! ellama)

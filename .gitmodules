@@ -1,9 +1,3 @@
-[submodule "spacemacs/.emacs.d"]
-	path = spacemacs/.emacs.d
-	url = https://github.com/syl20bnr/spacemacs
-[submodule "garuda-polybar/.config/polybar/spotify"]
-	path = garuda-polybar/.config/polybar/spotify
-	url = git@github.com:Jvanrhijn/polybar-spotify.git
 [submodule "doom-emacs/.config/emacs"]
 	path = doom-emacs/.config/emacs
 	url = git@github.com:doomemacs/doomemacs.git
