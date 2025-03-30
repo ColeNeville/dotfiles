@@ -9,9 +9,6 @@ fi
 
 export PATH
 
-# User specific aliases and functions
-mkdir ~/.bashrd.d 2> /dev/null
-
 for rc in ~/.bashrc.d/*; do
   if [ -f "$rc" ]; then
     . "$rc"
@@ -43,4 +40,4 @@ hostname_if_ssh(){
   fi
 }
 
-export PS1='$(hostname_if_ssh)\w $(parse_git_branch)$ '
+export PS1='[$USER@$(hostname)] \w $(parse_git_branch)$ '
