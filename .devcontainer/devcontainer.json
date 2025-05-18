@@ -1,7 +1,7 @@
 {
     "name": "Dotfiles Development Environment",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
-    "remoteUser": "vscode",
+    "remoteUser": "dev",
     "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
     },
