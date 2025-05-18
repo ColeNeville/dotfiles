@@ -1,0 +1,137 @@
+#+TITLE: Doom Emacs Configuration
+#+AUTHOR: Your Name
+#+DESCRIPTION: A literate configuration for Doom Emacs
+#+PROPERTY: header-args:emacs-lisp :tangle config.el
+
+* Introduction
+
+This is a literate configuration for Doom Emacs. The code blocks in this file will be tangled to =config.el= when Doom is synchronized.
+
+* Personal Information
+
+Some functionality uses this to identify you, e.g. GPG configuration, email clients, file templates and snippets. It is optional.
+
+#+begin_src emacs-lisp
+;; (setq user-full-name "John Doe"
+;;       user-mail-address "john@doe.com")
+#+end_src
+
+* UI Configuration
+
+** Theme and Fonts
+
+Setting up the visual appearance of Doom Emacs with themes and fonts.
+
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-gruvbox)
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 14))
+(setq doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 16))
+#+end_src
+
+** Line Numbers
+
+This determines the style of line numbers in effect. If set to =nil=, line numbers are disabled. For relative line numbers, set this to =relative=.
+
+#+begin_src emacs-lisp
+(setq display-line-numbers-type t)
+#+end_src
+
+* Org Mode Configuration
+
+If you use =org= and don't want your org files in the default location, change =org-directory=. It must be set before org loads!
+
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+(setq org-roam-directory "~/org/roam")
+#+end_src
+
+* Keybindings and UI Helpers
+
+** Which Key
+
+Make which-key display immediately for better discoverability of keybindings.
+
+#+begin_src emacs-lisp
+(after! which-key
+  ;; Set the idle delay for which-key to 0 for immediate display of keybindings.
+  (setq which-key-idle-delay 0))
+#+end_src
+
+* Indentation and Formatting
+
+Configure indentation levels for various programming languages and modes.
+
+#+begin_src emacs-lisp
+;; Basic offset settings for different shells.
+(setq sh-basic-offset 2)
+(setq standard-indent 2)
+
+;; Indentation levels for specific modes: TypeScript, JavaScript, YAML, and Web mode.
+(setq typescript-indent-level 2)
+(setq js-indent-level 2)
+(setq yaml-indent-offset 2)
+(setq web-mode-css-indent-offset 2)
+#+end_src
+
+* Development Tools
+
+** Terraform/OpenTofu Configuration
+
+#+begin_src emacs-lisp
+(setq +terraform-runner "tofu")
+(setq terraform-command "tofu")
+#+end_src
+
+** Remote Access
+
+#+begin_src emacs-lisp
+(setq tramp-docker-program "podman-remote")
+#+end_src
+
+** Formatting
+
+Disable automatic formatting for certain modes.
+
+#+begin_src emacs-lisp
+;; Add YAML and TypeScript modes to the list of disabled formats for on-save formatting.
+(add-to-list '+format-on-save-disabled-modes 'yaml-mode)
+(add-to-list '+format-on-save-disabled-modes 'typescript-mode)
+#+end_src
+
+** LSP Configuration
+
+Enable breadcrumb navigation in the header line for LSP mode.
+
+#+begin_src emacs-lisp
+;; Enable headerline breadcrumb in lsp mode.
+(add-hook 'lsp-mode-hook 'lsp-headerline-breadcrumb-enable)
+#+end_src
+
+** Debugging
+
+Configuration for the dape debugger to attach to a Ruby application.
+
+#+begin_src emacs-lisp
+(use-package! dape
+  :config
+  (add-to-list
+   'dape-configs
+   '(homer-docker
+     modes nil
+     host "localhost"
+     port 1234
+     prefix-local "/Users/cneville/projects/homer"
+     :type "Ruby"
+     :request "attach")))
+#+end_src
+
+** AI Assistance
+
+Commented out configuration for aider.
+
+#+begin_src emacs-lisp
+;;(use-package aider
+;;  :config
+;;  (setq aider-args '("--model" "openrouter/anthropic/claude-3-7-sonnet"))
+;;  (require 'aider-doom))
+#+end_src
