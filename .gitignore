@@ -1,2 +1,4 @@
-/**/__pycache__/
-/garuda-old/
+/.env
+/.aider.tags.*
+/.aider.*.history.*
+/.aider.*.history
