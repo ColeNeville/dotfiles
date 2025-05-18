@@ -49,6 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+;;(package! gptel)
+;;(package! ellama)
+
 (package! dape)
-(package! gptel)
-(package! ellama)
+(package! aider :recipe (:host github :repo "tninja/aider.el"))

@@ -119,27 +119,7 @@
      :type "Ruby"
      :request "attach")))
 
-;; Configuration for the gptel package to interact with an Ollama model.
-(use-package! gptel
-  :commands
-  (gptel gptel-menu)
-  :config
-  ;; Define a connection to Titan Ollama (VPN) and specify models available.
-  (gptel-make-ollama "Titan Ollama (VPN)"
-                     :host "titan.vpn.coleslab.ca:11434"
-                     :stream t
-                     :models '(deepseek-r1:32b
-                               deepseek-coder-v2:16b))
-  ;; Define a connection to Titan Ollama and specify models available.
-  (gptel-make-ollama "Titan Ollama"
-                     :host "titan.local.coleslab.ca:11434"
-                     :stream t
-                     :models '(deepseek-r1:32b
-                              deepseek-coder-v2:16b)))
-
-(use-package! ellama
-  ;; Define commands provided by this package
-  :commands (ellama-transient-main-menu)
-  ;; Initialize the package and require necessary modules
-  :init
-  (require 'llm-ollama))
+;;(use-package aider
+;;  :config
+;;  (setq aider-args '("--model" "openrouter/anthropic/claude-3-7-sonnet"))
+;;  (require 'aider-doom))
