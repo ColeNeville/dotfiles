@@ -1,0 +1,21 @@
+# <type>(<scope>): <subject>
+#
+# Types:
+#   feat:     A new feature
+#   fix:      A bug fix
+#   docs:     Documentation only changes
+#   style:    Changes that do not affect the meaning of the code
+#   refactor: A code change that neither fixes a bug nor adds a feature
+#   perf:     A code change that improves performance
+#   test:     Adding missing tests or correcting existing tests
+#   build:    Changes that affect the build system or external dependencies
+#   ci:       Changes to our CI configuration files and scripts
+#   chore:    Other changes that don't modify src or test files
+#
+# Scope: The part of the codebase affected (e.g., component name, file name, module)
+#
+# Subject: Short description in the imperative, present tense
+#
+# Body (optional): More detailed explanatory text
+#
+# Footer (optional): Reference issues that this commit closes
