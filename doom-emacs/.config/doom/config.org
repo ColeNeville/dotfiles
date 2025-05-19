@@ -130,8 +130,8 @@ Configuration for the dape debugger to attach to a Ruby application.
 Commented out configuration for aider.
 
 #+begin_src emacs-lisp
-;;(use-package aider
-;;  :config
-;;  (setq aider-args '("--model" "openrouter/anthropic/claude-3-7-sonnet"))
-;;  (require 'aider-doom))
+(use-package aider
+  :config
+  (setq aider-args '("--model" "openrouter/anthropic/claude-3-7-sonnet"))
+  (require 'aider-doom))
 #+end_src
