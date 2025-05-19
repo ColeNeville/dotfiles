@@ -50,20 +50,34 @@ My Doom Emacs configuration is a literate configuration written in Org mode. It 
 
 #### Installation
 
-1. Install Doom Emacs following the [official instructions](https://github.com/doomemacs/doomemacs#install)
+1. Install Emacs (version 28.1+ recommended):
+   ```bash
+   # On Fedora/RHEL
+   sudo dnf install emacs
+   
+   # On Debian/Ubuntu
+   sudo apt install emacs
+   
+   # On macOS with Homebrew
+   brew install emacs-plus
+   ```
+
 2. Clone this repository with submodules (if you haven't already):
    ```bash
    git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
    ```
+
 3. Use GNU Stow to create symlinks for the Doom Emacs configuration:
    ```bash
    cd ~/dotfiles
    stow doom-emacs
    ```
+
 4. Run Doom sync to install packages and generate configuration files:
    ```bash
    ~/.config/emacs/bin/doom sync
    ```
+
 5. Restart Emacs to apply all changes
 
 ### Other Configurations
