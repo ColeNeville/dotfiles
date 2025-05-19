@@ -12,8 +12,8 @@ This is a literate configuration for Doom Emacs. The code blocks in this file wi
 Some functionality uses this to identify you, e.g. GPG configuration, email clients, file templates and snippets. It is optional.
 
 #+begin_src emacs-lisp
-;; (setq user-full-name "John Doe"
-;;       user-mail-address "john@doe.com")
+(setq user-full-name "Cole Neville"
+      user-mail-address "me@coleneville.net")
 #+end_src
 
 * UI Configuration
