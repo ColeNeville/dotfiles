@@ -1,5 +1,5 @@
 #+TITLE: Doom Emacs Configuration
-#+AUTHOR: Your Name
+#+AUTHOR: Cole Neville
 #+DESCRIPTION: A literate configuration for Doom Emacs
 #+PROPERTY: header-args:emacs-lisp :tangle config.el
 
