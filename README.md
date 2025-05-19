@@ -6,6 +6,34 @@ This repository contains my personal dotfiles and configuration files for variou
 
 This dotfiles repository is organized by application, with each application's configuration files stored in its own directory. The repository uses a modular approach to make it easy to install only the configurations you need.
 
+## Initial Setup
+
+To get started with this dotfiles repository:
+
+1. Clone the repository with submodules:
+   ```bash
+   git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
+   ```
+
+   Or if you've already cloned the repository without submodules:
+   ```bash
+   git clone https://github.com/coleneville/dotfiles.git
+   cd dotfiles
+   git submodule update --init --recursive
+   ```
+
+2. Install GNU Stow if you don't have it already:
+   ```bash
+   # On Fedora/RHEL
+   sudo dnf install stow
+   
+   # On Debian/Ubuntu
+   sudo apt install stow
+   
+   # On macOS with Homebrew
+   brew install stow
+   ```
+
 ## Featured Configurations
 
 ### Doom Emacs
@@ -23,18 +51,20 @@ My Doom Emacs configuration is a literate configuration written in Org mode. It 
 #### Installation
 
 1. Install Doom Emacs following the [official instructions](https://github.com/doomemacs/doomemacs#install)
-2. Clone this repository:
+2. Clone this repository with submodules (if you haven't already):
    ```bash
-   git clone https://github.com/coleneville/dotfiles.git
+   git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
    ```
-3. Symlink the Doom Emacs configuration:
+3. Use GNU Stow to create symlinks for the Doom Emacs configuration:
    ```bash
-   ln -s ~/dotfiles/doom-emacs/.config/doom ~/.config/doom
+   cd ~/dotfiles
+   stow doom-emacs
    ```
-4. Run Doom sync:
+4. Run Doom sync to install packages and generate configuration files:
    ```bash
-   doom sync
+   ~/.config/emacs/bin/doom sync
    ```
+5. Restart Emacs to apply all changes
 
 ### Other Configurations
 
@@ -50,7 +80,25 @@ You can use GNU Stow to manage the symlinks for each configuration:
 cd dotfiles
 stow doom-emacs  # Creates symlinks for Doom Emacs configuration
 stow git         # Creates symlinks for Git configuration
+stow bash        # Creates symlinks for Bash configuration
+stow gnupg       # Creates symlinks for GnuPG configuration
 # etc.
+```
+
+### Updating
+
+To update all configurations and submodules:
+
+```bash
+cd ~/dotfiles
+git pull
+git submodule update --recursive --remote
+```
+
+If you've made changes to the Doom Emacs configuration:
+
+```bash
+~/.config/emacs/bin/doom sync
 ```
 
 ## License
