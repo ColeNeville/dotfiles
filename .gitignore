@@ -1,5 +1,5 @@
 /.env
-/.aider.tags.*
+/.aider.tags.*/
 /.aider.*.history.*
 /.aider.*.history
 /doom-emacs/.config/doom/config.el
