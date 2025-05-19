@@ -61,12 +61,18 @@ Make which-key display immediately for better discoverability of keybindings.
 
 Configure indentation levels for various programming languages and modes.
 
+Set basic indentation levels for various programming languages and modes:
+
+- Shell scripts: 2 spaces
+- Standard indent: 2 spaces
+- TypeScript: 2 spaces
+- JavaScript: 2 spaces
+- YAML: 2 spaces
+- Web mode CSS: 2 spaces
+
 #+begin_src emacs-lisp
-;; Basic offset settings for different shells.
 (setq sh-basic-offset 2)
 (setq standard-indent 2)
-
-;; Indentation levels for specific modes: TypeScript, JavaScript, YAML, and Web mode.
 (setq typescript-indent-level 2)
 (setq js-indent-level 2)
 (setq yaml-indent-offset 2)
@@ -92,8 +98,9 @@ Configure indentation levels for various programming languages and modes.
 
 Disable automatic formatting for certain modes.
 
+Disable automatic formatting for certain modes to prevent unwanted changes when saving files:
+
 #+begin_src emacs-lisp
-;; Add YAML and TypeScript modes to the list of disabled formats for on-save formatting.
 (add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 (add-to-list '+format-on-save-disabled-modes 'typescript-mode)
 #+end_src
@@ -102,8 +109,9 @@ Disable automatic formatting for certain modes.
 
 Enable breadcrumb navigation in the header line for LSP mode.
 
+Enable breadcrumb navigation in the header line for LSP mode to improve navigation in large files:
+
 #+begin_src emacs-lisp
-;; Enable headerline breadcrumb in lsp mode.
 (add-hook 'lsp-mode-hook 'lsp-headerline-breadcrumb-enable)
 #+end_src
 
@@ -128,6 +136,8 @@ Configuration for the dape debugger to attach to a Ruby application.
 ** AI Assistance
 
 Commented out configuration for aider.
+
+Configuration for aider, an AI pair programming tool:
 
 #+begin_src emacs-lisp
 (use-package aider
