@@ -166,15 +166,7 @@ Returns the container ID if successful, signals an error otherwise."
           (progn
             (message "Devcontainer running with ID: %s" container-id)
             container-id)
-        (error "Failed to start devcontainer for %s" project-root))))
-
-  ;; Add method for connecting to devcontainer
-  (add-to-list 'tramp-methods
-               '("docker"
-                 (tramp-login-program "docker")
-                 (tramp-login-args (("exec" "-it") ("%h") ("/bin/bash")))
-                 (tramp-remote-shell "/bin/bash")
-                 (tramp-remote-shell-args ("-i" "-c")))))
+        (error "Failed to start devcontainer for %s" project-root)))))
 #+end_src
 
 ** Keybindings for Development Containers
