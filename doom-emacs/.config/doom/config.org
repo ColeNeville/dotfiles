@@ -152,6 +152,18 @@ Configure TRAMP to connect to the development container for remote file editing 
           (when (re-search-forward "\"containerId\":\"\\([^\"]+\\)\"" nil t)
             (match-string 1))))))
 
+  ;; Function to ensure devcontainer is running for current projectile project
+  (defun ensure-devcontainer-for-current-project ()
+    "Ensure devcontainer is running for the current projectile project."
+    (interactive)
+    (if (projectile-project-p)
+        (let* ((project-root (projectile-project-root))
+               (container-id (ensure-devcontainer-running project-root)))
+          (if container-id
+              (message "Devcontainer running with ID: %s" container-id)
+            (message "Failed to start devcontainer for %s" project-root)))
+      (message "Not in a projectile project")))
+
   ;; Add method for connecting to devcontainer
   (add-to-list 'tramp-methods
                '("docker"
@@ -159,6 +171,16 @@ Configure TRAMP to connect to the development container for remote file editing 
                  (tramp-login-args (("exec" "-it") ("%h") ("/bin/bash")))
                  (tramp-remote-shell "/bin/bash")
                  (tramp-remote-shell-args ("-i" "-c")))))
+#+end_src
+
+** Keybindings for Development Containers
+
+Add keybindings for working with development containers:
+
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("d" . "devcontainer")
+       :desc "Ensure devcontainer running" "e" #'ensure-devcontainer-for-current-project))
 #+end_src
 
 ** AI Assistance
