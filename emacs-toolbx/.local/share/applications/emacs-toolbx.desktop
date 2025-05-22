@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=toolbox run -c emacs emacs
+Exec=toolbox run -c dev-toolbox emacs
 Name=Emacs (toolbx)
 Comment=Run the Emacs editor via toolbox
 Icon=emacs
