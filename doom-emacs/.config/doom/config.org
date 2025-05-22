@@ -142,6 +142,5 @@ Configuration for aider, an AI pair programming tool:
 #+begin_src emacs-lisp
 (use-package aider
   :config
-  (setq aider-args '("--model" "openrouter/anthropic/claude-3-7-sonnet"))
   (require 'aider-doom))
 #+end_src
