@@ -189,8 +189,16 @@ Add keybindings for working with development containers:
          (container-id (ensure-devcontainer-for-current-project))
          (file-path (buffer-file-name))
          (relative-path (file-relative-name file-path project-root))
-         (remote-path (concat "/docker:" container-id ":/workspace/" project-name "/" relative-path)))
+         (remote-project-root (concat "/docker:" container-id ":/workspace/" project-name "/"))
+         (remote-path (concat remote-project-root relative-path)))
     
+    ;; Add the remote project to projectile's known projects
+    (projectile-add-known-project remote-project-root)
+    
+    ;; Switch to the remote project
+    (projectile-switch-project-by-name remote-project-root)
+    
+    ;; Open the file
     (find-file remote-path)
     (message "Opened %s in devcontainer" relative-path)))
 
