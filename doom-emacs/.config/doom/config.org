@@ -141,31 +141,42 @@ Configure TRAMP to connect to the development container for remote file editing 
 
 #+begin_src emacs-lisp
 (after! tramp
-  ;; Function to ensure devcontainer is running and get container ID
+  ;; Function to ensure devcontainer is running and get container name and ID
   (defun ensure-devcontainer-running (dir)
-    "Ensure devcontainer for DIR is running and return its container ID."
+    "Ensure devcontainer for DIR is running and return its container name and ID."
     (interactive)
     (with-temp-buffer
       (let ((default-directory dir))
         (when (= 0 (call-process "devcontainer" nil t nil "up" "--workspace-folder" "."))
           (goto-char (point-min))
-          (when (re-search-forward "\"containerId\":\"\\([^\"]+\\)\"" nil t)
-            (match-string 1))))))
+          (let (container-id container-name)
+            (when (re-search-forward "\"containerId\":\"\\([^\"]+\\)\"" nil t)
+              (setq container-id (match-string 1)))
+            ;; Get container name using docker inspect
+            (when container-id
+              (with-temp-buffer
+                (when (= 0 (call-process "docker" nil t nil "inspect" "--format" "{{.Name}}" container-id))
+                  (setq container-name (string-trim (buffer-string)))
+                  ;; Remove leading slash if present
+                  (when (string-prefix-p "/" container-name)
+                    (setq container-name (substring container-name 1))))))
+            (cons container-name container-id))))))
 
   ;; Function to ensure devcontainer is running for current projectile project
   (defun ensure-devcontainer-for-current-project ()
     "Ensure devcontainer is running for the current projectile project.
-Returns the container ID if successful, signals an error otherwise."
+Returns the container info (name . id) if successful, signals an error otherwise."
     (interactive)
     (unless (projectile-project-p)
       (error "Not in a projectile project"))
     
     (let* ((project-root (projectile-project-root))
-           (container-id (ensure-devcontainer-running project-root)))
-      (if container-id
+           (container-info (ensure-devcontainer-running project-root)))
+      (if container-info
           (progn
-            (message "Devcontainer running with ID: %s" container-id)
-            container-id)
+            (message "Devcontainer running: %s (ID: %s)" 
+                     (car container-info) (cdr container-info))
+            container-info)
         (error "Failed to start devcontainer for %s" project-root)))))
 #+end_src
 
@@ -186,10 +197,11 @@ Add keybindings for working with development containers:
   
   (let* ((project-root (projectile-project-root))
          (project-name (file-name-nondirectory (directory-file-name project-root)))
-         (container-id (ensure-devcontainer-for-current-project))
+         (container-info (ensure-devcontainer-for-current-project))
+         (container-name (car container-info))
          (file-path (buffer-file-name))
          (relative-path (file-relative-name file-path project-root))
-         (remote-project-root (concat "/docker:" container-id ":/workspaces/" project-name "/"))
+         (remote-project-root (concat "/docker:" container-name ":/workspaces/" project-name "/"))
          (remote-path (concat remote-project-root relative-path)))
     
     ;; Add the remote project to projectile's known projects
@@ -200,7 +212,7 @@ Add keybindings for working with development containers:
     
     ;; Open the file
     (find-file remote-path)
-    (message "Opened %s in devcontainer" relative-path)))
+    (message "Opened %s in devcontainer %s" relative-path container-name)))
 
 ;; Add keybindings for working with development containers under localleader
 (map! :localleader
