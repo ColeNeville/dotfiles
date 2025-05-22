@@ -135,7 +135,7 @@ Configuration for the dape debugger to attach to a Ruby application.
 
 * Development Containers
 
-** DevContainer TRAMP Configuration
+** Docker TRAMP Configuration
 
 Configure TRAMP to connect to the development container for remote file editing and command execution, ensuring the container is running first.
 
@@ -144,6 +144,7 @@ Configure TRAMP to connect to the development container for remote file editing 
   ;; Function to ensure devcontainer is running and get container ID
   (defun ensure-devcontainer-running (dir)
     "Ensure devcontainer for DIR is running and return its container ID."
+    (interactive)
     (with-temp-buffer
       (let ((default-directory dir))
         (when (= 0 (call-process "devcontainer" nil t nil "up" "--workspace-folder" "."))
@@ -153,36 +154,11 @@ Configure TRAMP to connect to the development container for remote file editing 
 
   ;; Add method for connecting to devcontainer
   (add-to-list 'tramp-methods
-               '("devcontainer"
+               '("docker"
                  (tramp-login-program "docker")
                  (tramp-login-args (("exec" "-it") ("%h") ("/bin/bash")))
                  (tramp-remote-shell "/bin/bash")
-                 (tramp-remote-shell-args ("-i" "-c"))))
-
-  ;; Helper function to open files in devcontainer
-  (defun open-in-devcontainer (file)
-    "Open FILE in the devcontainer for the current project."
-    (interactive "FFile: ")
-    (let* ((project-root (doom-project-root))
-           (relative-file (file-relative-name (expand-file-name file) project-root))
-           (container-id (ensure-devcontainer-running project-root)))
-      (if container-id
-          (find-file (format "/devcontainer:%s:%s" 
-                             container-id
-                             (expand-file-name file)))
-        (message "Failed to start or identify the devcontainer"))))
-
-  ;; Helper function to run a shell in the devcontainer
-  (defun shell-in-devcontainer ()
-    "Open a shell in the devcontainer for the current project."
-    (interactive)
-    (let* ((project-root (doom-project-root))
-           (container-id (ensure-devcontainer-running project-root)))
-      (if container-id
-          (let ((default-directory (format "/devcontainer:%s:/" container-id)))
-            (shell))
-        (message "Failed to start or identify the devcontainer"))))
-)
+                 (tramp-remote-shell-args ("-i" "-c")))))
 #+end_src
 
 ** AI Assistance
