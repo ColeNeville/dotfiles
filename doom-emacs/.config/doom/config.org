@@ -182,12 +182,33 @@ Returns the container ID if successful, signals an error otherwise."
 Add keybindings for working with development containers:
 
 #+begin_src emacs-lisp
-(map! :leader
-      (:prefix ("d" . "devcontainer")
-       :desc "Ensure devcontainer running" "e" #'ensure-devcontainer-for-current-project))
+;; Function to open current file in devcontainer
+(defun open-current-file-in-devcontainer ()
+  "Open the current file in a devcontainer via TRAMP."
+  (interactive)
+  (unless (buffer-file-name)
+    (error "No file associated with current buffer"))
+  
+  (unless (projectile-project-p)
+    (error "Not in a projectile project"))
+  
+  (let* ((project-root (projectile-project-root))
+         (container-id (ensure-devcontainer-for-current-project))
+         (file-path (buffer-file-name))
+         (relative-path (file-relative-name file-path project-root))
+         (remote-path (concat "/docker:" container-id ":/workspace/" relative-path)))
+    
+    (find-file remote-path)
+    (message "Opened %s in devcontainer" relative-path)))
+
+;; Add keybindings for working with development containers under localleader
+(map! :localleader
+      (:prefix ("C" . "Containers")
+       :desc "Ensure devcontainer running" "e" #'ensure-devcontainer-for-current-project
+       :desc "Open current file in devcontainer" "o" #'open-current-file-in-devcontainer))
 #+end_src
 
-** AI Assistance
+* AI Assistance
 
 Commented out configuration for aider.
 
