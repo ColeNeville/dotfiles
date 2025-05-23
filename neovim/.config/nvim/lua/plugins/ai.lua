@@ -27,7 +27,6 @@ return {
         aider_cmd = "aider",
         -- Command line arguments passed to aider
         args = {
-          "--no-auto-commits",
           "--pretty",
           "--stream",
         },
