@@ -1,20 +1,18 @@
 local wk = require("which-key")
 
--- Register which-key mappings
-wk.register({
-  -- Example mappings
-  f = {
-    name = "File",
-    f = { "<cmd>lua vim.fn.feedkeys(':find ')<CR>", "Find File" },
-    r = { "<cmd>lua vim.fn.feedkeys(':e ')<CR>", "Recent Files" },
-  },
-  b = {
-    name = "Buffer",
-    n = { "<cmd>bnext<CR>", "Next Buffer" },
-    p = { "<cmd>bprevious<CR>", "Previous Buffer" },
-    d = { "<cmd>bdelete<CR>", "Delete Buffer" },
-  },
-}, { prefix = "<leader>" })
+-- Register which-key mappings using the newer format
+wk.add({
+  -- File operations
+  { "<leader>f", group = "File" },
+  { "<leader>ff", "<cmd>lua vim.fn.feedkeys(':find ')<CR>", desc = "Find File" },
+  { "<leader>fr", "<cmd>lua vim.fn.feedkeys(':e ')<CR>", desc = "Recent Files" },
+  
+  -- Buffer operations
+  { "<leader>b", group = "Buffer" },
+  { "<leader>bn", "<cmd>bnext<CR>", desc = "Next Buffer" },
+  { "<leader>bp", "<cmd>bprevious<CR>", desc = "Previous Buffer" },
+  { "<leader>bd", "<cmd>bdelete<CR>", desc = "Delete Buffer" },
+})
 
 -- Basic keymaps (not using which-key)
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
