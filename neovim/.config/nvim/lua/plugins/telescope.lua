@@ -7,15 +7,14 @@ return {
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
     },
+    keys = {
+      { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = "Find files" },
+      { '<leader>fg', function() require('telescope.builtin').live_grep() end, desc = "Live grep" },
+      { '<leader>fb', function() require('telescope.builtin').buffers() end, desc = "Find buffers" },
+      { '<leader>fh', function() require('telescope.builtin').help_tags() end, desc = "Help tags" },
+    },
     config = function()
       require('telescope').setup({})
-      
-      -- Key mappings for telescope
-      local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Live grep" })
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "Find buffers" })
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = "Help tags" })
     end,
   },
   
@@ -25,18 +24,16 @@ return {
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },
+    keys = {
+      { '<leader>pp', function() require('telescope').extensions.projects.projects{} end, desc = "Find projects" },
+      { '<leader>pa', function() require('project_nvim.project').add_project() end, desc = "Add current directory as project" },
+    },
     config = function()
       require("project_nvim").setup({
         -- detection_methods = { "pattern", "lsp" },
         -- patterns = { ".git", "Makefile", "package.json" },
       })
       require('telescope').load_extension('projects')
-      
-      -- Key mapping for project management
-      vim.keymap.set('n', '<leader>pp', function() require'telescope'.extensions.projects.projects{} end, 
-        { desc = "Find projects" })
-      vim.keymap.set('n', '<leader>pa', function() require('project_nvim.project').add_project() end, 
-        { desc = "Add current directory as project" })
     end,
   },
 }

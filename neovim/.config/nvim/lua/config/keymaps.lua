@@ -4,7 +4,6 @@ local wk = require("which-key")
 wk.add({
   -- File operations
   { "<leader>f", group = "File" },
-  { "<leader>ff", "<cmd>lua vim.fn.feedkeys(':find ')<CR>", desc = "Find File" },
   { "<leader>fr", "<cmd>lua vim.fn.feedkeys(':e ')<CR>", desc = "Recent Files" },
   
   -- Buffer operations
