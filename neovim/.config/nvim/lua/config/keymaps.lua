@@ -19,6 +19,9 @@ wk.add({
   -- AI operations
   { "<leader>A", group = "AI" },
   
+  -- Explorer operations
+  { "<leader>E", group = "Explorer" },
+  
   -- Window management
   { "<leader>w", group = "Window" },
   { "<leader>wv", "<cmd>vsplit<CR>", desc = "Split Vertical" },
