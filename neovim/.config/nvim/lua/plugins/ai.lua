@@ -4,7 +4,7 @@ return {
     "GeorgesAlkhouri/nvim-aider",
     cmd = "Aider",
     keys = {
-      { "<leader>Ai", "<cmd>Aider toggle<cr>", desc = "Toggle Aider" },
+      { "<leader>Aa", "<cmd>Aider toggle<cr>", desc = "Toggle Aider" },
       { "<leader>As", "<cmd>Aider send<cr>", desc = "Send to Aider", mode = { "n", "v" } },
       { "<leader>Ac", "<cmd>Aider command<cr>", desc = "Aider Commands" },
       { "<leader>Ab", "<cmd>Aider buffer<cr>", desc = "Send Buffer" },

@@ -33,7 +33,7 @@ return {
       require('telescope').load_extension('projects')
       
       -- Key mapping for project management
-      vim.keymap.set('n', '<leader>fp', function() require'telescope'.extensions.projects.projects{} end, 
+      vim.keymap.set('n', '<leader>pp', function() require'telescope'.extensions.projects.projects{} end, 
         { desc = "Find projects" })
     end,
   },
