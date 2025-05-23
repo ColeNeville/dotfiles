@@ -35,6 +35,8 @@ return {
       -- Key mapping for project management
       vim.keymap.set('n', '<leader>pp', function() require'telescope'.extensions.projects.projects{} end, 
         { desc = "Find projects" })
+      vim.keymap.set('n', '<leader>pa', function() require('project_nvim.project').add_project() end, 
+        { desc = "Add current directory as project" })
     end,
   },
 }
