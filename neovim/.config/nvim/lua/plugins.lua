@@ -1,9 +1,3 @@
 -- This file is kept for backward compatibility
 -- The actual plugin configuration is now in lua/plugins/init.lua
-return {
-  -- Import all plugin modules
-  require("plugins.ui"),
-  require("plugins.editor"),
-  require("plugins.explorer"),
-  require("plugins.telescope"),
-}
+return require("plugins.init")

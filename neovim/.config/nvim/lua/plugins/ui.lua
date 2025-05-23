@@ -15,6 +15,12 @@ return {
     end,
   },
   
+  -- Required dependency for nvim-aider
+  {
+    "folke/snacks.nvim",
+    lazy = false,
+  },
+  
   -- You can add more UI plugins here like:
   -- Status line, bufferline, colorscheme, etc.
 }
