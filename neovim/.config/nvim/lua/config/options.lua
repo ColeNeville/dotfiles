@@ -11,3 +11,4 @@ vim.opt.tabstop = 2           -- Tab width
 vim.opt.shiftwidth = 2        -- Indentation width
 vim.opt.expandtab = true      -- Use spaces instead of tabs
 vim.opt.termguicolors = true  -- Enable true color support
+vim.opt.autoread = true       -- Auto reload files changed outside of Neovim
