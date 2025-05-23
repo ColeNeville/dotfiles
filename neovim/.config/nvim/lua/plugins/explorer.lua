@@ -20,7 +20,7 @@ return {
       })
       
       -- Key mappings for nvim-tree
-      vim.keymap.set('n', '<leader>E', ':NvimTreeToggle<CR>', { desc = "Toggle Explorer" })
+      vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = "Toggle Explorer" })
       vim.keymap.set('n', '<leader>Ef', ':NvimTreeFocus<CR>', { desc = "Focus Explorer" })
     end,
   },
