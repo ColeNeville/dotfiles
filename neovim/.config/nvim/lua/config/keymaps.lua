@@ -21,6 +21,15 @@ wk.add({
   -- Explorer operations
   { "<leader>E", group = "Explorer" },
   
+  -- Terminal operations
+  { "<leader>t", group = "Terminal" },
+  { "<leader>tt", "<cmd>lua _G.toggle_bottom_term()<CR>", desc = "Toggle Bottom Terminal" },
+  { "<leader>tr", "<cmd>lua _G.toggle_right_term()<CR>", desc = "Toggle Right Terminal" },
+  { "<leader>tg", "<cmd>lua _G.toggle_lazygit()<CR>", desc = "Toggle Lazygit" },
+  { "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", desc = "Toggle Floating Terminal" },
+  { "<leader>tn", "<cmd>ToggleTermSetName<CR>", desc = "Set Terminal Name" },
+  { "<leader>ts", "<cmd>TermSelect<CR>", desc = "Select Terminal" },
+  
   -- Window management
   { "<leader>w", group = "Window" },
   { "<leader>wv", "<cmd>vsplit<CR>", desc = "Split Vertical" },
