@@ -41,6 +41,31 @@ return {
     },
   },
 
+  -- nvim-tree.lua: File explorer
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*", -- Pin to latest stable release
+    lazy = false,  -- Load on startup
+    dependencies = {
+      "nvim-tree/nvim-web-devicons", -- For file icons (recommended for default experience)
+    },
+    config = function()
+      -- Disable netrw, as nvim-tree will be the file explorer
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+
+      -- Call setup with an empty table to ensure default settings are applied.
+      -- nvim-tree generally works well with its defaults.
+      require("nvim-tree").setup({})
+    end,
+    keys = {
+      -- These keymaps are defined here so lazy.nvim manages them.
+      -- Without a 'desc' field, they won't show up in which-key by default with your current filter.
+      { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true },
+      { "<leader>f", "<cmd>NvimTreeFindFile<CR>", mode = "n", noremap = true, silent = true },
+    },
+  },
+
   -- Example: A colorscheme (uncomment and configure if you add one)
   -- {
   --   "folke/tokyonight.nvim",
