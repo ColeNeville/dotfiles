@@ -80,6 +80,40 @@ My Doom Emacs configuration is a literate configuration written in Org mode. It 
 
 5. Restart Emacs to apply all changes
 
+### Neovim
+
+My Neovim configuration uses `lazy.nvim` for package management. It's designed to be minimal and extensible.
+
+- Basic editor settings (options, tabs, search)
+- `lazy.nvim` for plugin management
+
+#### Installation
+
+1. Install Neovim (version 0.8+ recommended, 0.9+ for some newer plugin features):
+   ```bash
+   # On Fedora/RHEL
+   sudo dnf install neovim
+
+   # On Debian/Ubuntu
+   sudo apt install neovim
+
+   # On macOS with Homebrew
+   brew install neovim
+   ```
+
+2. Clone this repository with submodules (if you haven't already):
+   ```bash
+   git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
+   ```
+
+3. Use GNU Stow to create symlinks for the Neovim configuration:
+   ```bash
+   cd ~/dotfiles # Or wherever you cloned the repository
+   stow neovim
+   ```
+
+4. Launch Neovim. `lazy.nvim` will automatically install any specified plugins on the first run.
+
 ### Other Configurations
 
 - **Git**: Custom Git configuration with global ignore patterns
@@ -93,6 +127,7 @@ You can use GNU Stow to manage the symlinks for each configuration:
 ```bash
 cd dotfiles
 stow doom-emacs  # Creates symlinks for Doom Emacs configuration
+stow neovim      # Creates symlinks for Neovim configuration
 stow git         # Creates symlinks for Git configuration
 stow bash        # Creates symlinks for Bash configuration
 stow gnupg       # Creates symlinks for GnuPG configuration
