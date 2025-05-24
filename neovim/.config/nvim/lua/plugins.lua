@@ -67,6 +67,7 @@ return {
       -- These keymaps are defined here so lazy.nvim manages them.
       -- Adding a 'desc' field will make them show up in which-key.
       { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Toggle" },
+      { "<leader>Ee", "<cmd>NvimTreeOpen ~<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Home Dir" },
     },
   },
 
