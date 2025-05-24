@@ -39,6 +39,11 @@ return {
         desc = "Buffer Local Keymaps (which-key)",
       },
     },
+    config = function(_, opts)
+      require("which-key").setup(opts)
+      -- Load custom which-key registrations (groups, etc.)
+      require("config.keymaps")
+    end,
   },
 
   -- nvim-tree.lua: File explorer

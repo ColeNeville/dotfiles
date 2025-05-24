@@ -17,7 +17,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Load core configuration (options, keymaps, etc.)
 -- These are loaded before lazy.nvim setup.
 require("config.options")
-require("config.keymaps")
+-- require("config.keymaps") -- Will be loaded via which-key's config
 
 -- Setup lazy.nvim
 -- "plugins" refers to lua/plugins.lua or lua/plugins/init.lua
