@@ -14,8 +14,8 @@ wk.add({
     { "<leader>q", group = "Quit/Session" },
 
     -- Define the actual keybindings that will fall under the <leader>q group
-    { "<leader>qs", "<cmd>qa<cr>", desc = "Quit All (Safe)" },
-    { "<leader>qf", "<cmd>qa!<cr>", desc = "Quit All (Force)" },
+    { "<leader>qq", "<cmd>qa<cr>", desc = "Quit All (Safe)" },
+    { "<leader>qQ", "<cmd>qa!<cr>", desc = "Quit All (Force)" },
   },
   -- You can add other groups or individual keymaps here, for example:
   -- {
