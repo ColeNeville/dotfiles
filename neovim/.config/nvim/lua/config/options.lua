@@ -1,5 +1,8 @@
 -- neovim/.config/nvim/lua/config/options.lua
 
+-- Set background color scheme (dark or light)
+vim.o.background = "dark"
+
 local opt = vim.opt -- for conciseness
 
 -- General

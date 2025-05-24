@@ -66,15 +66,18 @@ return {
     },
   },
 
-  -- Example: A colorscheme (uncomment and configure if you add one)
-  -- {
-  --   "folke/tokyonight.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme "tokyonight"
-  --   end,
-  -- },
+  -- Colorscheme: gruvbox.nvim
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000, -- Make sure to load this before all other start plugins
+    lazy = false,    -- Load on startup
+    config = function()
+      -- Load the colorscheme here.
+      -- For a skeleton, we use default settings for gruvbox.
+      require("gruvbox").setup({})
+      vim.cmd.colorscheme "gruvbox"
+    end,
+  },
 
   -- Add other plugins here:
   -- e.g.
