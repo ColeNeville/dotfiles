@@ -60,9 +60,9 @@ return {
     end,
     keys = {
       -- These keymaps are defined here so lazy.nvim manages them.
-      -- Without a 'desc' field, they won't show up in which-key by default with your current filter.
-      { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true },
-      { "<leader>f", "<cmd>NvimTreeFindFile<CR>", mode = "n", noremap = true, silent = true },
+      -- Adding a 'desc' field will make them show up in which-key.
+      { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Toggle" },
+      { "<leader>f", "<cmd>NvimTreeFindFile<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Find File" },
     },
   },
 
