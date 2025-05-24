@@ -79,6 +79,61 @@ return {
     end,
   },
 
+  -- Utility library for Neovim plugins
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = true, -- Will be loaded when Telescope or other plugins need it
+  },
+
+  -- Fuzzy Finder: Telescope
+  {
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.x", -- Recommended to use a stable tag, e.g., "0.1.6" or check latest
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("telescope").setup({
+        -- Minimal Telescope setup. Defaults are generally good.
+        defaults = {
+          -- You can add default options here if needed, e.g.:
+          -- file_ignore_patterns = { "%.git/", "node_modules/" },
+        },
+        -- extensions = {
+        --   -- Extensions can be configured here if needed after loading
+        -- }
+      })
+      -- Extensions are typically loaded after the providing plugin is also configured.
+      -- We will load the 'projects' extension in project.nvim's config.
+    end,
+  },
+
+  -- Project Management: project.nvim
+  {
+    "ahmedkhalf/project.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" }, -- Ensures telescope is available
+    config = function()
+      require("project_nvim").setup({
+        -- Using default settings for project.nvim for a skeleton.
+        -- You can customize detection_methods, patterns, manual_mode, etc. later.
+        -- For example:
+        -- manual_mode = false,
+        -- detection_methods = { "lsp", "pattern" },
+        -- patterns = { ".git", "Makefile", "package.json" },
+      })
+      -- Load the Telescope extension provided by project.nvim.
+      -- This should be done after both telescope and project_nvim have been set up.
+      pcall(require('telescope').load_extension, 'projects')
+    end,
+    keys = {
+      {
+        "<leader>pp",
+        function()
+          require('telescope').extensions.projects.projects{}
+        end,
+        desc = "Projects (Open)", mode = "n", noremap = true, silent = true,
+      },
+    },
+  },
+
   -- Add other plugins here:
   -- e.g.
   -- { "nvim-lua/plenary.nvim" }, -- Utility functions
