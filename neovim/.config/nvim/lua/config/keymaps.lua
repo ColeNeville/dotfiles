@@ -10,14 +10,12 @@ wk.add({
     { "<leader>f", group = "File" },
     { "<leader>p", group = "Project" },
 
-    -- Group definition with its own sub-bindings defined here
-    {
-      "<leader>q", -- Prefix for the group
-      name = "Quit/Session", -- 'name' is an alias for 'group'
-      -- Sub-bindings for the <leader>q group
-      { "s", "<cmd>qa<cr>", desc = "Quit All (Safe)" }, -- Becomes <leader>qs
-      { "f", "<cmd>qa!<cr>", desc = "Quit All (Force)" }, -- Becomes <leader>qf
-    },
+    -- Define <leader>q as a group
+    { "<leader>q", group = "Quit/Session" },
+
+    -- Define the actual keybindings that will fall under the <leader>q group
+    { "<leader>qs", "<cmd>qa<cr>", desc = "Quit All (Safe)" },
+    { "<leader>qf", "<cmd>qa!<cr>", desc = "Quit All (Force)" },
   },
   -- You can add other groups or individual keymaps here, for example:
   -- {
