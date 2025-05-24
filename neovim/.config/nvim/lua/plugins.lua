@@ -62,7 +62,6 @@ return {
       -- These keymaps are defined here so lazy.nvim manages them.
       -- Adding a 'desc' field will make them show up in which-key.
       { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Toggle" },
-      { "<leader>f", "<cmd>NvimTreeFindFile<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Find File" },
     },
   },
 
@@ -104,6 +103,15 @@ return {
       -- Extensions are typically loaded after the providing plugin is also configured.
       -- We will load the 'projects' extension in project.nvim's config.
     end,
+    keys = {
+      {
+        "<leader>ff",
+        function()
+          require('telescope.builtin').find_files()
+        end,
+        desc = "Find Files (Telescope)", mode = "n", noremap = true, silent = true,
+      },
+    },
   },
 
   -- Project Management: project.nvim
