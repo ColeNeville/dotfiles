@@ -6,6 +6,7 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy", -- Load when needed
     opts = {
+      preset = "helix",
       -- Minimal options:
       -- This filter will hide keymaps that don't have a 'desc' field,
       -- keeping the which-key popup clean.
@@ -15,19 +16,23 @@ return {
       -- Most other settings will use which-key's defaults.
       -- You can add more specific 'opts' here later if needed.
       -- For example, to customize the window appearance:
-      -- window = {
-      --   border = "rounded", -- 'none', 'single', 'double', 'shadow', 'rounded'
-      -- },
-      -- To enable built-in presets for common Vim commands:
-      -- presets = {
-      --   operators = true,
-      --   motions = true,
-      --   text_objects = true,
-      --   windows = true,
-      --   nav = true,
-      --   z = true,
-      --   g = true,
-      -- },
+      win = {
+        -- Don't allow the popup to overlap with the cursor
+        no_overlap = true,
+        border = "rounded", -- 'none', 'single', 'double', 'shadow', 'rounded'
+      },
+      plugins = {
+        -- To enable built-in presets for common Vim commands:
+        presets = {
+          operators = true,
+          motions = true,
+          text_objects = true,
+          windows = true,
+          nav = true,
+          z = true,
+          g = true,
+        },
+      },
     },
     keys = {
       -- Example keymap provided by which-key for buffer-local mappings
@@ -68,8 +73,18 @@ return {
     keys = {
       -- These keymaps are defined here so lazy.nvim manages them.
       -- Adding a 'desc' field will make them show up in which-key.
-      { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Toggle Explorer (nvim-tree)" },
-      { "<leader>Ee", "<cmd>NvimTreeOpen ~<CR>", mode = "n", noremap = true, silent = true, desc = "Open Home Directory (nvim-tree)" },
+      {
+        "<leader>e",
+        "<cmd>NvimTreeToggle<CR>",
+        mode = "n", noremap = true, silent = true,
+        desc = "Toggle Explorer (nvim-tree)"
+      },
+      {
+        "<leader>Ee",
+        "<cmd>NvimTreeOpen ~<CR>",
+        mode = "n", noremap = true, silent = true,
+        desc = "Open Home Directory (nvim-tree)"
+      },
     },
   },
 
@@ -185,7 +200,7 @@ return {
         "<leader>AR",
         "<cmd>Aider reset<cr>",
         desc = "Reset Aider session (nvim-aider)",
-        mode = "n", noremap = true, silent = true,
+        mode = "n", noremap = true, silent = true
       }
     },
     dependencies = {
