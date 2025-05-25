@@ -19,7 +19,7 @@ opt.termguicolors = true      -- enable 24-bit RGB color in the TUI
 opt.signcolumn = "yes"        -- always show the sign column, otherwise it would shift the text
 opt.scrolloff = 8             -- keep 8 lines visible above/below the cursor
 opt.sidescrolloff = 8         -- keep 8 columns visible left/right of the cursor
-opt.wrap = false              -- disable line wrapping
+opt.wrap = true               -- enable line wrapping
 opt.list = true               -- show invisible characters (tabs, trailing spaces)
 opt.listchars = { tab = '▸ ', trail = '·', nbsp = '␣' } -- characters for list
 

@@ -98,10 +98,14 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("telescope").setup({
-        -- Minimal Telescope setup. Defaults are generally good.
         defaults = {
           -- You can add default options here if needed, e.g.:
           -- file_ignore_patterns = { "%.git/", "node_modules/" },
+          pickers = {
+            find_files = {
+              hidden = true, -- Always show hidden files (dotfiles)
+            },
+          },
         },
         -- extensions = {
         --   -- Extensions can be configured here if needed after loading
@@ -114,7 +118,7 @@ return {
       {
         "<leader>ff",
         function()
-          require('telescope.builtin').find_files({ hidden = true })
+          require('telescope.builtin').find_files({})
         end,
         desc = "Find Files (Telescope)", mode = "n", noremap = true, silent = true,
       },
@@ -177,6 +181,12 @@ return {
         desc = "Add Current File to Aider (nvim-aider)",
         mode = "n", noremap = true, silent = true,
       },
+      {
+        "<leader>AR",
+        "<cmd>Aider reset<cr>",
+        desc = "Reset Aider session (nvim-aider)",
+        mode = "n", noremap = true, silent = true,
+      }
     },
     dependencies = {
       "folke/snacks.nvim",

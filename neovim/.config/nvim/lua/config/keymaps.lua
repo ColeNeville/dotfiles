@@ -18,6 +18,22 @@ wk.add({
     { "<leader>qQ", "<cmd>qa!<cr>", desc = "Quit All (Force)" },
 
     { "<leader>A", group = "AI" }, -- Group for Aider commands
+
+    -- Define <leader>t as a group for Toggles
+    { "<leader>t", group = "Toggle" },
+    -- Define the actual keybindings that will fall under the <leader>t group
+    {
+      "<leader>tw",
+      function()
+        vim.opt.wrap = not vim.opt.wrap:get()
+        if vim.opt.wrap:get() then
+          print("Word wrap enabled")
+        else
+          print("Word wrap disabled")
+        end
+      end,
+      desc = "Toggle Word Wrap",
+    },
   },
   -- You can add other groups or individual keymaps here, for example:
   -- {
