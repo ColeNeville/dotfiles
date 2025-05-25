@@ -2,10 +2,8 @@ FROM registry.fedoraproject.org/fedora-toolbox:40
 
 # Update the system.
 # Install:
-# 1. 'podman': The full Podman engine, required as a dependency for 'podman-docker'.
-#             This provides the original /usr/bin/podman.
-# 2. 'podman-docker': Provides the 'docker' command-line interface, which uses 'podman'.
-# 3. 'podman-remote': Provides the dedicated remote client executable (assumed to be /usr/bin/podman-remote).
+# 1. 'podman-docker': Provides the 'docker' command-line interface, which uses 'podman'.
+# 2. 'podman-remote': Provides the dedicated remote client executable (assumed to be /usr/bin/podman-remote).
 RUN sudo dnf update -y && \
     sudo dnf install -y \
       podman-docker \
