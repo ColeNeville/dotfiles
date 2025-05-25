@@ -95,7 +95,6 @@ return {
   -- Fuzzy Finder: Telescope
   {
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.x", -- Recommended to use a stable tag, e.g., "0.1.6" or check latest
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("telescope").setup({
