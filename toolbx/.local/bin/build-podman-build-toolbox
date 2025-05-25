@@ -1,34 +1,25 @@
 #!/usr/bin/env bash
 
 # Script to build the podman-build-toolbox image.
-# Assumes this script is part of a GNU Stow package (e.g., 'toolbx')
-# and the Containerfile is located relative to this script within the stowed package.
+# Assumes this script is run after the 'toolbx' stow package has been stowed,
+# and the Containerfile is located in $HOME/.local/share/toolbx/containers/podman-build/.
 
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error when substituting.
 set -o pipefail # Return value of a pipeline is the value of the last command to exit with a non-zero status.
 
-# Determine the absolute path to the script and its directory
-# realpath resolves symlinks, so this will point to the script's location in your stow source directory
-SCRIPT_REAL_PATH=$(realpath "$0")
-SCRIPT_REAL_DIR=$(dirname "${SCRIPT_REAL_PATH}")
-
-# Assuming the script is in: <stow_package_root>/toolbx/.local/bin/
-# And the Containerfile is in: <stow_package_root>/toolbx/.local/share/toolbx/containers/podman-build/
-# We need to find the root of the 'toolbx' stow package content.
-# SCRIPT_REAL_DIR is .../toolbx/.local/bin
-# STOW_PACKAGE_TOOLBX_ROOT_DIR is .../toolbx
-STOW_PACKAGE_TOOLBX_ROOT_DIR=$(dirname "$(dirname "${SCRIPT_REAL_DIR}")")
-
-CONTAINERFILE_CONTEXT_DIR="${STOW_PACKAGE_TOOLBX_ROOT_DIR}/.local/share/toolbx/containers/podman-build"
+# Define paths based on $HOME, expecting files in their stowed locations.
+CONTAINERFILE_CONTEXT_DIR="${HOME}/.local/share/toolbx/containers/podman-build"
 CONTAINERFILE_PATH="${CONTAINERFILE_CONTEXT_DIR}/Containerfile"
 IMAGE_TAG="podman-build-toolbox"
 
 # Check if Containerfile exists
 if [ ! -f "${CONTAINERFILE_PATH}" ]; then
     echo "Error: Containerfile not found at ${CONTAINERFILE_PATH}"
-    echo "This path was determined relative to the script's location: ${SCRIPT_REAL_PATH}"
-    echo "Please ensure your 'toolbx' stow package is correctly structured and stowed."
+    echo "Please ensure your 'toolbx' stow package has been stowed correctly to this location."
+    # SCRIPT_REAL_PATH can show where the script itself is (symlink source in your dotfiles)
+    SCRIPT_REAL_PATH=$(realpath "$0")
+    echo "Build script is located at (source): ${SCRIPT_REAL_PATH}"
     exit 1
 fi
 
