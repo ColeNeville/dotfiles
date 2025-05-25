@@ -1,1 +1,5 @@
+FROM registry.fedoraproject.org/fedora-toolbox:40
 
+# Add your custom commands here to install software or configure the container
+# For example:
+# RUN sudo dnf install -y neovim git
