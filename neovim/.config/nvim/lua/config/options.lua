@@ -2,6 +2,7 @@
 
 -- Set background color scheme (dark or light)
 vim.o.background = "dark"
+vim.o.autoread = true
 
 local opt = vim.opt -- for conciseness
 
@@ -42,8 +43,8 @@ opt.updatetime = 250          -- faster completion (default 4000ms)
 opt.timeoutlen = 300          -- time to wait for a mapped sequence to complete (in milliseconds)
 
 -- Folding (sensible defaults, can be customized further with plugins)
--- opt.foldmethod = "indent"     -- fold based on indent
--- opt.foldlevelstart = 99       -- open all folds by default
+opt.foldmethod = "indent"     -- fold based on indent
+opt.foldlevelstart = 99       -- open all folds by default
 
 -- If you have a recent Neovim version, you might want to set up LSP signature help to not float
 -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
