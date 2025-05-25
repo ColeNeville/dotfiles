@@ -36,7 +36,7 @@ return {
         function()
           require("which-key").show({ global = false })
         end,
-        desc = "Buffer Local Keymaps (which-key)",
+        desc = "Show Buffer Local Keymaps (which-key)",
       },
     },
     config = function(_, opts)
@@ -66,8 +66,8 @@ return {
     keys = {
       -- These keymaps are defined here so lazy.nvim manages them.
       -- Adding a 'desc' field will make them show up in which-key.
-      { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Toggle" },
-      { "<leader>Ee", "<cmd>NvimTreeOpen ~<CR>", mode = "n", noremap = true, silent = true, desc = "Explorer: Home Dir" },
+      { "<leader>e", "<cmd>NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Toggle Explorer (nvim-tree)" },
+      { "<leader>Ee", "<cmd>NvimTreeOpen ~<CR>", mode = "n", noremap = true, silent = true, desc = "Open Home Directory (nvim-tree)" },
     },
   },
 
@@ -143,7 +143,7 @@ return {
         function()
           require('telescope').extensions.projects.projects{}
         end,
-        desc = "Projects (Open)", mode = "n", noremap = true, silent = true,
+        desc = "Open Project (project.nvim)", mode = "n", noremap = true, silent = true,
       },
     },
   },
