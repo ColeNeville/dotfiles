@@ -123,6 +123,7 @@ return {
   -- Project Management: project.nvim
   {
     "ahmedkhalf/project.nvim",
+    event = "VeryLazy", -- Changed from no event to VeryLazy
     dependencies = { "nvim-telescope/telescope.nvim" }, -- Ensures telescope is available
     config = function()
       require("project_nvim").setup({
