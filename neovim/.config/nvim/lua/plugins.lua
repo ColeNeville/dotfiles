@@ -61,7 +61,9 @@ return {
 
       -- Call setup with an empty table to ensure default settings are applied.
       -- nvim-tree generally works well with its defaults.
-      require("nvim-tree").setup({})
+      require("nvim-tree").setup({
+        sync_root_with_cwd = true,
+      })
     end,
     keys = {
       -- These keymaps are defined here so lazy.nvim manages them.
