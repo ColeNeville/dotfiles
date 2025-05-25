@@ -24,7 +24,6 @@ fi
 
 # GPG agent as SSH agent
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --launch gpg-agent
 
 # NVM setup if available
 export NVM_DIR="$HOME/.nvm"
