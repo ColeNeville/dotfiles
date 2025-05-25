@@ -1,0 +1,32 @@
+-- neovim/.config/nvim/lua/plugins/nvim-tree.lua
+return {
+  "nvim-tree/nvim-tree.lua",
+  version = "*", -- Pin to latest stable release
+  lazy = false,  -- Load on startup
+  dependencies = {
+    "nvim-tree/nvim-web-devicons", -- For file icons (recommended for default experience)
+  },
+  config = function()
+    -- Disable netrw, as nvim-tree will be the file explorer
+    vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
+
+    require("nvim-tree").setup({
+      sync_root_with_cwd = true,
+    })
+  end,
+  keys = {
+    {
+      "<leader>e",
+      "<cmd>NvimTreeToggle<CR>",
+      mode = "n", noremap = true, silent = true,
+      desc = "Toggle Explorer (nvim-tree)"
+    },
+    {
+      "<leader>Ee",
+      "<cmd>NvimTreeOpen ~<CR>",
+      mode = "n", noremap = true, silent = true,
+      desc = "Open Home Directory (nvim-tree)"
+    },
+  },
+}
