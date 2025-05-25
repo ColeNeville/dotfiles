@@ -16,6 +16,8 @@ wk.add({
     -- Define the actual keybindings that will fall under the <leader>q group
     { "<leader>qq", "<cmd>qa<cr>", desc = "Quit All (Safe)" },
     { "<leader>qQ", "<cmd>qa!<cr>", desc = "Quit All (Force)" },
+
+    { "<leader>A", group = "AI" }, -- Group for Aider commands
   },
   -- You can add other groups or individual keymaps here, for example:
   -- {

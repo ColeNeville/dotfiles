@@ -171,5 +171,23 @@ return {
       debug = false,              -- enable debug logging
       -- You can customize further options here if needed, e.g., 'border'
     },
+    keys = {
+      {
+        "<leader>Aa",
+        function() require("aider").open() end,
+        desc = "Open Aider (Aider)",
+        mode = "n", noremap = true, silent = true,
+      },
+      {
+        "<leader>Ab",
+        function() require("aider").add_current_file() end,
+        desc = "Add Buffer to Aider (Aider)",
+        mode = "n", noremap = true, silent = true,
+      },
+      -- Note: The <leader>A group itself for which-key display
+      -- is best defined in keymaps.lua so which-key knows about the group name.
+      -- lazy.nvim's `keys` here define the actual actions.
+      -- which-key will pick up these descriptions due to the shared prefix.
+    },
   },
 }
