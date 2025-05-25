@@ -1,0 +1,28 @@
+FROM registry.fedoraproject.org/fedora-toolbox:40
+
+# Update the system.
+# Install:
+# 1. 'podman': The full Podman engine, required as a dependency for 'podman-docker'.
+#             This provides the original /usr/bin/podman.
+# 2. 'podman-docker': Provides the 'docker' command-line interface, which uses 'podman'.
+# 3. 'podman-remote': Provides the dedicated remote client executable (assumed to be /usr/bin/podman-remote).
+RUN sudo dnf update -y && \
+    sudo dnf install -y \
+      podman-docker \
+      podman-remote && \
+    sudo dnf clean all
+
+# Replace the /usr/bin/podman (from the 'podman' package) with a symlink
+# to the actual remote client executable (assumed to be /usr/bin/podman-remote
+# provided by the 'podman-remote' package).
+# This makes the 'podman' command invoke the remote client.
+# The 'docker' command (from podman-docker) will subsequently use this symlinked 'podman'.
+RUN sudo rm -f /usr/bin/podman && \
+    sudo ln -s /usr/bin/podman-remote /usr/bin/podman
+
+# (Optional) Add any other tools you might need for interacting with your build processes
+# For example: git, make, etc.
+# RUN sudo dnf install -y git make
+
+# Default command (optional, can be overridden)
+CMD ["/bin/bash"]
