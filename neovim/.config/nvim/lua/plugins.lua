@@ -162,31 +162,33 @@ return {
 
   -- Aider: AI coding assistant integration
   {
-    "joshuavial/aider.nvim",
-    opts = {
-      -- Using default settings as per the plugin's README
-      auto_manage_context = true, -- automatically manage buffer context
-      default_bindings = false,   -- use default <leader>A keybindings
-      debug = false,              -- enable debug logging
-      -- You can customize further options here if needed, e.g., 'border'
-    },
+    "GeorgesAlkhouri/nvim-aider",
+    cmd = "Aider", -- Lazy load on :Aider command or mapped keys
     keys = {
       {
         "<leader>Aa",
-        function() require("aider").open() end,
-        desc = "Open Aider (Aider)",
+        "<cmd>Aider toggle<cr>",
+        desc = "Toggle Aider (nvim-aider)",
         mode = "n", noremap = true, silent = true,
       },
       {
         "<leader>Ab",
-        function() require("aider").add_current_file() end,
-        desc = "Add Buffer to Aider (Aider)",
+        "<cmd>Aider add<cr>", -- Adds the current buffer's file
+        desc = "Add Current File to Aider (nvim-aider)",
         mode = "n", noremap = true, silent = true,
       },
-      -- Note: The <leader>A group itself for which-key display
-      -- is best defined in keymaps.lua so which-key knows about the group name.
-      -- lazy.nvim's `keys` here define the actual actions.
-      -- which-key will pick up these descriptions due to the shared prefix.
     },
+    dependencies = {
+      "folke/snacks.nvim",
+    },
+    opts = {
+      -- Automatically reload buffers changed by Aider (requires vim.o.autoread = true)
+      auto_reload = true,
+      -- Default args for aider CLI used by nvim-aider are: { "--no-auto-commits", "--pretty", "--stream" }
+      -- You can override them here if needed, e.g., args = { "--model", "gpt-4o" }
+    },
+    config = function(_, opts)
+      require("nvim_aider").setup(opts)
+    end,
   },
 }
