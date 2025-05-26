@@ -23,15 +23,6 @@ return {
       },
     },
   },
-  keys = {
-    {
-      "<leader>?",
-      function()
-        require("which-key").show({ global = false })
-      end,
-      desc = "Show Buffer Local Keymaps (which-key)",
-    },
-  },
   config = function(_, opts)
     require("which-key").setup(opts)
     -- Load custom which-key registrations (groups, etc.)
