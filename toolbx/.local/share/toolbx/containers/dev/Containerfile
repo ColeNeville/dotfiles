@@ -21,4 +21,4 @@ RUN sudo dnf update -y && \
 RUN sudo dnf clean
 
 RUN pip install \
-      aider-chat[chat] \
+      aider-chat[chat]
