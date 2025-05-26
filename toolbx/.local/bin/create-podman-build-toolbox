@@ -37,10 +37,16 @@ echo "Checking if Toolbx container '${CONTAINER_NAME}' already exists..."
 # 'toolbox list --containers' lists container names, one per line.
 # grep -Fxq matches the whole line (-x) quietly (-q).
 if toolbox list --containers | grep -Fxq "${CONTAINER_NAME}"; then
-    echo "Toolbx container '${CONTAINER_NAME}' already exists. Nothing to do."
-    exit 0
+    echo "Toolbx container '${CONTAINER_NAME}' already exists. Removing it..."
+    if toolbox rm --force "${CONTAINER_NAME}"; then # Use --force to avoid interactive prompts
+        echo "Successfully removed existing Toolbx container '${CONTAINER_NAME}'."
+    else
+        echo "Error: Failed to remove existing Toolbx container '${CONTAINER_NAME}'. Aborting."
+        exit 1
+    fi
+else
+    echo "Toolbx container '${CONTAINER_NAME}' does not exist. Proceeding with creation."
 fi
-echo "Toolbx container '${CONTAINER_NAME}' does not exist. Proceeding with creation."
 echo # Newline for readability
 
 # Step 3: Create the Toolbx container
