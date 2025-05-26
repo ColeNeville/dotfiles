@@ -3,18 +3,18 @@ FROM registry.fedoraproject.org/fedora-toolbox:40
 # Add your custom commands here to install software or configure the container
 
 # Python and pip
-RUN sudo dnf update && \
+RUN sudo dnf update -y && \
     sudo dnf install -y \
       python3 \
       python3-pip
 
 # Node and npm
-RUN sudo dnf update && \
+RUN sudo dnf update -y && \
     sudo dnf install -y \
       nodejs
 
 # Developer utils
-RUN sudo dnf update && \
+RUN sudo dnf update -y && \
     sudo dnf install -y \
       neovim
 
