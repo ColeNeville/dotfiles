@@ -17,3 +17,8 @@ RUN sudo dnf update && \
 RUN sudo dnf update && \
     sudo dnf install -y \
       neovim
+
+RUN sudo dnf clean
+
+RUN pip install \
+      aider-chat[chat] \
