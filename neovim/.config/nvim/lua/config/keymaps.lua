@@ -1,85 +1,60 @@
 -- neovim/.config/nvim/lua/config/keymaps.lua
+-- Centralized keymap definitions using which-key
+-- Organized by functionality for better maintainability
 
 local wk = require("which-key")
 
 wk.add({
-  { mode = { "n" }, -- Default mode for these registrations
-    -- Group definitions for plugin-based bindings.
-    -- Their actual keybindings (<leader>Ee, <leader>ff, <leader>pp) are defined in plugins.lua.
-    -- and will be automatically associated by which-key due to the shared prefix and 'desc' attribute.
-    { "<leader>E", group = "Explorer" },
-    { "<leader>f", group = "File" },
+  { mode = { "n" }, -- Normal mode keymaps
+
+    -- ================================================================
+    -- FILE AND PROJECT MANAGEMENT
+    -- ================================================================
+    { "<leader>f", group = "File Operations" },
     {
       "<leader>ff",
-      function () require('telescope.builtin').find_files({}) end,
-      desc = "telescope: Find files"
+      function() require('telescope.builtin').find_files({}) end,
+      desc = "Find files (Telescope)"
     },
 
-    { "<leader>p", group = "Project" },
+    { "<leader>p", group = "Project Management" },
     {
       "<leader>pp",
-      function()
-        require('telescope').extensions.projects.projects{}
-      end,
-      desc = "Open Project (project.nvim)",
+      function() require('telescope').extensions.projects.projects{} end,
+      desc = "Switch project (project.nvim)",
     },
 
-    { "<leader>b", group = "Buffers" },
+    { "<leader>E", group = "File Explorer" },
+    -- Note: nvim-tree keymaps are defined in the plugin config
+
+    -- ================================================================
+    -- NAVIGATION AND SEARCH
+    -- ================================================================
+    { "<leader>b", group = "Buffer Operations" },
     {
       "<leader>bb",
-      function () require('telescope.builtin').buffers({}) end,
-      desc = "Telescope: Search buffers",
+      function() require('telescope.builtin').buffers({}) end,
+      desc = "Search open buffers (Telescope)",
     },
 
-    { "<leader>s" , desc = "Sessions" },
+    { "<leader>s", group = "Session Management" },
     {
       "<leader>ss",
       function() require('auto-session.session-lens').search_session() end,
-      desc = "Auto Session: Search sessions",
+      desc = "Search and restore sessions (auto-session)",
     },
 
-    -- Define <leader>q as a group
-    { "<leader>q", group = "Quit" },
-    -- Define the actual keybindings that will fall under the <leader>q group
-    { "<leader>qq", "<cmd>quitall<cr>", desc = "Quit All (Safe)" },
-    { "<leader>qQ", "<cmd>quitall!<cr>", desc = "Quit All (Force)" },
-
-    { "<leader>A", group = "AI" }, -- Group for Aider commands
+    -- ================================================================
+    -- DEVELOPMENT TOOLS
+    -- ================================================================
+    { "<leader>l", group = "LSP & Language Tools" },
     {
-      "<leader>Aa",
-      "<cmd>Aider toggle<cr>",
-      desc = "Aider: Toggle",
-    },
-    {
-      "<leader>As",
-      "<cmd>Aider send<cr>",
-      desc = "Aider: Send",
-      mode = {"n", "v"},
-    },
-    {
-      "<leader>Af",
-      "<cmd>Aider add<cr>", -- Adds the current buffer's file
-      desc = "Aider: Add file to context",
-    },
-    {
-      "<leader>Ab",
-      "<cmd>Aider buffer<cr>",
-      desc = "Aider: Add buffer to context",
-    },
-    {
-      "<leader>Ac",
-      "<cmd>Aider command<cr>",
-      desc = "Run command (nvim-aider)",
-    },
-    {
-      "<leader>AR",
-      "<cmd>Aider reset<cr>",
-      desc = "Reset session (nvim-aider)",
+      "<leader>lm",
+      "<cmd>Mason<cr>",
+      desc = "Open Mason package manager",
     },
 
-    -- Define <leader>t as a group for Toggles
-    { "<leader>t", group = "Toggle" },
-    -- Define the actual keybindings that will fall under the <leader>t group
+    { "<leader>t", group = "Toggles & Diagnostics" },
     {
       "<leader>tw",
       function()
@@ -90,36 +65,83 @@ wk.add({
           print("Word wrap disabled")
         end
       end,
-      desc = "Word Wrap",
+      desc = "Toggle word wrap",
     },
     {
       "<leader>td",
       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-      desc = "Trouble: Buffer Diagnostics",
+      desc = "Toggle buffer diagnostics (Trouble)",
     },
 
-    { "<leader>l", group = "LSP" },
+    -- ================================================================
+    -- AI ASSISTANCE (AIDER)
+    -- ================================================================
+    { "<leader>A", group = "AI Assistant (Aider)" },
     {
-      "<leader>lm",
-      "<cmd>:Mason<cr>",
-      desc = "Mason: Show",
+      "<leader>Aa",
+      "<cmd>Aider toggle<cr>",
+      desc = "Toggle Aider panel",
     },
-  },
-  -- You can add other groups or individual keymaps here, for example:
-  -- {
-  --   mode = { "n" },
-  --   { "<leader>s", group = "Search" },
-  --   { "<leader>sg", "<cmd> Telescope live_grep <cr>", desc = "Live Grep" },
-  -- }
+    {
+      "<leader>As",
+      "<cmd>Aider send<cr>",
+      desc = "Send selection/buffer to Aider",
+      mode = {"n", "v"},
+    },
+    {
+      "<leader>Af",
+      "<cmd>Aider add<cr>",
+      desc = "Add current file to Aider context",
+    },
+    {
+      "<leader>Ab",
+      "<cmd>Aider buffer<cr>",
+      desc = "Add buffer content to Aider context",
+    },
+    {
+      "<leader>Ac",
+      "<cmd>Aider command<cr>",
+      desc = "Run custom Aider command",
+    },
+    {
+      "<leader>AR",
+      "<cmd>Aider reset<cr>",
+      desc = "Reset Aider session",
+    },
 
-  {
-    "<leader>?",
-    function() require("which-key").show({ global = false }) end,
-    desc = "Show Buffer Local Keymaps (which-key)",
+    -- ================================================================
+    -- SYSTEM OPERATIONS
+    -- ================================================================
+    { "<leader>q", group = "Quit Operations" },
+    { "<leader>qq", "<cmd>quitall<cr>", desc = "Quit all (safe - checks for unsaved changes)" },
+    { "<leader>qQ", "<cmd>quitall!<cr>", desc = "Force quit all (unsafe - discards changes)" },
+
+    -- ================================================================
+    -- HELP AND DISCOVERY
+    -- ================================================================
+    {
+      "<leader>?",
+      function() require("which-key").show({ global = false }) end,
+      desc = "Show buffer-local keymaps (which-key)",
+    },
   },
 })
 
--- If you still want to use vim.keymap.set for some other global keybindings, you can do so here:
--- local keymap = vim.keymap.set
--- local opts = { noremap = true, silent = true }
--- keymap("n", "<leader>xy", "<cmd>echo 'Other mapping'<cr>", { desc = "Other Mapping", noremap = true, silent = true })
+-- ================================================================
+-- NOTES FOR DEVELOPERS
+-- ================================================================
+--
+-- Organization principles:
+-- 1. Keymaps are grouped by functionality rather than plugin
+-- 2. Each section has a clear header and description
+-- 3. Descriptions are consistent and informative
+-- 4. Plugin names are included in descriptions for clarity
+--
+-- Adding new keymaps:
+-- 1. Find the appropriate functional section
+-- 2. Add to existing group or create new group if needed
+-- 3. Use descriptive names that include the plugin name
+-- 4. Follow the existing format and indentation
+--
+-- Some plugin-specific keymaps are defined in their respective
+-- plugin configuration files (e.g., nvim-tree, LSP keymaps)
