@@ -5,11 +5,10 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     require("telescope").setup({
-      defaults = {
-        pickers = {
-          find_files = {
-            hidden = true, -- Always show hidden files (dotfiles)
-          },
+      pickers = {
+        find_files = {
+          -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
         },
       },
     })

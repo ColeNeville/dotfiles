@@ -2,7 +2,7 @@
 return {
   "nvim-tree/nvim-tree.lua",
   version = "*", -- Pin to latest stable release
-  lazy = false,  -- Load on startup
+  lazy = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons", -- For file icons (recommended for default experience)
   },
@@ -15,18 +15,4 @@ return {
       sync_root_with_cwd = true,
     })
   end,
-  keys = {
-    {
-      "<leader>e",
-      "<cmd>NvimTreeToggle<CR>",
-      mode = "n", noremap = true, silent = true,
-      desc = "Toggle explorer (Nvim Tree)"
-    },
-    {
-      "<leader>Ee",
-      "<cmd>NvimTreeOpen ~<CR>",
-      mode = "n", noremap = true, silent = true,
-      desc = "Open home directory (Nvim Tree)"
-    },
-  },
 }

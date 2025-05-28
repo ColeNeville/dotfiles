@@ -18,7 +18,7 @@
 # Main model:
 
 ## Specify the model to use for the main chat
-model: openrouter/google/gemini-2.5-pro-preview
+model: openrouter/anthropic/claude-sonnet-4
 
 ########################
 # API Keys and settings:
@@ -84,7 +84,7 @@ model: openrouter/google/gemini-2.5-pro-preview
 #reasoning-effort: xxx
 
 ## Set the thinking token budget for models that support it (default: not set)
-#thinking-tokens: xxx
+thinking-tokens: 32k
 
 ## Verify the SSL cert when connecting to models (default: True)
 #verify-ssl: true
