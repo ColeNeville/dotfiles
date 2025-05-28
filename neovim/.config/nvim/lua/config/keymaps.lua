@@ -53,6 +53,46 @@ wk.add({
       "<cmd>Mason<cr>",
       desc = "Open Mason package manager",
     },
+    {
+      "<leader>lf",
+      function() vim.lsp.buf.format() end,
+      desc = "Format buffer (LSP)"
+    },
+    {
+      "<leader>la",
+      function() vim.lsp.buf.code_action() end,
+      desc = "Code actions (LSP)"
+    },
+    {
+      "<leader>lr",
+      function() vim.lsp.buf.rename() end,
+      desc = "Rename symbol (LSP)"
+    },
+    {
+      "<leader>ld",
+      function() vim.lsp.buf.definition() end,
+      desc = "Go to definition (LSP)"
+    },
+    {
+      "<leader>lh",
+      function() vim.lsp.buf.hover() end,
+      desc = "Show hover info (LSP)"
+    },
+    {
+      "<leader>lR",
+      function() require('telescope.builtin').lsp_references() end,
+      desc = "Show references (LSP + Telescope)"
+    },
+    {
+      "<leader>li",
+      function() require('telescope.builtin').lsp_implementations() end,
+      desc = "Show implementations (LSP + Telescope)"
+    },
+    {
+      "<leader>ls",
+      function() require('telescope.builtin').lsp_document_symbols() end,
+      desc = "Document symbols (LSP + Telescope)"
+    },
 
     { "<leader>t", group = "Toggles & Diagnostics" },
     {
