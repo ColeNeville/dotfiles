@@ -24,8 +24,12 @@ wk.add({
       desc = "Switch project (Project)",
     },
 
-    { "<leader>E", group = "File Explorer" },
-    -- Note: nvim-tree keymaps are defined in the plugin config
+    { "<leader>e", group = "File Explorer" },
+    {
+      "<leader>ee",
+      "<cmd>NvimTreeToggle<CR>",
+      desc = "Toggle explorer (Nvim Tree)"
+    },
 
     -- ================================================================
     -- NAVIGATION AND SEARCH
@@ -183,5 +187,5 @@ wk.add({
 -- 3. Use descriptive names that include the plugin name
 -- 4. Follow the existing format and indentation
 --
--- Some plugin-specific keymaps are defined in their respective
--- plugin configuration files (e.g., nvim-tree, LSP keymaps)
+-- All keymaps are now centralized in this file for better
+-- discoverability and maintenance.
