@@ -20,13 +20,13 @@ return {
       "<leader>e",
       "<cmd>NvimTreeToggle<CR>",
       mode = "n", noremap = true, silent = true,
-      desc = "Toggle Explorer (nvim-tree)"
+      desc = "Toggle explorer (Nvim Tree)"
     },
     {
       "<leader>Ee",
       "<cmd>NvimTreeOpen ~<CR>",
       mode = "n", noremap = true, silent = true,
-      desc = "Open Home Directory (nvim-tree)"
+      desc = "Open home directory (Nvim Tree)"
     },
   },
 }

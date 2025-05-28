@@ -21,7 +21,7 @@ wk.add({
     {
       "<leader>pp",
       function() require('telescope').extensions.projects.projects{} end,
-      desc = "Switch project (project.nvim)",
+      desc = "Switch project (Project)",
     },
 
     { "<leader>E", group = "File Explorer" },
@@ -34,14 +34,14 @@ wk.add({
     {
       "<leader>bb",
       function() require('telescope.builtin').buffers({}) end,
-      desc = "Search open buffers (Telescope)",
+      desc = "Search buffers (Telescope)",
     },
 
     { "<leader>s", group = "Session Management" },
     {
       "<leader>ss",
       function() require('auto-session.session-lens').search_session() end,
-      desc = "Search and restore sessions (auto-session)",
+      desc = "Search sessions (Auto Session)",
     },
 
     -- ================================================================
@@ -51,7 +51,7 @@ wk.add({
     {
       "<leader>lm",
       "<cmd>Mason<cr>",
-      desc = "Open Mason package manager",
+      desc = "Open package manager (Mason)",
     },
     {
       "<leader>lf",
@@ -81,17 +81,17 @@ wk.add({
     {
       "<leader>lR",
       function() require('telescope.builtin').lsp_references() end,
-      desc = "Show references (LSP + Telescope)"
+      desc = "Show references (Telescope)"
     },
     {
       "<leader>li",
       function() require('telescope.builtin').lsp_implementations() end,
-      desc = "Show implementations (LSP + Telescope)"
+      desc = "Show implementations (Telescope)"
     },
     {
       "<leader>ls",
       function() require('telescope.builtin').lsp_document_symbols() end,
-      desc = "Document symbols (LSP + Telescope)"
+      desc = "Show document symbols (Telescope)"
     },
 
     { "<leader>t", group = "Toggles & Diagnostics" },
@@ -105,7 +105,7 @@ wk.add({
           print("Word wrap disabled")
         end
       end,
-      desc = "Toggle word wrap",
+      desc = "Toggle word wrap (Vim)",
     },
     {
       "<leader>td",
@@ -120,33 +120,33 @@ wk.add({
     {
       "<leader>Aa",
       "<cmd>Aider toggle<cr>",
-      desc = "Toggle Aider panel",
+      desc = "Toggle panel (Aider)",
     },
     {
       "<leader>As",
       "<cmd>Aider send<cr>",
-      desc = "Send selection/buffer to Aider",
+      desc = "Send selection/buffer (Aider)",
       mode = {"n", "v"},
     },
     {
       "<leader>Af",
       "<cmd>Aider add<cr>",
-      desc = "Add current file to Aider context",
+      desc = "Add current file (Aider)",
     },
     {
       "<leader>Ab",
       "<cmd>Aider buffer<cr>",
-      desc = "Add buffer content to Aider context",
+      desc = "Add buffer content (Aider)",
     },
     {
       "<leader>Ac",
       "<cmd>Aider command<cr>",
-      desc = "Run custom Aider command",
+      desc = "Run custom command (Aider)",
     },
     {
       "<leader>AR",
       "<cmd>Aider reset<cr>",
-      desc = "Reset Aider session",
+      desc = "Reset session (Aider)",
     },
 
     -- ================================================================
@@ -162,7 +162,7 @@ wk.add({
     {
       "<leader>?",
       function() require("which-key").show({ global = false }) end,
-      desc = "Show buffer-local keymaps (which-key)",
+      desc = "Show buffer keymaps (Which Key)",
     },
   },
 })
