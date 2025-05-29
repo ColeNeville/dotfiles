@@ -64,6 +64,7 @@ RUN sudo dnf update -y && \
 # Install additional tools specifically for development workflows
 RUN sudo dnf update -y && \
     sudo dnf install -y \
+      chromium \        # Web browser for testing and development
       ripgrep           # Fast text search tool (rg command)
 
 # Clean package cache to reduce image size
