@@ -76,11 +76,8 @@ RUN sudo dnf clean all
 # Install Python packages for AI-assisted development and automation
 RUN pip install \
       aider-chat[chat] \    # AI pair programming tool
-      ansible               # Infrastructure automation and configuration management
-
-# Install Playwright for browser automation and testing
-RUN pip install \
-      playwright
+      ansible \             # Infrastructure automation and configuration management
+      playwright            # Browser automation and testing (optional dependency for aider required for web scraping)
 
 # =============================================================================
 # NEOVIM INSTALLATION
