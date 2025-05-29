@@ -43,6 +43,10 @@ RUN pip install \
       aider-chat[chat] \
       ansible
 
+# Play wright installation
+RUN pip install \
+      playwright
+
 RUN cd /tmp && \
     wget https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz && \
     tar -xzf /tmp/nvim-linux-x86_64.tar.gz -C /opt && \
