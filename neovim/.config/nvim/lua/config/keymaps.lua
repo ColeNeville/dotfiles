@@ -26,6 +26,16 @@ wk.add({
       "<cmd>write<cr>",
       desc = "Save file"
     },
+    {
+      "<leader>fS",
+      "<cmd>wall<cr>",
+      desc = "Save all files"
+    },
+    {
+      "<leader>fn",
+      "<cmd>enew<cr>",
+      desc = "New file"
+    },
 
     { "<leader>p", group = "Project Management" },
     {
@@ -39,6 +49,63 @@ wk.add({
       "<leader>ee",
       "<cmd>NvimTreeToggle<CR>",
       desc = "Toggle explorer (Nvim Tree)"
+    },
+    {
+      "<leader>ef",
+      "<cmd>NvimTreeFindFile<CR>",
+      desc = "Find current file in explorer (Nvim Tree)"
+    },
+    {
+      "<leader>er",
+      "<cmd>NvimTreeRefresh<CR>",
+      desc = "Refresh explorer (Nvim Tree)"
+    },
+
+    -- ================================================================
+    -- WINDOW AND TAB MANAGEMENT
+    -- ================================================================
+    { "<leader>w", group = "Window Management" },
+    {
+      "<leader>wv",
+      "<cmd>vsplit<cr>",
+      desc = "Split window vertically"
+    },
+    {
+      "<leader>wh",
+      "<cmd>split<cr>",
+      desc = "Split window horizontally"
+    },
+    {
+      "<leader>wc",
+      "<cmd>close<cr>",
+      desc = "Close current window"
+    },
+    {
+      "<leader>wo",
+      "<cmd>only<cr>",
+      desc = "Close all other windows"
+    },
+    {
+      "<leader>w=",
+      "<C-w>=",
+      desc = "Equalize window sizes"
+    },
+
+    { "<leader>T", group = "Tab Management" },
+    {
+      "<leader>Tn",
+      "<cmd>tabnew<cr>",
+      desc = "New tab"
+    },
+    {
+      "<leader>Tc",
+      "<cmd>tabclose<cr>",
+      desc = "Close tab"
+    },
+    {
+      "<leader>To",
+      "<cmd>tabonly<cr>",
+      desc = "Close all other tabs"
     },
 
     -- ================================================================
@@ -54,6 +121,21 @@ wk.add({
       "<leader>bd",
       "<cmd>bdelete<cr>",
       desc = "Delete buffer"
+    },
+    {
+      "<leader>bD",
+      "<cmd>%bdelete|edit#|normal `\"<cr>",
+      desc = "Delete all buffers except current"
+    },
+    {
+      "<leader>bn",
+      "<cmd>bnext<cr>",
+      desc = "Next buffer"
+    },
+    {
+      "<leader>bp",
+      "<cmd>bprevious<cr>",
+      desc = "Previous buffer"
     },
 
     { "<leader>s", group = "Search & Sessions" },
@@ -76,6 +158,33 @@ wk.add({
       "<leader>sh",
       function() require('telescope.builtin').help_tags() end,
       desc = "Search help (Telescope)"
+    },
+    {
+      "<leader>sk",
+      function() require('telescope.builtin').keymaps() end,
+      desc = "Search keymaps (Telescope)"
+    },
+    {
+      "<leader>sc",
+      function() require('telescope.builtin').command_history() end,
+      desc = "Search command history (Telescope)"
+    },
+    {
+      "<leader>sr",
+      function() require('telescope.builtin').resume() end,
+      desc = "Resume last search (Telescope)"
+    },
+
+    { "<leader>m", group = "Marks & Jumps" },
+    {
+      "<leader>mm",
+      function() require('telescope.builtin').marks() end,
+      desc = "Search marks (Telescope)"
+    },
+    {
+      "<leader>mj",
+      function() require('telescope.builtin').jumplist() end,
+      desc = "Search jump list (Telescope)"
     },
 
     -- ================================================================
@@ -127,6 +236,16 @@ wk.add({
       function() require('telescope.builtin').lsp_document_symbols() end,
       desc = "Show document symbols (Telescope)"
     },
+    {
+      "<leader>lS",
+      function() require('telescope.builtin').lsp_workspace_symbols() end,
+      desc = "Show workspace symbols (Telescope)"
+    },
+    {
+      "<leader>lt",
+      function() vim.lsp.buf.type_definition() end,
+      desc = "Go to type definition (LSP)"
+    },
 
     { "<leader>t", group = "Toggles & Diagnostics" },
     {
@@ -145,6 +264,35 @@ wk.add({
       "<leader>td",
       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
       desc = "Toggle buffer diagnostics (Trouble)",
+    },
+    {
+      "<leader>tD",
+      "<cmd>Trouble diagnostics toggle<cr>",
+      desc = "Toggle workspace diagnostics (Trouble)",
+    },
+    {
+      "<leader>tn",
+      function()
+        vim.opt.number = not vim.opt.number:get()
+        print("Line numbers " .. (vim.opt.number:get() and "enabled" or "disabled"))
+      end,
+      desc = "Toggle line numbers"
+    },
+    {
+      "<leader>tr",
+      function()
+        vim.opt.relativenumber = not vim.opt.relativenumber:get()
+        print("Relative numbers " .. (vim.opt.relativenumber:get() and "enabled" or "disabled"))
+      end,
+      desc = "Toggle relative numbers"
+    },
+    {
+      "<leader>ts",
+      function()
+        vim.opt.spell = not vim.opt.spell:get()
+        print("Spell check " .. (vim.opt.spell:get() and "enabled" or "disabled"))
+      end,
+      desc = "Toggle spell check"
     },
 
     -- ================================================================
@@ -184,6 +332,33 @@ wk.add({
     },
 
     -- ================================================================
+    -- CLIPBOARD AND CONFIG
+    -- ================================================================
+    { "<leader>y", group = "Clipboard Operations" },
+    {
+      "<leader>yy",
+      '"+yy',
+      desc = "Copy line to system clipboard"
+    },
+    {
+      "<leader>yp",
+      '"+p',
+      desc = "Paste from system clipboard"
+    },
+
+    { "<leader>c", group = "Config & Settings" },
+    {
+      "<leader>cv",
+      "<cmd>edit $MYVIMRC<cr>",
+      desc = "Edit Neovim config"
+    },
+    {
+      "<leader>cr",
+      "<cmd>source $MYVIMRC<cr>",
+      desc = "Reload Neovim config"
+    },
+
+    -- ================================================================
     -- SYSTEM OPERATIONS
     -- ================================================================
     { "<leader>q", group = "Quit Operations" },
@@ -206,11 +381,68 @@ wk.add({
     { "[b", "<cmd>bprevious<cr>", desc = "Previous buffer" },
     { "]d", function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
     { "[d", function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
+    { "]e", function() vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}) end, desc = "Next error" },
+    { "[e", function() vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR}) end, desc = "Previous error" },
+    { "]t", "<cmd>tabnext<cr>", desc = "Next tab" },
+    { "[t", "<cmd>tabprevious<cr>", desc = "Previous tab" },
+
+    -- Window navigation
+    { "<C-h>", "<C-w>h", desc = "Move to left window" },
+    { "<C-j>", "<C-w>j", desc = "Move to bottom window" },
+    { "<C-k>", "<C-w>k", desc = "Move to top window" },
+    { "<C-l>", "<C-w>l", desc = "Move to right window" },
 
     -- ================================================================
     -- QUICK UTILITIES
     -- ================================================================
     { "<Esc>", "<cmd>nohlsearch<cr>", desc = "Clear search highlight" },
+    { "J", "mzJ`z", desc = "Join lines and keep cursor position" },
+    { "<C-d>", "<C-d>zz", desc = "Half page down and center" },
+    { "<C-u>", "<C-u>zz", desc = "Half page up and center" },
+    { "n", "nzzzv", desc = "Next search result and center" },
+    { "N", "Nzzzv", desc = "Previous search result and center" },
+  },
+
+  -- ================================================================
+  -- VISUAL MODE KEYMAPS
+  -- ================================================================
+  { mode = { "v" }, -- Visual mode keymaps
+    {
+      "<leader>y",
+      '"+y',
+      desc = "Copy selection to system clipboard"
+    },
+    {
+      "<",
+      "<gv",
+      desc = "Indent left and reselect"
+    },
+    {
+      ">",
+      ">gv",
+      desc = "Indent right and reselect"
+    },
+    {
+      "J",
+      ":m '>+1<CR>gv=gv",
+      desc = "Move selection down"
+    },
+    {
+      "K",
+      ":m '<-2<CR>gv=gv",
+      desc = "Move selection up"
+    },
+  },
+
+  -- ================================================================
+  -- INSERT MODE KEYMAPS
+  -- ================================================================
+  { mode = { "i" }, -- Insert mode keymaps
+    {
+      "<C-c>",
+      "<Esc>",
+      desc = "Exit insert mode"
+    },
   },
 })
 
