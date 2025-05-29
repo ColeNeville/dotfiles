@@ -9,63 +9,66 @@ FROM registry.fedoraproject.org/fedora-toolbox:40
 # =============================================================================
 # SYSTEM UTILITIES
 # =============================================================================
-# Install essential development utilities and build tools
+# Install essential development utilities and build tools:
+# - direnv: Directory-based environment variable management
+# - gcc: GNU Compiler Collection for C/C++
+# - git: Version control system
+# - htop: Interactive process viewer
+# - just: Command runner (alternative to make for simple tasks)
+# - make: Build automation tool
+# - opentofu: Open-source Terraform alternative for infrastructure as code
+# - stow: Symlink farm manager for dotfiles management
 RUN sudo dnf update -y && \
     sudo dnf install -y \
-      direnv \        # Directory-based environment variable management
-      gcc \           # GNU Compiler Collection for C/C++
-      git \           # Version control system
-      htop \          # Interactive process viewer
-      just \          # Command runner (alternative to make for simple tasks)
-      make \          # Build automation tool
-      opentofu \      # Open-source Terraform alternative for infrastructure as code
-      stow \          # Symlink farm manager for dotfiles management
+      direnv \
+      gcc \
+      git \
+      htop \
+      just \
+      make \
+      opentofu \
+      stow
 
 # =============================================================================
 # PROGRAMMING LANGUAGES & PACKAGE MANAGERS
 # =============================================================================
 # Install multiple programming languages and their associated package managers
-# to support polyglot development environments
+# to support polyglot development environments:
+# - Python ecosystem: python3, pip, virtualenv
+# - JavaScript/Node.js ecosystem: nodejs with npm
+# - Rust ecosystem: rust compiler and cargo package manager
+# - Go programming language: golang compiler and tools
+# - Lua ecosystem: luarocks package manager
+# - Ruby ecosystem: ruby-devel, rubygems, bundler
+# - PHP ecosystem: composer dependency manager, php interpreter
+# - Julia: scientific computing language
 RUN sudo dnf update -y && \
     sudo dnf install -y \
-      # Python ecosystem
-      python3 \             # Python 3 interpreter
-      python3-pip \         # Python package installer
-      python3-virtualenv \  # Virtual environment tool for Python
-      
-      # JavaScript/Node.js ecosystem
-      nodejs \              # Node.js runtime and npm package manager
-      
-      # Rust ecosystem
-      rust \                # Rust programming language
-      cargo \               # Rust package manager and build tool
-      
-      # Go programming language
-      golang \              # Go compiler and tools
-      
-      # Lua ecosystem
-      luarocks \            # Lua package manager
-      
-      # Ruby ecosystem
-      ruby-devel \          # Ruby development headers
-      rubygems \            # Ruby package manager
-      rubygem-bundler \     # Ruby dependency management
-      
-      # PHP ecosystem
-      composer \            # PHP dependency manager
-      php \                 # PHP interpreter
-      
-      # Julia programming language
-      julia                 # Julia scientific computing language
+      python3 \
+      python3-pip \
+      python3-virtualenv \
+      nodejs \
+      rust \
+      cargo \
+      golang \
+      luarocks \
+      ruby-devel \
+      rubygems \
+      rubygem-bundler \
+      composer \
+      php \
+      julia
 
 # =============================================================================
 # DEVELOPER UTILITIES
 # =============================================================================
-# Install additional tools specifically for development workflows
+# Install additional tools specifically for development workflows:
+# - chromium: Web browser for testing and development
+# - ripgrep: Fast text search tool (rg command)
 RUN sudo dnf update -y && \
     sudo dnf install -y \
-      chromium \        # Web browser for testing and development
-      ripgrep           # Fast text search tool (rg command)
+      chromium \
+      ripgrep
 
 # Clean package cache to reduce image size
 RUN sudo dnf clean all
@@ -73,11 +76,14 @@ RUN sudo dnf clean all
 # =============================================================================
 # PYTHON PACKAGES
 # =============================================================================
-# Install Python packages for AI-assisted development and automation
+# Install Python packages for AI-assisted development and automation:
+# - aider-chat[chat]: AI pair programming tool
+# - ansible: Infrastructure automation and configuration management
+# - playwright: Browser automation and testing (optional dependency for aider required for web scraping)
 RUN pip install \
-      aider-chat[chat] \    # AI pair programming tool
-      ansible \             # Infrastructure automation and configuration management
-      playwright            # Browser automation and testing (optional dependency for aider required for web scraping)
+      aider-chat[chat] \
+      ansible \
+      playwright
 
 # =============================================================================
 # NEOVIM INSTALLATION
