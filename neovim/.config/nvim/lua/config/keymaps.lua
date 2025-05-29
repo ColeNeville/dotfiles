@@ -16,6 +16,16 @@ wk.add({
       function() require('telescope.builtin').find_files({}) end,
       desc = "Find files (Telescope)"
     },
+    {
+      "<leader>fr",
+      function() require('telescope.builtin').oldfiles() end,
+      desc = "Recent files (Telescope)"
+    },
+    {
+      "<leader>fs",
+      "<cmd>write<cr>",
+      desc = "Save file"
+    },
 
     { "<leader>p", group = "Project Management" },
     {
@@ -40,12 +50,32 @@ wk.add({
       function() require('telescope.builtin').buffers({}) end,
       desc = "Search buffers (Telescope)",
     },
+    {
+      "<leader>bd",
+      "<cmd>bdelete<cr>",
+      desc = "Delete buffer"
+    },
 
-    { "<leader>s", group = "Session Management" },
+    { "<leader>s", group = "Search & Sessions" },
     {
       "<leader>ss",
       function() require('auto-session.session-lens').search_session() end,
       desc = "Search sessions (Auto Session)",
+    },
+    {
+      "<leader>sd",
+      function() require('telescope.builtin').live_grep() end,
+      desc = "Search in directory (Telescope)",
+    },
+    {
+      "<leader>sw",
+      function() require('telescope.builtin').grep_string() end,
+      desc = "Search word under cursor (Telescope)"
+    },
+    {
+      "<leader>sh",
+      function() require('telescope.builtin').help_tags() end,
+      desc = "Search help (Telescope)"
     },
 
     -- ================================================================
@@ -168,6 +198,19 @@ wk.add({
       function() require("which-key").show({ global = false }) end,
       desc = "Show buffer keymaps (Which Key)",
     },
+
+    -- ================================================================
+    -- NAVIGATION SHORTCUTS
+    -- ================================================================
+    { "]b", "<cmd>bnext<cr>", desc = "Next buffer" },
+    { "[b", "<cmd>bprevious<cr>", desc = "Previous buffer" },
+    { "]d", function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
+    { "[d", function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
+
+    -- ================================================================
+    -- QUICK UTILITIES
+    -- ================================================================
+    { "<Esc>", "<cmd>nohlsearch<cr>", desc = "Clear search highlight" },
   },
 })
 
