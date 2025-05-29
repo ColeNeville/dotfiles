@@ -1,55 +1,95 @@
+# Development Toolbox Container
+# 
+# This Containerfile creates a comprehensive development environment using Fedora Toolbox.
+# It includes utilities, programming languages, package managers, and development tools
+# needed for modern software development workflows.
+
 FROM registry.fedoraproject.org/fedora-toolbox:40
 
-# Add your custom commands here to install software or configure the container
-
-# Utilities
+# =============================================================================
+# SYSTEM UTILITIES
+# =============================================================================
+# Install essential development utilities and build tools
 RUN sudo dnf update -y && \
     sudo dnf install -y \
-      direnv \
-      gcc \
-      git \
-      htop \
-      just \
-      make \
-      opentofu \
-      stow
+      direnv \        # Directory-based environment variable management
+      gcc \           # GNU Compiler Collection for C/C++
+      git \           # Version control system
+      htop \          # Interactive process viewer
+      just \          # Command runner (alternative to make for simple tasks)
+      make \          # Build automation tool
+      opentofu \      # Open-source Terraform alternative for infrastructure as code
+      stow \          # Symlink farm manager for dotfiles management
 
-# Languages and Package Managers
+# =============================================================================
+# PROGRAMMING LANGUAGES & PACKAGE MANAGERS
+# =============================================================================
+# Install multiple programming languages and their associated package managers
+# to support polyglot development environments
 RUN sudo dnf update -y && \
     sudo dnf install -y \
-      python3 \
-      python3-pip \
-      python3-virtualenv \
-      nodejs \
-      rust \
-      cargo \
-      golang \
-      luarocks \
-      ruby-devel \
-      rubygems \
-      rubygem-bundler \
-      composer \
-      php \
-      julia
+      # Python ecosystem
+      python3 \             # Python 3 interpreter
+      python3-pip \         # Python package installer
+      python3-virtualenv \  # Virtual environment tool for Python
+      
+      # JavaScript/Node.js ecosystem
+      nodejs \              # Node.js runtime and npm package manager
+      
+      # Rust ecosystem
+      rust \                # Rust programming language
+      cargo \               # Rust package manager and build tool
+      
+      # Go programming language
+      golang \              # Go compiler and tools
+      
+      # Lua ecosystem
+      luarocks \            # Lua package manager
+      
+      # Ruby ecosystem
+      ruby-devel \          # Ruby development headers
+      rubygems \            # Ruby package manager
+      rubygem-bundler \     # Ruby dependency management
+      
+      # PHP ecosystem
+      composer \            # PHP dependency manager
+      php \                 # PHP interpreter
+      
+      # Julia programming language
+      julia                 # Julia scientific computing language
 
-# Developer utils
+# =============================================================================
+# DEVELOPER UTILITIES
+# =============================================================================
+# Install additional tools specifically for development workflows
 RUN sudo dnf update -y && \
     sudo dnf install -y \
-      ripgrep
+      ripgrep           # Fast text search tool (rg command)
 
+# Clean package cache to reduce image size
 RUN sudo dnf clean all
 
+# =============================================================================
+# PYTHON PACKAGES
+# =============================================================================
+# Install Python packages for AI-assisted development and automation
 RUN pip install \
-      aider-chat[chat] \
-      ansible
+      aider-chat[chat] \    # AI pair programming tool
+      ansible               # Infrastructure automation and configuration management
 
-# Play wright installation
+# Install Playwright for browser automation and testing
 RUN pip install \
       playwright
 
+# =============================================================================
+# NEOVIM INSTALLATION
+# =============================================================================
+# Install the latest stable Neovim from GitHub releases
+# Using binary installation to get newer version than distribution packages
 RUN cd /tmp && \
     wget https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz && \
     tar -xzf /tmp/nvim-linux-x86_64.tar.gz -C /opt && \
     rm -f /tmp/nvim*
 
+# Add Neovim to PATH so it's available system-wide
 ENV PATH="/opt/nvim-linux-x86_64/bin:${PATH}"
