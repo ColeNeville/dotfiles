@@ -2,22 +2,11 @@ return {
   "akinsho/toggleterm.nvim",
   version = "*",
   opts = {
-    -- direction = "float", -- Global defaults can be set here
-    -- close_on_exit = true,
-  },
-  keys = {
-    {
-      "<leader>gl", -- Keymap for Lazygit
-      function()
-        if _G.toggle_lazygit_float then
-          _G.toggle_lazygit_float()
-        else
-          vim.notify("Toggleterm Lazygit function not initialized.", vim.log.levels.ERROR)
-        end
-      end,
-      desc = "Toggle Lazygit (Float)",
-      mode = "n", -- Normal mode
+    direction = "float", -- Global defaults can be set here
+    float_opts = {
+      border = "rounded",
     },
+    -- close_on_exit = true,
   },
   config = function(_, opts)
     local toggleterm_module = require('toggleterm')
@@ -42,10 +31,6 @@ return {
           cmd = "lazygit",
           dir = current_cwd,    -- Run lazygit in the current working directory
           hidden = true,        -- Create it hidden
-          direction = "float",
-          float_opts = {
-            border = "rounded",
-          },
           -- on_close is crucial for cleaning up the map entry
           -- when the terminal is closed or lazygit exits.
           on_close = function(closed_term)
