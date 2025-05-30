@@ -24,8 +24,9 @@ wk.add({
     -- ================================================================
     -- PROJECT MANAGEMENT
     -- ================================================================
+    { "<leader>p", group = "Project Management" },
     {
-      "<leader>p",
+      "<leader>pp",
       function() require('telescope').extensions.projects.projects{} end,
       desc = "Switch project (Project)",
     },
@@ -33,8 +34,9 @@ wk.add({
     -- ================================================================
     -- FILE EXPLORER
     -- ================================================================
+    { "<leader>e", group = "Explorer" }
     {
-      "<leader>e",
+      "<leader>ee",
       "<cmd>NvimTreeToggle<CR>",
       desc = "Toggle explorer (Nvim Tree)"
     },

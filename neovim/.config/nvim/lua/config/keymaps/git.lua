@@ -10,8 +10,9 @@ wk.add({
     -- ================================================================
     -- GIT OPERATIONS
     -- ================================================================
+    { "<leader>g", group = "Git Operations" },
     {
-      "<leader>G",
+      "<leader>gg",
       lazygit.toggle_lazygit_float,
       desc = "Open Lazygit (Custom)",
     },
