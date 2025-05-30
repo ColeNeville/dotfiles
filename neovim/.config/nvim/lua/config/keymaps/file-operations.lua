@@ -34,7 +34,7 @@ wk.add({
     -- ================================================================
     -- FILE EXPLORER
     -- ================================================================
-    { "<leader>e", group = "Explorer" }
+    { "<leader>e", group = "Explorer" },
     {
       "<leader>ee",
       "<cmd>NvimTreeToggle<CR>",
