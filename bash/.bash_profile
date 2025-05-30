@@ -14,5 +14,7 @@ fi
 # Make PATH changes available to child processes
 export PATH
 
+export EDITOR=nvim
+
 # Load .bashrc for interactive shell settings (aliases, functions, etc.)
 source ~/.bashrc
