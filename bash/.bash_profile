@@ -2,7 +2,7 @@
 # Sets up environment variables and sources .bashrc
 
 # Add Homebrew binaries to PATH if directory exists and not already in PATH
-if [ -d "/opt/homebrew/bin" ] && ! [[ "$PATH" =~ "/opt/homebrew/bin:"]]; then
+if [ -d "/opt/homebrew/bin" ] && ! [[ "$PATH" =~ "/opt/homebrew/bin:" ]]; then
   PATH="/opt/homebrew/bin:$PATH"
 fi
 
