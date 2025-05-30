@@ -2,6 +2,22 @@
 # Contains settings for interactive shell behavior, aliases, functions, and prompt customization
 # This file is sourced by .bash_profile for login shells and directly for non-login interactive shells
 
+# Environment Variables
+# Add Homebrew binaries to PATH if directory exists and not already in PATH
+if [ -d "/opt/homebrew/bin" ] && ! [[ "$PATH" =~ "/opt/homebrew/bin:" ]]; then
+  PATH="/opt/homebrew/bin:$PATH"
+fi
+
+# Add user's private bin directory to PATH if it exists and not already in PATH
+if [ -d "$HOME/.local/bin" ] && ! [[ "$PATH" =~ "$HOME/.local/bin:" ]]; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Make PATH changes available to child processes
+export PATH
+
+export EDITOR=nvim
+
 # Load all script files from ~/.bashrc.d/ directory
 # This allows for modular organization of bash configurations
 for rc in ~/.bashrc.d/*; do
