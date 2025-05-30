@@ -247,6 +247,19 @@ wk.add({
       desc = "Go to type definition (LSP)"
     },
 
+    { "<leader>g", group = "Git Operations" },
+    {
+      "<leader>gl",
+      function()
+        if _G.toggle_lazygit_float then
+          _G.toggle_lazygit_float()
+        else
+          vim.notify("Toggleterm Lazygit function not initialized.", vim.log.levels.ERROR)
+        end
+      end,
+      desc = "Toggle Lazygit (Float)",
+    },
+
     { "<leader>t", group = "Toggles & Diagnostics" },
     {
       "<leader>tw",
