@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+toolbox enter dev-toolbox

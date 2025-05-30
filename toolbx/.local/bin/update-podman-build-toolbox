@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# Script to update or create the podman-build-toolbox container.
+# It first ensures the corresponding image is built by calling
+# the 'build-podman-build-toolbox' script.
+# If the container exists, it's removed and recreated.
+
+set -e # Exit immediately if a command exits with a non-zero status.
+set -u # Treat unset variables as an error when substituting.
+set -o pipefail # Return value of a pipeline is the value of the last command to exit with a non-zero status.
+
+# Determine the absolute path to this script and its directory
+SCRIPT_REAL_PATH=$(realpath "$0")
+SCRIPT_REAL_DIR=$(dirname "${SCRIPT_REAL_PATH}")
+
+# Define paths and names
+BUILD_SCRIPT_NAME="build-podman-build-toolbox"
+BUILD_SCRIPT_PATH="${SCRIPT_REAL_DIR}/${BUILD_SCRIPT_NAME}"
+CONTAINER_NAME="podman-build-toolbox"
+IMAGE_NAME="podman-build-toolbox" # This is the tag used by the build script
+
+# Step 1: Ensure the image is built
+echo "Ensuring the '${IMAGE_NAME}' image is built by running '${BUILD_SCRIPT_NAME}'..."
+if [ ! -x "${BUILD_SCRIPT_PATH}" ]; then
+    echo "Error: Build script '${BUILD_SCRIPT_PATH}' not found or not executable."
+    exit 1
+fi
+
+if ! "${BUILD_SCRIPT_PATH}"; then
+    echo "Error: Failed to build the '${IMAGE_NAME}' image using '${BUILD_SCRIPT_NAME}'. Aborting."
+    exit 1
+fi
+echo "Image '${IMAGE_NAME}' should now be available locally."
+echo # Newline for readability
+
+# Step 2: Check if the Toolbx container already exists
+echo "Checking if Toolbx container '${CONTAINER_NAME}' already exists..."
+# 'podman ps -a --format "{{.Names}}"' lists all container names, one per line.
+# grep -Fxq matches the whole line (-x) quietly (-q).
+if podman ps -a --format "{{.Names}}" | grep -Fxq "${CONTAINER_NAME}"; then
+    echo "Toolbx container '${CONTAINER_NAME}' already exists. Removing it..."
+    if toolbox rm --force "${CONTAINER_NAME}"; then # Use --force to avoid interactive prompts
+        echo "Successfully removed existing Toolbx container '${CONTAINER_NAME}'."
+    else
+        echo "Error: Failed to remove existing Toolbx container '${CONTAINER_NAME}'. Aborting."
+        exit 1
+    fi
+else
+    echo "Toolbx container '${CONTAINER_NAME}' does not exist. Proceeding with creation."
+fi
+echo # Newline for readability
+
+# Step 3: Create the Toolbx container
+echo "Creating Toolbx container '${CONTAINER_NAME}' from image '${IMAGE_NAME}'..."
+# Using long options for clarity, though -c and -i are also valid.
+if toolbox create --container "${CONTAINER_NAME}" --image "${IMAGE_NAME}"; then
+    echo "Successfully created Toolbx container '${CONTAINER_NAME}'."
+    echo "You can enter it using: toolbox enter ${CONTAINER_NAME}"
+else
+    echo "Error: Failed to create Toolbx container '${CONTAINER_NAME}'."
+    exit 1
+fi
+
+exit 0
