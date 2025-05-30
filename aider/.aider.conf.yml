@@ -18,7 +18,7 @@
 # Main model:
 
 ## Specify the model to use for the main chat
-model: openrouter/anthropic/claude-sonnet-4
+model: openrouter/deepseek/deepseek-r1-0528
 
 ########################
 # API Keys and settings:
@@ -96,16 +96,16 @@ thinking-tokens: 32k
 #edit-format: xxx
 
 ## Use architect edit format for the main chat
-#architect: false
+architect: true
 
 ## Enable/disable automatic acceptance of architect changes (default: True)
 #auto-accept-architect: true
 
 ## Specify the model to use for commit messages and chat history summarization (default depends on --model)
-#weak-model: xxx
+weak-model: openrouter/google/gemma-2b-it
 
 ## Specify the model to use for editor tasks (default depends on --model)
-#editor-model: xxx
+editor-model: openrouter/anthropic/claude-sonnet-4
 
 ## Specify the edit format for the editor model (default: depends on editor model)
 #editor-edit-format: xxx
