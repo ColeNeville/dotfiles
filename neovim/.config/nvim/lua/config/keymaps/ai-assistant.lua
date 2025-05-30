@@ -19,6 +19,7 @@ wk.add({
       "<leader>As",
       "<cmd>Aider send<cr>",
       desc = "Send selection/buffer (Aider)",
+      mode = { "n", "v" },
     },
     {
       "<leader>Af",
