@@ -7,6 +7,7 @@ return {
     require("project_nvim").setup({
       -- Using default settings for project.nvim for a skeleton.
     })
+
     -- Load the Telescope extension provided by project.nvim.
     pcall(require('telescope').load_extension, 'projects')
   end,
