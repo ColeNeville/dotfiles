@@ -18,7 +18,7 @@
 # Main model:
 
 ## Specify the model to use for the main chat
-model: openrouter/google/gemini-2.5-pro-preview
+model: openrouter/anthropic/claude-sonnet-4
 
 ########################
 # API Keys and settings:
@@ -102,7 +102,7 @@ architect: true
 #auto-accept-architect: true
 
 ## Specify the model to use for commit messages and chat history summarization (default depends on --model)
-weak-model: openrouter/google/gemma-2b-it
+weak-model: openrouter/google/gemini-2.5-flash-preview-05-20
 
 ## Specify the model to use for editor tasks (default depends on --model)
 editor-model: openrouter/anthropic/claude-sonnet-4
