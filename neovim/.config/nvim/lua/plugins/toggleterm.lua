@@ -1,28 +1,70 @@
 return {
   "akinsho/toggleterm.nvim",
   version = "*",
-  event = "VeryLazy",
-  opts = {},
+  opts = {
+    -- direction = "float", -- Global defaults can be set here
+    -- close_on_exit = true,
+  },
+  keys = {
+    {
+      "<leader>gl", -- Keymap for Lazygit
+      function()
+        if _G.toggle_lazygit_float then
+          _G.toggle_lazygit_float()
+        else
+          vim.notify("Toggleterm Lazygit function not initialized.", vim.log.levels.ERROR)
+        end
+      end,
+      desc = "Toggle Lazygit (Float)",
+      mode = "n", -- Normal mode
+    },
+  },
   config = function(_, opts)
-    local toggleterm = require('toggleterm')
+    local toggleterm_module = require('toggleterm')
     local Terminal = require('toggleterm.terminal').Terminal
 
-    toggleterm.setup(opts)
+    toggleterm_module.setup(opts)
 
-    local lazygit_terminals = {}
+    -- Initialize the global map for lazygit terminals if it doesn't exist
+    if not _G.lazygit_terminals_map then
+      _G.lazygit_terminals_map = {}
+    end
 
-    function _toggle_lazygit()
-      local cwd = vim.fn.getcwd()
+    _G.toggle_lazygit_float = function()
+      local current_cwd = vim.fn.getcwd()
+      local term_obj = _G.lazygit_terminals_map and _G.lazygit_terminals_map[current_cwd]
 
-      if not lazygit_terminals[cwd] then
-        lazygit_terminals[cwd] = Terminal:new({
+      -- If a terminal object for the current CWD doesn't exist in our map,
+      -- (e.g., first time, or lazygit exited and on_close cleared the map entry)
+      -- then create a new one.
+      if not term_obj then
+        term_obj = Terminal:new({
           cmd = "lazygit",
-          hidden = true,
+          dir = current_cwd,    -- Run lazygit in the current working directory
+          hidden = true,        -- Create it hidden
           direction = "float",
+          float_opts = {
+            border = "rounded",
+          },
+          -- on_close is crucial for cleaning up the map entry
+          -- when the terminal is closed or lazygit exits.
+          on_close = function(closed_term)
+            -- Only remove from map if the closed terminal is the one we stored
+            if _G.lazygit_terminals_map and _G.lazygit_terminals_map[current_cwd] == closed_term then
+              _G.lazygit_terminals_map[current_cwd] = nil
+            end
+          end,
         })
+        -- Store the newly created terminal object in our map
+        _G.lazygit_terminals_map[current_cwd] = term_obj
       end
 
-      lazygit_terminals[cwd]:toggle()
+      -- Now, term_obj refers to an existing terminal object:
+      -- - If it was just created, it's hidden, so toggle() will show it.
+      -- - If it existed and was open, toggle() will hide it.
+      -- - If it existed but was closed (and on_close hasn't removed it from map yet),
+      --   toggle() should attempt to show/reopen it.
+      term_obj:toggle()
     end
   end,
 }
