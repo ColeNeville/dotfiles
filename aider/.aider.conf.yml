@@ -18,7 +18,7 @@
 # Main model:
 
 ## Specify the model to use for the main chat
-model: openrouter/deepseek/deepseek-r1-0528
+model: openrouter/google/gemini-2.5-pro-preview
 
 ########################
 # API Keys and settings:
@@ -84,7 +84,7 @@ model: openrouter/deepseek/deepseek-r1-0528
 #reasoning-effort: xxx
 
 ## Set the thinking token budget for models that support it (default: not set)
-thinking-tokens: 32k
+# thinking-tokens: 32k
 
 ## Verify the SSL cert when connecting to models (default: True)
 #verify-ssl: true
