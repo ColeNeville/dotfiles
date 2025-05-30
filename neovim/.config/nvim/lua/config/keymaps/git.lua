@@ -9,9 +9,8 @@ wk.add({
     -- ================================================================
     -- GIT OPERATIONS
     -- ================================================================
-    { "<leader>g", group = "Git Operations" },
     {
-      "<leader>gl",
+      "<leader>G",
       function()
         if _G.toggle_lazygit_float then
           _G.toggle_lazygit_float()
@@ -19,7 +18,7 @@ wk.add({
           vim.notify("Toggleterm Lazygit function not initialized.", vim.log.levels.ERROR)
         end
       end,
-      desc = "Toggle Lazygit (Float)",
+      desc = "Open Lazygit (Custom)",
     },
   },
 })

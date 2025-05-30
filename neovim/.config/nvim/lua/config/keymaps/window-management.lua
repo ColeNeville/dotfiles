@@ -30,11 +30,6 @@ wk.add({
       "<cmd>only<cr>",
       desc = "Close all other windows"
     },
-    {
-      "<leader>w=",
-      "<C-w>=",
-      desc = "Equalize window sizes"
-    },
 
     -- ================================================================
     -- TAB MANAGEMENT
@@ -55,14 +50,6 @@ wk.add({
       "<cmd>tabonly<cr>",
       desc = "Close all other tabs"
     },
-
-    -- ================================================================
-    -- WINDOW NAVIGATION
-    -- ================================================================
-    { "<C-h>", "<C-w>h", desc = "Move to left window" },
-    { "<C-j>", "<C-w>j", desc = "Move to bottom window" },
-    { "<C-k>", "<C-w>k", desc = "Move to top window" },
-    { "<C-l>", "<C-w>l", desc = "Move to right window" },
 
     -- ================================================================
     -- TAB NAVIGATION

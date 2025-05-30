@@ -20,28 +20,12 @@ wk.add({
       function() require('telescope.builtin').oldfiles() end,
       desc = "Recent files (Telescope)"
     },
-    {
-      "<leader>fs",
-      "<cmd>write<cr>",
-      desc = "Save file"
-    },
-    {
-      "<leader>fS",
-      "<cmd>wall<cr>",
-      desc = "Save all files"
-    },
-    {
-      "<leader>fn",
-      "<cmd>enew<cr>",
-      desc = "New file"
-    },
 
     -- ================================================================
     -- PROJECT MANAGEMENT
     -- ================================================================
-    { "<leader>p", group = "Project Management" },
     {
-      "<leader>pp",
+      "<leader>p",
       function() require('telescope').extensions.projects.projects{} end,
       desc = "Switch project (Project)",
     },
@@ -49,21 +33,10 @@ wk.add({
     -- ================================================================
     -- FILE EXPLORER
     -- ================================================================
-    { "<leader>e", group = "File Explorer" },
     {
-      "<leader>ee",
+      "<leader>e",
       "<cmd>NvimTreeToggle<CR>",
       desc = "Toggle explorer (Nvim Tree)"
-    },
-    {
-      "<leader>ef",
-      "<cmd>NvimTreeFindFile<CR>",
-      desc = "Find current file in explorer (Nvim Tree)"
-    },
-    {
-      "<leader>er",
-      "<cmd>NvimTreeRefresh<CR>",
-      desc = "Refresh explorer (Nvim Tree)"
     },
   },
 })

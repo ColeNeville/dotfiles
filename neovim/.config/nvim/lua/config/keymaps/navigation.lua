@@ -41,7 +41,7 @@ wk.add({
     -- ================================================================
     { "<leader>s", group = "Search & Sessions" },
     {
-      "<leader>ss",
+      "<leader>sS",
       function() require('auto-session.session-lens').search_session() end,
       desc = "Search sessions (Auto Session)",
     },
@@ -74,21 +74,6 @@ wk.add({
       "<leader>sr",
       function() require('telescope.builtin').resume() end,
       desc = "Resume last search (Telescope)"
-    },
-
-    -- ================================================================
-    -- MARKS & JUMPS
-    -- ================================================================
-    { "<leader>m", group = "Marks & Jumps" },
-    {
-      "<leader>mm",
-      function() require('telescope.builtin').marks() end,
-      desc = "Search marks (Telescope)"
-    },
-    {
-      "<leader>mj",
-      function() require('telescope.builtin').jumplist() end,
-      desc = "Search jump list (Telescope)"
     },
 
     -- ================================================================

@@ -33,14 +33,6 @@ wk.add({
       desc = "Toggle workspace diagnostics (Trouble)",
     },
     {
-      "<leader>tn",
-      function()
-        vim.opt.number = not vim.opt.number:get()
-        print("Line numbers " .. (vim.opt.number:get() and "enabled" or "disabled"))
-      end,
-      desc = "Toggle line numbers"
-    },
-    {
       "<leader>tr",
       function()
         vim.opt.relativenumber = not vim.opt.relativenumber:get()
