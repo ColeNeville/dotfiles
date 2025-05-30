@@ -11,9 +11,7 @@ return {
   config = function(_, opts)
     local toggleterm_module = require('toggleterm')
     toggleterm_module.setup(opts)
-
-    -- Set up lazygit functionality
-    local lazygit = require('utils.lazygit')
-    _G.toggle_lazygit_float = lazygit.toggle_lazygit_float
+    
+    -- No need to set up global anymore - keymaps will require the module directly
   end,
 }

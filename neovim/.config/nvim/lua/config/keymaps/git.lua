@@ -2,6 +2,7 @@
 -- Git operations keymaps
 
 local wk = require("which-key")
+local lazygit = require("utils.lazygit")
 
 wk.add({
   { mode = { "n" }, -- Normal mode keymaps
@@ -11,13 +12,7 @@ wk.add({
     -- ================================================================
     {
       "<leader>G",
-      function()
-        if _G.toggle_lazygit_float then
-          _G.toggle_lazygit_float()
-        else
-          vim.notify("Toggleterm Lazygit function not initialized.", vim.log.levels.ERROR)
-        end
-      end,
+      lazygit.toggle_lazygit_float,
       desc = "Open Lazygit (Custom)",
     },
   },
