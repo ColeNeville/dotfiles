@@ -32,7 +32,7 @@ return {
 
     _G.toggle_lazygit_float = function()
       local current_cwd = vim.fn.getcwd()
-      local term_obj = _G.lazygit_terminals_map and _G.lazygit_terminals_map[current_cwd]
+      local term_obj = _G.lazygit_terminals_map[current_cwd]
 
       -- If a terminal object for the current CWD doesn't exist in our map,
       -- (e.g., first time, or lazygit exited and on_close cleared the map entry)
@@ -62,8 +62,6 @@ return {
       -- Now, term_obj refers to an existing terminal object:
       -- - If it was just created, it's hidden, so toggle() will show it.
       -- - If it existed and was open, toggle() will hide it.
-      -- - If it existed but was closed (and on_close hasn't removed it from map yet),
-      --   toggle() should attempt to show/reopen it.
       term_obj:toggle()
     end
   end,
