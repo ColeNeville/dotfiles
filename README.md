@@ -11,11 +11,13 @@ This dotfiles repository is organized by application, with each application's co
 To get started with this dotfiles repository:
 
 1. Clone the repository with submodules:
+
    ```bash
    git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
    ```
 
    Or if you've already cloned the repository without submodules:
+
    ```bash
    git clone https://github.com/coleneville/dotfiles.git
    cd dotfiles
@@ -23,6 +25,7 @@ To get started with this dotfiles repository:
    ```
 
 2. Install GNU Stow if you don't have it already:
+
    ```bash
    # On Fedora/RHEL
    sudo dnf install stow
@@ -51,6 +54,7 @@ My Doom Emacs configuration is a literate configuration written in Org mode. It 
 #### Installation
 
 1. Install Emacs (version 28.1+ recommended):
+
    ```bash
    # On Fedora/RHEL
    sudo dnf install emacs
@@ -63,17 +67,20 @@ My Doom Emacs configuration is a literate configuration written in Org mode. It 
    ```
 
 2. Clone this repository with submodules (if you haven't already):
+
    ```bash
    git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
    ```
 
 3. Use GNU Stow to create symlinks for the Doom Emacs configuration:
+
    ```bash
    cd ~/dotfiles
    stow doom-emacs
    ```
 
 4. Run Doom sync to install packages and generate configuration files:
+
    ```bash
    ~/.config/emacs/bin/doom sync
    ```
@@ -90,6 +97,7 @@ My Neovim configuration uses `lazy.nvim` for package management. It's designed t
 #### Installation
 
 1. Install Neovim (version 0.8+ recommended, 0.9+ for some newer plugin features):
+
    ```bash
    # On Fedora/RHEL
    sudo dnf install neovim
@@ -102,11 +110,13 @@ My Neovim configuration uses `lazy.nvim` for package management. It's designed t
    ```
 
 2. Clone this repository with submodules (if you haven't already):
+
    ```bash
    git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
    ```
 
 3. Use GNU Stow to create symlinks for the Neovim configuration:
+
    ```bash
    cd ~/dotfiles # Or wherever you cloned the repository
    stow neovim
@@ -157,4 +167,4 @@ This project is open source and available under the [MIT License](LICENSE).
 ## Contact
 
 - **Name**: Cole Neville
-- **Email**: me@coleneville.net
+- **Email**: <me@coleneville.net>

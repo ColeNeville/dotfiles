@@ -1,5 +1,15 @@
 return {
   "rmagatti/auto-session",
+  keys = {
+    {
+      "<leader>sS",
+      function()
+        require('auto-session.session-lens')
+            .search_session()
+      end,
+      desc = "Search sessions (Auto Session)",
+    },
+  },
   opts = {
     auto_session_supress_dirs = { "~/", "/" },
     session_lens = {
