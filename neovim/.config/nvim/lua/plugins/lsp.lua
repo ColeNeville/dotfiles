@@ -84,24 +84,33 @@ return {
     },
   },
   {
-    "mason-org/mason-lspconfig.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "mason-org/mason.nvim",
-      "neovim/nvim-lspconfig",
-    },
-  },
-  {
     "mason-org/mason.nvim",
-    cmd = "Mason",
     keys = {
       mode = "n",
       {
         "<leader>lm",
         "<cmd>Mason<cr>",
-        desc = "Open package manager (Mason)",
+        desc = "Open Package Manager",
       },
     },
+    opts = {},
+  },
+  {
+    "mason-org/mason-lspconfig.nvim",
+    lazy = false,
+    dependencies = {
+      {"mason-org/mason.nvim", opts = {}},
+      "neovim/nvim-lspconfig",
+    },
+    keys = {
+      {
+        "<leader>lI",
+        "<cmd>LspInstall<CR>",
+        desc = "Install LSP Server",
+        mode = { "n" },
+      }
+    },
+    opts = {},
   },
   {
     "folke/trouble.nvim",
@@ -118,5 +127,6 @@ return {
         desc = "Toggle workspace diagnostics (Trouble)",
       },
     },
+    opts = {},
   },
 }
