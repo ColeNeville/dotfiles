@@ -1,0 +1,37 @@
+return {
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*", -- Pin to latest stable release
+    lazy = false, -- I don't want lazy loading
+    -- so that if I open A file I get a tree
+    keys = {
+      mode = { "n" },
+      {
+        "<leader>ee",
+        "<cmd>NvimTreeToggle<CR>",
+        desc = "Toggle explorer (Nvim Tree)"
+      },
+    },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons", -- For file icons (recommended for default experience)
+    },
+    config = function()
+      -- Disable netrw, as nvim-tree will be the file explorer
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+
+      require("nvim-tree").setup({
+        sync_root_with_cwd = true,
+        respect_buf_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_root = true,
+        },
+        git = {
+          enable = true,
+          ignore = false,
+        },
+      })
+    end,
+  },
+}
