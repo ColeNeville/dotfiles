@@ -10,7 +10,7 @@ function M.toggle_lazygit_float()
   local terminals = _G.lazygit_terminals
 
   local current_cwd = vim.fn.getcwd()
-  local term_obj = terminals[current_cwd]
+  local terminal = terminals[current_cwd]
 
   -- If a terminal object for the current CWD doesn't exist in our map,
   -- (e.g., first time, or lazygit exited and on_close cleared the map entry)
