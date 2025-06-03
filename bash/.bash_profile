@@ -2,4 +2,4 @@
 # Sources .bashrc for all shell configuration
 
 # Load .bashrc for interactive shell settings (aliases, functions, environment variables, etc.)
-source ~/.bashrc
+source $HOME/.bashrc

@@ -1,23 +1,34 @@
 #!/usr/bin/env bash
 
-# Script to build the dev-toolbox image.
-# If podman-build-toolbox exists, it will use that container for the build.
+# Generic script to build toolbox images.
+# Usage: build-toolbox <toolbox-name>
+# Example: build-toolbox dev
+#          build-toolbox podman
 
 set -e # Exit immediately if a command exits with a non-zero status.
 set -u # Treat unset variables as an error when substituting.
 set -o pipefail # Return value of a pipeline is the value of the last command to exit with a non-zero status.
 
+# Check if toolbox name argument is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <toolbox-name>"
+    echo "Example: $0 dev"
+    echo "         $0 podman"
+    exit 1
+fi
+
+TOOLBOX_NAME="$1"
+
 # Define paths based on $HOME, expecting files in their stowed locations.
-CONTAINERFILE_CONTEXT_DIR="${HOME}/.local/share/toolbx/containers/dev"
+CONTAINERFILE_CONTEXT_DIR="${HOME}/.local/share/toolbx/containers/${TOOLBOX_NAME}"
 CONTAINERFILE_PATH="${CONTAINERFILE_CONTEXT_DIR}/Containerfile"
-IMAGE_TAG="dev-toolbox"
-BUILD_CONTAINER="podman-build-toolbox"
+IMAGE_TAG="${TOOLBOX_NAME}-toolbox"
+BUILD_CONTAINER="podman-toolbox"
 
 # Check if Containerfile exists
 if [ ! -f "${CONTAINERFILE_PATH}" ]; then
     echo "Error: Containerfile not found at ${CONTAINERFILE_PATH}"
     echo "Please ensure your 'toolbx' stow package has been stowed correctly to this location."
-    # SCRIPT_REAL_PATH can show where the script itself is (symlink source in your dotfiles)
     SCRIPT_REAL_PATH=$(realpath "$0")
     echo "Build script is located at (source): ${SCRIPT_REAL_PATH}"
     exit 1
@@ -27,10 +38,9 @@ echo "Building image '${IMAGE_TAG}'..."
 echo "Context directory: ${CONTAINERFILE_CONTEXT_DIR}"
 echo "Containerfile: ${CONTAINERFILE_PATH}"
 
-# Check if podman-build-toolbox container exists
+# Check if podman-toolbox container exists and use it for the build
 if podman ps -a --format "{{.Names}}" | grep -Fxq "${BUILD_CONTAINER}"; then
     echo "Using ${BUILD_CONTAINER} for the build..."
-    # Execute the build inside the podman-build-toolbox container
     if toolbox run -c "${BUILD_CONTAINER}" -- podman build -t "${IMAGE_TAG}" -f "${CONTAINERFILE_PATH}" "${CONTAINERFILE_CONTEXT_DIR}"; then
         echo "Successfully built '${IMAGE_TAG}' using ${BUILD_CONTAINER}."
     else
@@ -39,7 +49,6 @@ if podman ps -a --format "{{.Names}}" | grep -Fxq "${BUILD_CONTAINER}"; then
     fi
 else
     echo "${BUILD_CONTAINER} not found, building directly with host podman..."
-    # Build the image using podman on the host
     if podman build -t "${IMAGE_TAG}" -f "${CONTAINERFILE_PATH}" "${CONTAINERFILE_CONTEXT_DIR}"; then
         echo "Successfully built '${IMAGE_TAG}'."
     else
