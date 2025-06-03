@@ -2,8 +2,7 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     version = "*", -- Pin to latest stable release
-    lazy = false, -- I don't want lazy loading
-    -- so that if I open A file I get a tree
+    lazy = false,  -- Load on startup
     keys = {
       mode = { "n" },
       {
@@ -14,6 +13,7 @@ return {
     },
     dependencies = {
       "nvim-tree/nvim-web-devicons", -- For file icons (recommended for default experience)
+      "ahmedkhalf/project.nvim",
     },
     config = function()
       -- Disable netrw, as nvim-tree will be the file explorer
@@ -32,6 +32,12 @@ return {
           ignore = false,
         },
       })
+
+      local function open_nvim_tree(data)
+        require("nvim-tree.api").tree.open()
+      end
+
+      vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
     end,
   },
 }

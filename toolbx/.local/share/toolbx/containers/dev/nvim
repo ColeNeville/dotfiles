@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-if [ -f $HOME/.env ]; then
-  source $HOME/.env
-fi
-
-/opt/nvim-linux-x86_64/bin/nvim

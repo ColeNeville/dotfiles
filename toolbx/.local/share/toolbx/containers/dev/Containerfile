@@ -82,6 +82,12 @@ RUN dnf update -y && \
 RUN mv /usr/bin/podman /usr/bin/podman-local && \
   ln -s /usr/bin/podman-remote /usr/bin/podman
 
+RUN dnf copr enable atim/lazygit -y && \
+  dnf update -y && \
+  dnf install -y \
+  lazygit &&\
+  dnf clean all
+
 # =============================================================================
 # PYTHON PACKAGES
 # =============================================================================
@@ -104,9 +110,9 @@ RUN wget -q https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linu
   tar -xzf /tmp/nvim-linux-x86_64.tar.gz -C /opt && \
   rm -f /tmp/nvim*
 
-RUN mkdir -p /opt/bin
-COPY nvim /opt/bin
-RUN chmod +x /opt/bin/nvim
+# RUN mkdir -p /opt/bin
+# COPY nvim /opt/bin
+# RUN chmod +x /opt/bin/nvim
 
 # Add Neovim to PATH so it's available system-wide
-ENV PATH="/opt/bin:${PATH}"
+ENV PATH="/opt/nvim-linux-x86_64/bin:${PATH}"
