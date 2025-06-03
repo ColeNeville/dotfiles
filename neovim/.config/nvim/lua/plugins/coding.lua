@@ -8,16 +8,4 @@ return {
       require("nvim-treesitter").install({ "jsonc" })
     end,
   },
-  {
-    "https://codeberg.org/esensar/nvim-dev-container",
-    cmd = {
-      "DevcontainerAttach",
-      "DevcontainerStart",
-      "DevcontainerStop",
-    },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {},
-  },
 }
