@@ -1,2 +1,0 @@
-#!/bin/bash
-exec toolbox run --container emacs-toolbox /usr/bin/emacs "$@"

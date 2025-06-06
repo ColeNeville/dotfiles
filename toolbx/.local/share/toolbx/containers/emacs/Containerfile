@@ -11,16 +11,16 @@ FROM registry.fedoraproject.org/fedora-toolbox:40
 # =============================================================================
 # Install essential development utilities and build tools
 RUN dnf update -y && \
-  dnf install -y \
-  direnv \
-  gcc \
-  git \
-  htop \
-  make \
-  stow \
-  ripgrep \
-  fd-find && \
-  dnf clean all
+    dnf install -y \
+    direnv \
+    gcc \
+    git \
+    htop \
+    make \
+    stow \
+    ripgrep \
+    fd-find && \
+    dnf clean all
 
 # =============================================================================
 # EMACS INSTALLATION
@@ -31,61 +31,70 @@ RUN dnf update -y && \
 # - aspell: Spell checker for Emacs
 # - hunspell: Alternative spell checker
 RUN dnf update -y && \
-  dnf install -y \
-  emacs \
-  emacs-nox \
-  aspell \
-  aspell-en \
-  hunspell \
-  hunspell-en-US && \
-  dnf clean all
+    dnf install -y \
+    emacs \
+    emacs-nox \
+    aspell \
+    aspell-en \
+    hunspell \
+    hunspell-en-US && \
+    dnf clean all
 
 # =============================================================================
 # PROGRAMMING LANGUAGES & TOOLS
 # =============================================================================
 # Install programming languages commonly used with Emacs
 RUN dnf update -y && \
-  dnf install -y \
-  python3 \
-  python3-pip \
-  nodejs \
-  npm \
-  rust \
-  cargo \
-  golang \
-  ruby-devel \
-  rubygems && \
-  dnf clean all
+    dnf install -y \
+    python3 \
+    python3-pip \
+    nodejs \
+    npm \
+    rust \
+    cargo \
+    golang \
+    ruby-devel \
+    rubygems && \
+    dnf clean all
 
 # =============================================================================
 # DEVELOPMENT TOOLS
 # =============================================================================
 # Install tools commonly used in Emacs development workflows
 RUN dnf update -y && \
-  dnf install -y \
-  shellcheck \
-  clang \
-  clang-tools-extra \
-  cmake \
-  sqlite && \
-  dnf clean all
+    dnf install -y \
+    shellcheck \
+    clang \
+    clang-tools-extra \
+    cmake \
+    sqlite && \
+    dnf clean all
 
 # =============================================================================
 # LANGUAGE SERVERS & FORMATTERS
 # =============================================================================
+
 # Install language servers and formatters for better Emacs integration
 RUN pip install --no-cache-dir \
-  python-lsp-server \
-  black \
-  isort \
-  flake8
+    python-lsp-server \
+    black \
+    isort \
+    flake8
 
 # Install Node.js based language servers
 RUN npm install -g \
-  typescript-language-server \
-  typescript \
-  prettier \
-  eslint
+    dockerfile-language-server-nodejs \
+    typescript-language-server \
+    typescript \
+    prettier \
+    eslint
+
+# Install gem based lanuage servers
+# - rubocop: ruby linter with LSP and formatting functionality
+# - solargraph: ruby LSP server
+RUN gem install \
+    rubocop \
+    solargraph
 
 # Default command
 CMD ["/bin/bash"]
