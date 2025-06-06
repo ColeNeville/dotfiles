@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=Emacs
-Exec=/home/cole/.local/bin/emacs
+Exec="toolbox run --container emacs-toolbox emacs"
 Type=Application
 Categories=Utility;Application;

@@ -1,12 +1,4 @@
 {
     "name": "Dotfiles Development Environment",
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-    "remoteUser": "vscode",
-    "features": {
-        "ghcr.io/devcontainers-community/features/cmake": {}
-    },
-    "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-    },
-    "runArgs": ["--name", "dotfiles-devcontainer"]
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04"
 }

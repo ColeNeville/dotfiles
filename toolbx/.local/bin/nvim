@@ -1,2 +1,0 @@
-#!/bin/bash
-exec toolbox run --container dev-toolbox nvim "$@"
