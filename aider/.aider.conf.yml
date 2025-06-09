@@ -96,16 +96,16 @@ model: openrouter/anthropic/claude-sonnet-4
 #edit-format: xxx
 
 ## Use architect edit format for the main chat
-architect: true
+# architect: true
 
 ## Enable/disable automatic acceptance of architect changes (default: True)
 #auto-accept-architect: true
 
 ## Specify the model to use for commit messages and chat history summarization (default depends on --model)
-weak-model: openrouter/google/gemini-2.5-flash-preview-05-20
+# weak-model: openrouter/google/gemini-2.5-flash-preview-05-20
 
 ## Specify the model to use for editor tasks (default depends on --model)
-editor-model: openrouter/anthropic/claude-sonnet-4
+# editor-model: openrouter/anthropic/claude-sonnet-4
 
 ## Specify the edit format for the editor model (default: depends on editor model)
 #editor-edit-format: xxx

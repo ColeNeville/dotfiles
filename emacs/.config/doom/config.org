@@ -5,12 +5,12 @@
 ** Theme and Fonts
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 12)
-      doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 14)
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 14)
+      doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 16)
       doom-theme 'doom-gruvbox)
 #+end_src
 
-** Whick-key Setup
+** Which-key Setup
 
 #+begin_src emacs-lisp
 (after! which-key
@@ -21,22 +21,14 @@
 
 #+begin_src emacs-lisp
 (setq sh-basic-offset 2
-      standard-indent 2)
-
-(after! js.el.gz
-  (setq js-indent-level 2))
-
-(after! typescript-mode.el
-  (setq typescript-indent-level 2))
-
-(after! web-mode.el
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-sql-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-markup-indent-offset 2))
+      standard-indent 2
+      js-indent-level 2
+      typescript-indent-level 2
+      web-mode-css-indent-offset 2
+      web-mode-sql-indent-offset 2
+      web-mode-code-indent-offset 2
+      web-mode-markup-indent-offset 2)
 #+end_src
-
-#+RESULTS:
 
 ** Other UI Configuration
 
@@ -49,7 +41,61 @@
 ** Setting Directories
 
 #+begin_src emacs-lisp
-(setq org-directory "~/org/")
+(setq org-directory "~/org/"
+      org-roam-directory "~/org/roam")
 #+end_src
 
-*  Other Package Setup
+* Misc Config
+
+** Set Shell Interpreter
+
+Make sure bash is our shell interpreter inside emacs instead of ever selecting zsh including on MacOS
+
+#+begin_src emacs-lisp
+(setq sh-shell "bash"
+      sh-shell-file "/bin/bash"
+      shell-file-name "/bin/bash")
+#+end_src
+
+
+*  Non-Doom Package Setup
+
+** Aider.el
+
+#+begin_src emacs-lisp
+(use-package aider
+  :config
+  (setq aider-args '("--model" "openrouter/anthropic/claude-sonnet-4"))
+  (require 'aider-doom))
+#+end_src
+
+* System Specific Setup
+
+** Garuda V4
+
+*** Smaller Font Size
+
+#+begin_src emacs-lisp
+(when (equal (system-name) "garuda-v4")
+  (setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 12)))
+#+end_src
+
+** Work Laptop
+
+*** Homebrew bash on Work Computer
+
+#+begin_src emacs-lisp
+(when (equal (system-name) "W3J56W3P90")
+  (setq sh-shell "bash"
+        sh-shell-file "/opt/homebrew/bin/bash"
+        shell-file-name "/opt/homebrew/bin/bash"))
+#+end_src
+
+*** Fuel iX Aider provider
+
+#+begin_src emacs-lisp
+(after! aider
+  (when (equal (system-name) "W3J56W3P90")
+    (setq aider-args '("--model" "openai/claude-4-sonnet"
+                       "--openai-api-base" "https://api-beta.fuelix.ai/v1"))))
+#+end_src
