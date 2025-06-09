@@ -92,9 +92,15 @@ RUN npm install -g \
 # Install gem based lanuage servers
 # - rubocop: ruby linter with LSP and formatting functionality
 # - solargraph: ruby LSP server
-RUN gem install \
-    rubocop \
-    solargraph
+# RUN gem install \
+#     rubocop \
+#     solargraph
+
+WORKDIR /tmp/
+RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh && \
+  chmod +x install-opentofu.sh && \
+  ./install-opentofu.sh --install-method rpm && \
+  rm -f install-opentofu.sh
 
 # Default command
 CMD ["/bin/bash"]
