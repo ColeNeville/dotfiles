@@ -1,0 +1,55 @@
+#+TITLE: Doom Emacs Configuration
+
+* UI Configuration
+
+** Theme and Fonts
+
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font" :size 12)
+      doom-symbol-font (font-spec :family "CaskaydiaCove Nerd Font" :size 14)
+      doom-theme 'doom-gruvbox)
+#+end_src
+
+** Whick-key Setup
+
+#+begin_src emacs-lisp
+(after! which-key
+  (setq which-key-idle-delay 0))
+#+end_src
+
+** Indentation and Formatting
+
+#+begin_src emacs-lisp
+(setq sh-basic-offset 2
+      standard-indent 2)
+
+(after! js.el.gz
+  (setq js-indent-level 2))
+
+(after! typescript-mode.el
+  (setq typescript-indent-level 2))
+
+(after! web-mode.el
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-sql-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-markup-indent-offset 2))
+#+end_src
+
+#+RESULTS:
+
+** Other UI Configuration
+
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+
+* Org Mode Setup
+
+** Setting Directories
+
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+#+end_src
+
+*  Other Package Setup
