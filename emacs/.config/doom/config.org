@@ -57,12 +57,20 @@ Make sure bash is our shell interpreter inside emacs instead of ever selecting z
       shell-file-name "/bin/bash")
 #+end_src
 
+** Auto Revert Mode
+
+This is useful to reload Aider created changes automatically
+
+#+begin_src emacs-lisp
+(global-auto-revert-mode)
+#+end_src
 
 *  Non-Doom Package Setup
 
 ** Aider.el
 
 #+begin_src emacs-lisp
+;; TODO: Replace aider.el with aidermacs
 (use-package aider
   :config
   (setq aider-args '("--model" "openrouter/anthropic/claude-sonnet-4"))
