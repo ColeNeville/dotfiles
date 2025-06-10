@@ -4,7 +4,7 @@
 # It includes Emacs, essential development tools, and language support for modern
 # software development workflows.
 
-FROM registry.fedoraproject.org/fedora-toolbox:40
+FROM registry.fedoraproject.org/fedora-toolbox:42
 
 # =============================================================================
 # SYSTEM UTILITIES
@@ -45,30 +45,34 @@ RUN dnf update -y && \
 # =============================================================================
 # Install programming languages commonly used with Emacs
 RUN dnf update -y && \
-    dnf install -y \
-    python3 \
-    python3-pip \
-    nodejs \
-    npm \
-    rust \
-    cargo \
-    golang \
-    ruby-devel \
-    rubygems && \
-    dnf clean all
+  dnf install -y \
+  python3 \
+  python3-pip \
+  nodejs \
+  npm \
+  rust \
+  cargo \
+  golang \
+  ruby-devel \
+  rubygems && \
+  dnf clean all
 
 # =============================================================================
 # DEVELOPMENT TOOLS
 # =============================================================================
 # Install tools commonly used in Emacs development workflows
 RUN dnf update -y && \
-    dnf install -y \
-    shellcheck \
-    clang \
-    clang-tools-extra \
-    cmake \
-    sqlite && \
-    dnf clean all
+  dnf install -y \
+  shellcheck \
+  clang \
+  clang-tools-extra \
+  cmake \
+  sqlite && \
+  dnf clean all
+
+RUN pip install --no-cache-dir \
+  aider-chat \
+  playwright
 
 # =============================================================================
 # LANGUAGE SERVERS & FORMATTERS
@@ -89,13 +93,10 @@ RUN npm install -g \
     prettier \
     eslint
 
-# Install gem based lanuage servers
-# - rubocop: ruby linter with LSP and formatting functionality
-# - solargraph: ruby LSP server
-# RUN gem install \
-#     rubocop \
-#     solargraph
+# Install terraform-ls from Hachicorp Repositories
 
+
+# Install OpenTofu
 WORKDIR /tmp/
 RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh && \
   chmod +x install-opentofu.sh && \
