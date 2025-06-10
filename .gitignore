@@ -3,3 +3,4 @@
 /.aider.*.history.*
 /.aider.*.history
 /emacs/.config/doom/config.el
+.aider*

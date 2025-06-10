@@ -1,0 +1,8 @@
+- name: openai/claude-4-sonnet
+  edit_format: diff
+  use_repo_map: true
+  cache_control: true
+  editor_model_name: openai/claude-4-sonnet
+  editor_edit_format: editor-diff
+  accepts_settings:
+    - thinking_tokens
