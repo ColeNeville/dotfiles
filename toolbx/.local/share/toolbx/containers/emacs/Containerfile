@@ -104,7 +104,10 @@ RUN npm install -g \
   prettier \
   eslint
 
-# Install terraform-ls from Hachicorp Repositories
+# Install terraform-ls from Hashicorp Repositories
+RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && \
+  dnf install -y terraform-ls && \
+  dnf clean all
 
 
 # Install OpenTofu
