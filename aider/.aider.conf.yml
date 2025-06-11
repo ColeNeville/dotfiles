@@ -96,10 +96,10 @@ model: openrouter/anthropic/claude-sonnet-4
 #edit-format: xxx
 
 ## Use architect edit format for the main chat
-# architect: true
+architect: true
 
 ## Enable/disable automatic acceptance of architect changes (default: True)
-#auto-accept-architect: true
+auto-accept-architect: false
 
 ## Specify the model to use for commit messages and chat history summarization (default depends on --model)
 # weak-model: openrouter/google/gemini-2.5-flash-preview-05-20
@@ -219,7 +219,7 @@ aiderignore: .aiderignore
 #subtree-only: false
 
 ## Enable/disable auto commit of LLM changes (default: True)
-auto-commits: true
+auto-commits: false
 
 ## Enable/disable commits when repo is found dirty (default: True)
 #dirty-commits: true
@@ -406,7 +406,6 @@ vim: true
 
 ## Specify the .env file to load (default: .env in git root)
 env-file: .env
-
 ## Enable/disable suggesting shell commands (default: True)
 #suggest-shell-commands: true
 

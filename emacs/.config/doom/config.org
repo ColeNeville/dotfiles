@@ -45,15 +45,6 @@
       org-roam-directory "~/org/roam")
 #+end_src
 
-* LLM Setup
-
-#+begin_src emacs-lisp
-(use-package elysium
-  :custom
-  (elysium-window-size 0.33)
-  (elysium-window-style 'horizontal))
-#+end_src
-
 * Misc Config
 
 ** Set Shell Interpreter
@@ -81,7 +72,6 @@ This is useful to reload Aider created changes automatically
 #+begin_src emacs-lisp
 (use-package aider
   :config
-  (setq aider-args '("--model" "openrouter/anthropic/claude-sonnet-4"))
   (require 'aider-doom))
 #+end_src
 
@@ -105,27 +95,4 @@ This is useful to reload Aider created changes automatically
   (setq sh-shell "bash"
         sh-shell-file "/opt/homebrew/bin/bash"
         shell-file-name "/opt/homebrew/bin/bash"))
-#+end_src
-
-*** Fuel iX Aider provider
-
-#+begin_src emacs-lisp
-(when (equal (system-name) "W3J56W3P90")
-  (after! aider
-    (setq aider-args '("--model" "openai/claude-4-sonnet"
-                       "--openai-api-base" "https://api-beta.fuelix.ai"))))
-#+end_src
-
-*** Fuel iX GPTel Backend
-
-#+begin_src emacs-lisp
-(when (equal (system-name) "W3J56W3P90")
-  (after! gptel
-    (setq gptel-backend (gptel-make-openai "Fuel iX"
-                          :host "api-beta.fuelix.ai"
-                          :endpoint "/v1/chat/completions"
-                          :stream t
-                          :key #'gptel-api-key
-                          :models '(claude-4-sonnet))
-          gptel-model 'claude-4-sonnet)))
 #+end_src
