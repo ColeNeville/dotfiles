@@ -96,3 +96,5 @@ This is useful to reload Aider created changes automatically
         sh-shell-file "/opt/homebrew/bin/bash"
         shell-file-name "/opt/homebrew/bin/bash"))
 #+end_src
+
+#+RESULTS:

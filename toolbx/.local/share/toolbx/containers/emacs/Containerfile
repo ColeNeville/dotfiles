@@ -105,10 +105,9 @@ RUN npm install -g \
   eslint
 
 # Install terraform-ls from Hashicorp Repositories
-RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && \
+RUN curl -o /etc/yum.repos.d/hashicorp.repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && \
   dnf install -y terraform-ls && \
   dnf clean all
-
 
 # Install OpenTofu
 WORKDIR /tmp/

@@ -1,5 +1,7 @@
 [Desktop Entry]
 Name=Emacs
-Exec="toolbox run --container emacs-toolbox emacs"
+Exec=toolbox run --container emacs-toolbox emacs
 Type=Application
-Categories=Utility;Application;
+Version=1.0
+Icon=emacs
+Categories=Development;TextEditor;
