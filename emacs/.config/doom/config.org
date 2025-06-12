@@ -36,13 +36,19 @@
 (setq display-line-numbers-type 'relative)
 #+end_src
 
-* Org Mode Setup
+* Org Setup
 
 ** Setting Directories
 
 #+begin_src emacs-lisp
 (setq org-directory "~/org/"
       org-roam-directory "~/org/roam")
+#+end_src
+
+* Ruby Setup
+
+#+begin_src emacs-lisp
+(add-hook 'ruby-mode-hook 'global-rbenv-mode)
 #+end_src
 
 * Misc Config
