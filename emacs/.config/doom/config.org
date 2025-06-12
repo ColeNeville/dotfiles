@@ -82,6 +82,12 @@ This is useful to reload Aider created changes automatically
 (global-auto-revert-mode)
 #+end_src
 
+** Programming Mode Specific Changes
+
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook (lambda () (visual-line-mode 1)))
+#+end_src
+
 *  Non-Doom Package Setup
 
 ** Aider.el
