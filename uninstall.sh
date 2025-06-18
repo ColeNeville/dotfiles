@@ -24,14 +24,6 @@ log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Check if stow is installed
-check_stow() {
-    if ! command -v stow &> /dev/null; then
-        log_error "GNU Stow is not installed. Cannot unstow dotfiles."
-        exit 1
-    fi
-}
-
 # Check if dotfiles directory exists
 check_dotfiles_dir() {
     if [ ! -d "$DOTFILES_DIR" ]; then
@@ -40,28 +32,18 @@ check_dotfiles_dir() {
     fi
 }
 
-# Unstow all packages
-unstow_packages() {
+# Run the unstow script
+run_unstow() {
     cd "$DOTFILES_DIR"
     
-    log_info "Unstowing dotfiles packages..."
-    
-    # Find all directories that could be stow packages (exclude hidden dirs and common non-package dirs)
-    for package in */; do
-        package=${package%/}  # Remove trailing slash
-        
-        # Skip common non-package directories
-        if [[ "$package" == ".git" || "$package" == "scripts" || "$package" == "docs" ]]; then
-            continue
-        fi
-        
-        log_info "Unstowing package: $package"
-        if stow -D "$package" 2>/dev/null; then
-            log_info "Successfully unstowed $package"
-        else
-            log_warn "Failed to unstow $package (may not have been stowed)"
-        fi
-    done
+    if [ -f "unstow.sh" ]; then
+        log_info "Running unstow.sh..."
+        chmod +x unstow.sh
+        ./unstow.sh
+    else
+        log_error "unstow.sh not found in $DOTFILES_DIR"
+        exit 1
+    fi
 }
 
 # Remove dotfiles directory
@@ -97,10 +79,9 @@ show_preview() {
 main() {
     log_info "Starting dotfiles uninstallation..."
     
-    check_stow
     check_dotfiles_dir
     show_preview
-    unstow_packages
+    run_unstow
     remove_dotfiles_dir
     
     log_info "Dotfiles uninstallation completed!"

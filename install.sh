@@ -63,13 +63,34 @@ setup_dotfiles() {
     fi
 }
 
+# Initialize and update git submodules
+setup_submodules() {
+    cd "$DOTFILES_DIR"
+    
+    if [ -f ".gitmodules" ]; then
+        log_info "Initializing and updating git submodules..."
+        
+        # Initialize submodules if they haven't been initialized yet
+        git submodule init
+        
+        # Update submodules to the commit specified in the main repo
+        git submodule update --recursive
+        
+        # Optional: Update submodules to their latest commits (uncomment if desired)
+        # git submodule update --remote --recursive
+        
+        log_info "Git submodules updated successfully"
+    else
+        log_info "No git submodules found, skipping submodule setup"
+    fi
+}
+
 # Run the stow script
 run_stow() {
     cd "$DOTFILES_DIR"
     
     if [ -f "stow.sh" ]; then
         log_info "Running stow.sh..."
-        chmod +x stow.sh
         ./stow.sh
     else
         log_error "stow.sh not found in $DOTFILES_DIR"
@@ -84,6 +105,7 @@ main() {
     check_git
     check_stow
     setup_dotfiles
+    setup_submodules
     run_stow
     
     log_info "Dotfiles installation completed successfully!"

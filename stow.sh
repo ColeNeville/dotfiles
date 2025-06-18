@@ -12,6 +12,9 @@ if ! command -v stow &> /dev/null; then
   exit 1
 fi
 
+# Change to packages directory for stow operations
+cd packages
+
 stow -S \
   aider \
   bash \
