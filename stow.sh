@@ -15,7 +15,7 @@ fi
 # Change to packages directory for stow operations
 cd packages
 
-stow -S \
+stow -t $HOME -S \
   aider \
   bash \
   emacs \
@@ -26,5 +26,5 @@ stow -S \
 
 # Install macOS-specific configuration if running on macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  stow -S macos
+  stow -t $HOME -S macos
 fi
