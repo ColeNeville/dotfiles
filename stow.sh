@@ -2,6 +2,10 @@
 
 set -e
 
+# Configuration
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
+STOW_TARGET="${STOW_TARGET:-$HOME}"
+
 # Check if stow is installed
 if ! command -v stow &> /dev/null; then
   echo "Error: stow is not installed or not in PATH"
@@ -13,9 +17,9 @@ if ! command -v stow &> /dev/null; then
 fi
 
 # Change to packages directory for stow operations
-cd packages
+cd "$DOTFILES_DIR/packages"
 
-stow -t $HOME -S \
+stow -t "$STOW_TARGET" -S \
   aider \
   bash \
   emacs \
@@ -26,5 +30,5 @@ stow -t $HOME -S \
 
 # Install macOS-specific configuration if running on macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  stow -t $HOME -S macos
+  stow -t "$STOW_TARGET" -S macos
 fi

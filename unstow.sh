@@ -3,7 +3,7 @@
 set -e
 
 # Configuration
-DOTFILES_DIR="$HOME/.dotfiles"
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
 
 # Colors for output
 RED='\033[0;31m'

@@ -4,7 +4,7 @@ set -e  # Exit on any error
 
 # Configuration
 DOTFILES_REPO="https://github.com/ColeNeville/dotfiles.git"  # Replace with your actual repo URL
-DOTFILES_DIR="$HOME/.dotfiles"
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
 
 # Colors for output
 RED='\033[0;31m'
