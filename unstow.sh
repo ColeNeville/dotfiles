@@ -4,6 +4,7 @@ set -e
 
 # Configuration
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
+STOW_TARGET="${STOW_TARGET:-$HOME}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -49,7 +50,7 @@ check_dotfiles_dir() {
 unstow_packages() {
     cd "$DOTFILES_DIR/packages"
     
-    log_info "Unstowing dotfiles packages..."
+    log_info "Unstowing dotfiles packages to target: $STOW_TARGET"
     
     # Find all directories that could be stow packages (exclude hidden dirs and common non-package dirs)
     for package in */; do
@@ -61,7 +62,7 @@ unstow_packages() {
         fi
         
         log_info "Unstowing package: $package"
-        if stow -D "$package" 2>/dev/null; then
+        if stow -t "$STOW_TARGET" -D "$package" 2>/dev/null; then
             log_info "Successfully unstowed $package"
         else
             log_warn "Failed to unstow $package (may not have been stowed)"
