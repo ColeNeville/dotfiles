@@ -43,7 +43,12 @@ stow_packages() {
     
     # List of packages to stow
     packages=(aider bash emacs git gnupg tmux wezterm)
-    
+
+    # Add linux-specific packages if runnning linux
+    if [[ "$OSTYPE" == "linux"* ]]; then
+      packages+=(toolbx)
+    fi
+
     # Add macOS-specific package if running on macOS
     if [[ "$OSTYPE" == "darwin"* ]]; then
         packages+=(macos)
