@@ -50,5 +50,6 @@
 
 (package! transient :pin "f3f498aa155f88c7e2ab6d1d01d1361813059db8")
 (package! aider :recipe (:host github :repo "tninja/aider.el"))
-
 (package! elysium)
+
+(package! nvm)

@@ -20,18 +20,23 @@
 ** Indentation and Formatting
 
 #+begin_src emacs-lisp
-(setq sh-basic-offset 2
-      standard-indent 2
-      js-indent-level 2
-      typescript-indent-level 2
-      web-mode-css-indent-offset 2
-      web-mode-sql-indent-offset 2
-      web-mode-code-indent-offset 2
-      web-mode-markup-indent-offset 2)
+(setq standard-indent 2)
 
-(after! json-mode
-  ;; Something about json-mode sets this back to 4 this is very hacky
-  (add-hook 'json-mode-hook (lambda () (setq js-indent-level 2))))
+(setq sh-basic-offset standard-indent
+      js-indent-level standard-indent
+      typescript-indent-level standard-indent
+      web-mode-css-indent-offset standard-indent
+      web-mode-sql-indent-offset standard-indent
+      web-mode-code-indent-offset standard-indent
+      web-mode-markup-indent-offset standard-indent)
+
+;; Something about json-mode sets this back to 4 this is very hacky
+(add-hook 'json-mode-hook
+          (lambda () (setq js-indent-level standard-indent)))
+(add-hook 'yaml-mode-hook
+          (lambda () (setq yaml-indent-offset standard-indent)))
+
+(add-to-list '+format-on-save-disabled-modes 'yaml-mode)
 #+end_src
 
 ** Other UI Configuration
