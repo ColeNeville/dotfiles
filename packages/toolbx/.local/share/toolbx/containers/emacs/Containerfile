@@ -72,6 +72,15 @@ RUN dnf update -y && \
   sqlite && \
   dnf clean all
 
+# Install lazygit TUI git client
+RUN dnf copr enable atim/lazygit -y && \
+  dnf update -y && \
+  dnf install -y \
+  lazygit &&\
+  dnf clean all
+
+# Install podman-docker and podman-remote
+# then link podman-remote to where podman should be
 RUN dnf update -y && \
   dnf install -y \
   podman-docker \
