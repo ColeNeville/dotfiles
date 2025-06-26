@@ -54,10 +54,29 @@
       org-roam-directory "~/org/roam")
 #+end_src
 
-* Ruby Setup
+** Add more org-babel
+
+#+begin_src emacs-lisp
+(after! org-babel
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((plantuml . t))))
+#+end_src
+
+* Languages
+
+** Ruby Setup
 
 #+begin_src emacs-lisp
 (add-hook 'ruby-mode-hook 'global-rbenv-mode)
+#+end_src
+
+** Butane Setup
+
+Add butane `.bu` files as yaml files
+
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.bu\\" . yaml-mode))
 #+end_src
 
 * Treemacs Setup
