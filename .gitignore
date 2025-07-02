@@ -4,3 +4,4 @@
 !packages/aider/.aider*
 
 packages/emacs/.config/doom/config.el
+packages/tmux/.config/tmux/plugins

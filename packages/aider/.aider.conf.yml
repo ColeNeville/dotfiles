@@ -96,10 +96,10 @@ model: openrouter/google/gemini-2.5-pro-preview
 #edit-format: xxx
 
 ## Use architect edit format for the main chat
-architect: true
+# architect: true
 
 ## Enable/disable automatic acceptance of architect changes (default: True)
-auto-accept-architect: false
+# auto-accept-architect: false
 
 ## Specify the model to use for commit messages and chat history summarization (default depends on --model)
 # weak-model: openrouter/google/gemini-2.5-flash-preview-05-20

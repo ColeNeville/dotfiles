@@ -6,3 +6,11 @@
   editor_edit_format: editor-diff
   accepts_settings:
     - thinking_tokens
+
+- name: openai/gemini-2.5-pro
+  edit_format: diff-fenced
+  weak_model_name: openai/gemini-2.5-flash
+  use_repo_map: true
+  overeager: true
+  accepts_settings:
+  - thinking_tokens
