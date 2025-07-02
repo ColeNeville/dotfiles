@@ -76,7 +76,7 @@
 Add butane `.bu` files as yaml files
 
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.bu\\" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.bu\\'" . yaml-mode))
 #+end_src
 
 * Treemacs Setup
