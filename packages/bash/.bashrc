@@ -4,17 +4,17 @@
 
 # Environment Variables
 # Add Homebrew binaries to PATH if directory exists and not already in PATH
-if [ -d "/opt/homebrew/bin" ] && ! [[ "$PATH" =~ "/opt/homebrew/bin:" ]]; then
+if [ -d "/opt/homebrew/bin" ]; then
   PATH="/opt/homebrew/bin:$PATH"
 fi
 
 # Add user's private bin directory to PATH if it exists and not already in PATH
-if [ -d "$HOME/.local/bin" ] && ! [[ "$PATH" =~ "$HOME/.local/bin:" ]]; then
+if [ -d "$HOME/.local/bin" ]; then
   PATH="$HOME/.local/bin:$PATH"
 fi
 
 # Add toolbox wrappers to PATH if directory exists and not already in PATH
-if [ -d "$HOME/toolbx/.local/bin/toolbox-wrappers" ] && ! [[ "$PATH" =~ "$HOME/toolbx/.local/bin/toolbox-wrappers:" ]]; then
+if [ -d "$HOME/toolbx/.local/bin/toolbox-wrappers" ]; then
   PATH="$HOME/toolbx/.local/bin/toolbox-wrappers:$PATH"
 fi
 
