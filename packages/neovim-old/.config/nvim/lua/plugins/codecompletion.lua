@@ -41,7 +41,7 @@ return {
         ["<CR>"] = cmp.mapping(
           function(fallback)
             if cmp.visible() and cmp.get_active_entry() then
-              cmp.confrim({ behaviour = cmp.ConfirmBehaviour.Replace, select = false })
+              cmp.confirm({ select = false })
             else
               fallback()
             end

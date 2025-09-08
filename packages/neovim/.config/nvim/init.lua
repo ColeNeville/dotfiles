@@ -1,8 +1,2 @@
--- neovim/.config/nvim/init.lua
-
--- Set leader keys before anything else
-vim.g.mapleader = " "
-vim.g.maplocalleader = "," -- Changed to comma
-
--- Delegate to the lazy setup
+-- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")

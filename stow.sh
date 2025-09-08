@@ -42,7 +42,7 @@ stow_packages() {
     log_info "Stowing dotfiles packages to target: $STOW_TARGET"
     
     # List of packages to stow
-    packages=(aider bash emacs git gnupg tmux wezterm)
+    packages=(aider bash emacs git gnupg tmux wezterm neovim)
 
     # Add linux-specific packages if runnning linux
     if [[ "$OSTYPE" == "linux"* ]]; then

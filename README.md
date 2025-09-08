@@ -19,11 +19,13 @@ curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/install.s
 ### Manual Setup
 
 1. Clone the repository with submodules:
+
    ```bash
    git clone --recurse-submodules https://github.com/coleneville/dotfiles.git
    ```
 
 2. Run the install script:
+
    ```bash
    cd dotfiles
    ./install.sh
