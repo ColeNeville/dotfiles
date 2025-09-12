@@ -3,11 +3,12 @@ return {
   keys = {
     { "<leader>pp", "<CMD>Telescope projects<CR>", desc = "Open Project" },
   },
-  opts = function()
+  opts = function(_, opts)
     local telescopeConfig = require("telescope.config")
 
     local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
 
+    -- Enable hidden files in the outputs of any grep (ripgrep or grep)-based search
     table.insert(vimgrep_arguments, "--hidden")
 
     return {
