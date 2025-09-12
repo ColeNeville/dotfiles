@@ -1,7 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   keys = {
-    { "<leader>pp", "<CMD>Telescope projects<CR>", desc = "Find Project" },
+    { "<leader>pp", "<CMD>Telescope projects<CR>", desc = "Open Project" },
   },
   opts = function()
     local telescopeConfig = require("telescope.config")

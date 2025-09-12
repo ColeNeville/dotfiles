@@ -1,6 +1,6 @@
 .env
-.aider*
 
+.aider*
 !packages/aider/.aider*
 
 packages/emacs/.config/doom/config.el
