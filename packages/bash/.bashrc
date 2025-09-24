@@ -47,21 +47,24 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 # Node Version Manager (NVM) setup if available
 # NVM allows managing multiple Node.js versions on the same machine
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 [ -s "$HOME/.rbenv/bin/rbenv" ] && eval "$($HOME/.rbenv/bin/rbenv init - --no-rehash bash)"
+
+# Set XDG_CONFIG_HOME for setting config files consistent in mac and linux
+export XDG_CONFIG_HOME="$HOME/.config/"
 
 # Custom BASH prompt configuration
 # Displays useful information in the command prompt
 
 # Function to extract and format the current git branch for display in prompt
 # Returns the current branch name in parentheses followed by a space, or empty string if not in a git repository
-parse_git_branch(){ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'; }
+parse_git_branch() { git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'; }
 
 # Function to display hostname in prompt only when connected via SSH
 # This helps visually distinguish SSH sessions from local terminal sessions
-hostname_if_ssh(){
+hostname_if_ssh() {
   if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     echo "[$(hostname)] "
   fi
