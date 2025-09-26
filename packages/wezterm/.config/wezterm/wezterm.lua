@@ -4,7 +4,7 @@ local config = {}
 config.font = wezterm.font("CaskaydiaCove Nerd Font")
 config.font_size = 14
 
-config.color_scheme = "Gruvbox dark, hard (base16)"
+config.color_scheme = "GruvboxDarkHard"
 
 -- In my workflow multiplexing will be handled by tmux
 config.hide_tab_bar_if_only_one_tab = true
