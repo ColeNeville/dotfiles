@@ -4,8 +4,8 @@
 
 local map = LazyVim.safe_keymap_set
 
-map({ "i", "n" }, "<C-Left>", "<CMD>normal! b<CR>", { desc = "Previous word" })
-map({ "i", "n" }, "<C-Right>", "<CMD>normal! e<CR>", { desc = "Next word" })
+map({ "i", "n", "v" }, "<C-Left>", "<CMD>normal! b<CR>", { desc = "Previous word" })
+map({ "i", "n", "v" }, "<C-Right>", "<CMD>normal! e<CR>", { desc = "Next word" })
 
 map({ "n" }, "<C-Down>", "10<Down>")
 map({ "n" }, "<C-Up>", "10<Up>")

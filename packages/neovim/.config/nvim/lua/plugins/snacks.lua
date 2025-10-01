@@ -6,7 +6,14 @@ return {
       function()
         Snacks.picker.projects()
       end,
-      desc = "Open Project",
+      desc = "Find Project",
+    },
+    {
+      "<leader>bb",
+      function()
+        Snacks.picker.buffers()
+      end,
+      desc = "Find Open Buffer",
     },
   },
   opts = {
