@@ -4,7 +4,10 @@ return {
     {
       "<leader>pp",
       function()
-        Snacks.picker.projects()
+        Snacks.picker.projects({
+          dev = { "~/projects" },
+          patterns = { ".git", "package.json", "Makefile", "requirements.txt", "requirements.yaml", "requirements.yml" },
+        })
       end,
       desc = "Find Project",
     },
