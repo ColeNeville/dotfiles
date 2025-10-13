@@ -2,6 +2,8 @@
 # Contains settings for interactive shell behavior, aliases, functions, and prompt customization
 # This file is sourced by .bash_profile for login shells and directly for non-login interactive shells
 
+export BASH_CONFIG_DIR=${XDG_CONFIG_HOME}/bashrc.d/
+
 # Environment Variables
 # Add Homebrew binaries to PATH if directory exists and not already in PATH
 if [ -d "/opt/homebrew/bin" ]; then
@@ -23,9 +25,10 @@ export PATH
 
 export EDITOR=nvim
 
-# Load all script files from ~/.bashrc.d/ directory
+# Load all script files from $BASH_CONFIG_DIR directory
 # This allows for modular organization of bash configurations
-for rc in ~/.bashrc.d/*; do
+# and injection via other stow packages
+for rc in "$BASH_CONFIG_DIR"/*; do
   if [ -f "$rc" ]; then
     . "$rc"
   fi
