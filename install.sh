@@ -1,9 +1,9 @@
 #!/bin/bash
 
-set -e  # Exit on any error
+set -e # Exit on any error
 
 # Configuration
-DOTFILES_REPO="https://github.com/ColeNeville/dotfiles.git"  # Replace with your actual repo URL
+DOTFILES_REPO="https://github.com/ColeNeville/dotfiles.git" # Replace with your actual repo URL
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
 
 # Colors for output
@@ -14,102 +14,108 @@ NC='\033[0m' # No Color
 
 # Logging functions
 log_info() {
-    echo -e "${GREEN}[INFO]${NC} $1"
+  echo -e "${GREEN}[INFO]${NC} $1"
 }
 
 log_warn() {
-    echo -e "${YELLOW}[WARN]${NC} $1"
+  echo -e "${YELLOW}[WARN]${NC} $1"
 }
 
 log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+  echo -e "${RED}[ERROR]${NC} $1"
 }
 
 # Check if git is installed
 check_git() {
-    if ! command -v git &> /dev/null; then
-        log_error "Git is not installed. Please install git first."
-        exit 1
-    fi
+  if ! command -v git &>/dev/null; then
+    log_error "Git is not installed. Please install git first."
+    exit 1
+  fi
 }
 
 # Check if stow is installed
 check_stow() {
-    if ! command -v stow &> /dev/null; then
-        log_error "GNU Stow is not installed. Please install stow first."
-        log_info "On macOS: brew install stow"
-        log_info "On Ubuntu/Debian: sudo apt install stow"
-        log_info "On Fedora: sudo dnf install stow"
-        exit 1
-    fi
+  if ! command -v stow &>/dev/null; then
+    log_error "GNU Stow is not installed. Please install stow first."
+    log_info "On macOS: brew install stow"
+    log_info "On Ubuntu/Debian: sudo apt install stow"
+    log_info "On Fedora: sudo dnf install stow"
+    exit 1
+  fi
 }
 
 # Clone or update dotfiles repository
 setup_dotfiles() {
-    if [ -d "$DOTFILES_DIR" ]; then
-        log_warn "Dotfiles directory already exists at $DOTFILES_DIR"
-        read -p "Do you want to update it? (y/N): " -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            log_info "Updating existing dotfiles..."
-            cd "$DOTFILES_DIR"
-            git pull origin main || git pull origin master
-        else
-            log_info "Using existing dotfiles directory"
-        fi
+  if [ -d "$DOTFILES_DIR" ]; then
+    log_warn "Dotfiles directory already exists at $DOTFILES_DIR"
+    read -p "Do you want to update it? (y/N): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      log_info "Updating existing dotfiles..."
+      cd "$DOTFILES_DIR"
+      git pull origin main || git pull origin master
     else
-        log_info "Cloning dotfiles repository to $DOTFILES_DIR..."
-        git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+      log_info "Using existing dotfiles directory"
     fi
+  else
+    log_info "Cloning dotfiles repository to $DOTFILES_DIR..."
+    git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+  fi
 }
 
 # Initialize and update git submodules
 setup_submodules() {
-    cd "$DOTFILES_DIR"
-    
-    if [ -f ".gitmodules" ]; then
-        log_info "Initializing and updating git submodules..."
-        
-        # Initialize submodules if they haven't been initialized yet
-        git submodule init
-        
-        # Update submodules to the commit specified in the main repo
-        git submodule update --recursive
-        
-        # Optional: Update submodules to their latest commits (uncomment if desired)
-        # git submodule update --remote --recursive
-        
-        log_info "Git submodules updated successfully"
-    else
-        log_info "No git submodules found, skipping submodule setup"
-    fi
+  cd "$DOTFILES_DIR"
+
+  if [ -f ".gitmodules" ]; then
+    log_info "Initializing and updating git submodules..."
+
+    # Initialize submodules if they haven't been initialized yet
+    git submodule init
+
+    # Update submodules to the commit specified in the main repo
+    git submodule update --recursive
+
+    # Optional: Update submodules to their latest commits (uncomment if desired)
+    # git submodule update --remote --recursive
+
+    log_info "Git submodules updated successfully"
+  else
+    log_info "No git submodules found, skipping submodule setup"
+  fi
+}
+
+create_xdg_locations() {
+  mkdir -p "$HOME/.local/bin/"
+  mkdir -p "$HOME/.config/"
 }
 
 # Run the stow script
 run_stow() {
-    cd "$DOTFILES_DIR"
-    
-    if [ -f "stow.sh" ]; then
-        log_info "Running stow.sh..."
-        ./stow.sh
-    else
-        log_error "stow.sh not found in $DOTFILES_DIR"
-        exit 1
-    fi
+  cd "$DOTFILES_DIR"
+
+  if [ -f "stow.sh" ]; then
+    log_info "Running stow.sh..."
+    ./stow.sh
+  else
+    log_error "stow.sh not found in $DOTFILES_DIR"
+    exit 1
+  fi
 }
 
 # Main execution
 main() {
-    log_info "Starting dotfiles installation..."
-    
-    check_git
-    check_stow
-    setup_dotfiles
-    setup_submodules
-    run_stow
-    
-    log_info "Dotfiles installation completed successfully!"
-    log_info "Your dotfiles are now installed from $DOTFILES_DIR"
+  log_info "Starting dotfiles installation..."
+
+  check_git
+  check_stow
+  setup_dotfiles
+  setup_submodules
+  create_xdg_locations
+  run_stow
+
+  log_info "Dotfiles installation completed successfully!"
+  log_info "Your dotfiles are now installed from $DOTFILES_DIR"
 }
 
 # Run main function
