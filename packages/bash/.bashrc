@@ -2,23 +2,23 @@
 # Contains settings for interactive shell behavior, aliases, functions, and prompt customization
 # This file is sourced by .bash_profile for login shells and directly for non-login interactive shells
 
+# Set XDG_CONFIG_HOME for setting config files consistent in mac and linux
+export XDG_CONFIG_HOME="$HOME/.config/"
 export BASH_CONFIG_DIR=${XDG_CONFIG_HOME}/bashrc.d/
 
+# Function to add a directory to the PATH if it exists and is not already in the PATH
+add_to_path() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="$1:$PATH"
+  fi
+}
+
 # Environment Variables
-# Add Homebrew binaries to PATH if directory exists and not already in PATH
-if [ -d "/opt/homebrew/bin" ]; then
-  PATH="/opt/homebrew/bin:$PATH"
-fi
+# Add Homebrew binaries to PATH
+add_to_path "/opt/homebrew/bin"
 
-# Add user's private bin directory to PATH if it exists and not already in PATH
-if [ -d "$HOME/.local/bin" ]; then
-  PATH="$HOME/.local/bin:$PATH"
-fi
-
-# Add toolbox wrappers to PATH if directory exists and not already in PATH
-if [ -d "$HOME/toolbx/.local/bin/toolbox-wrappers" ]; then
-  PATH="$HOME/toolbx/.local/bin/toolbox-wrappers:$PATH"
-fi
+# Add user's private bin directory to PATH
+add_to_path "$HOME/.local/bin"
 
 # Make PATH changes available to child processes
 export PATH
@@ -53,26 +53,33 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
-[ -s "$HOME/.rbenv/bin/rbenv" ] && eval "$($HOME/.rbenv/bin/rbenv init - --no-rehash bash)"
+[ -s "$HOME/.rbenv/bin/rbenv" ] && eval "$("$HOME"/.rbenv/bin/rbenv init - --no-rehash bash)"
 
-# Set XDG_CONFIG_HOME for setting config files consistent in mac and linux
-export XDG_CONFIG_HOME="$HOME/.config/"
+# Custom BASH prompt configuration only for interactive shells
+case "$-" in
+*i*)
+  # Function to extract and format the current git branch for display in prompt
+  # Returns the current branch name in parentheses followed by a space, or empty string if not in a git repository
+  parse_git_branch() {
+    # More efficient implementation
+    local branch
+    if branch=$(git symbolic-ref --short HEAD 2>/dev/null); then
+      echo "($branch) "
+    fi
+  }
 
-# Custom BASH prompt configuration
-# Displays useful information in the command prompt
+  # Function to display hostname in prompt only when connected via SSH
+  # This helps visually distinguish SSH sessions from local terminal sessions
+  hostname_if_ssh() {
+    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+      echo "[$USER@$(hostname)] "
+    else
+      echo ""
+    fi
+  }
 
-# Function to extract and format the current git branch for display in prompt
-# Returns the current branch name in parentheses followed by a space, or empty string if not in a git repository
-parse_git_branch() { git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'; }
-
-# Function to display hostname in prompt only when connected via SSH
-# This helps visually distinguish SSH sessions from local terminal sessions
-hostname_if_ssh() {
-  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    echo "[$(hostname)] "
-  fi
-}
-
-# Set the primary prompt string (PS1)
-# Format: [username@hostname] current_directory (git_branch) $
-export PS1='[$USER@$(hostname)] \w $(parse_git_branch)$ '
+  # Set the primary prompt string (PS1)
+  # Format: [username@hostname] current_directory (git_branch) $
+  export PS1='$(hostname_if_ssh)\w $(parse_git_branch)$ '
+  ;;
+esac
