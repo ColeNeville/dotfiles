@@ -13,7 +13,7 @@ This dotfiles repository is organized by application, with each application's co
 Use the automated install script:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/scripts/install.sh | bash
 ```
 
 ### Manual Setup
@@ -28,7 +28,7 @@ curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/install.s
 
    ```bash
    cd dotfiles
-   ./install.sh
+   ./scripts/install.sh
    ```
 
 ## Featured Configurations
@@ -64,8 +64,8 @@ Individual configurations can be managed using the provided scripts:
 
 ```bash
 cd dotfiles
-./stow.sh package-name    # Install a specific package
-./unstow.sh package-name  # Remove a specific package
+./scripts/stow.sh package-name    # Install a specific package
+./scripts/unstow.sh package-name  # Remove a specific package
 ```
 
 Available packages: `aider`, `bash`, `emacs`, `git`, `gnupg`, `macos`, `neovim`, `tmux`, `toolbx`, `wezterm`

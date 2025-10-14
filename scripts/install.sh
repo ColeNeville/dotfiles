@@ -94,9 +94,9 @@ create_xdg_locations() {
 run_stow() {
   cd "$DOTFILES_DIR"
 
-  if [ -f "stow.sh" ]; then
+  if [ -f "scripts/stow.sh" ]; then
     log_info "Running stow.sh..."
-    ./stow.sh
+    ./scripts/stow.sh
   else
     log_error "stow.sh not found in $DOTFILES_DIR"
     exit 1
