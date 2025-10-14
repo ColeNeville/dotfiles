@@ -56,7 +56,7 @@ cd dotfiles
 ./scripts/unstow.sh package-name  # Remove a specific package
 ```
 
-Available packages: `aider`, `bash`, `emacs`, `git`, `gnupg`, `macos`, `neovim`, `tmux`, `toolbx`, `wezterm`
+Available packages: `bash`, `git`, `gnupg`, `macos`, `neovim`, `tmux`, `wezterm`
 
 ### Updating
 
@@ -66,12 +66,6 @@ To update all configurations and submodules:
 cd ~/dotfiles
 git pull
 git submodule update --recursive --remote
-```
-
-If you've made changes to the Doom Emacs configuration:
-
-```bash
-~/.config/emacs/bin/doom sync
 ```
 
 ## Contact
