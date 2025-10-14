@@ -4,6 +4,10 @@
 
 local map = LazyVim.safe_keymap_set
 
+-- Remove default Shift-H and Shift-L which are moving tabs
+vim.keymap.del({ "n" }, "H")
+vim.keymap.del({ "n" }, "L")
+
 map({ "i", "n", "v" }, "<C-Left>", "<CMD>normal! b<CR>", { desc = "Previous word" })
 map({ "i", "n", "v" }, "<C-Right>", "<CMD>normal! e<CR>", { desc = "Next word" })
 
