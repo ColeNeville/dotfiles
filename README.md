@@ -77,4 +77,4 @@ If you've made changes to the Doom Emacs configuration:
 ## Contact
 
 - **Name**: Cole Neville
-- **Email**: <git@coleneville.net>
+- **Email**: <git@mail.coleslab.dev>
