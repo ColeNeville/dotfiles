@@ -33,18 +33,6 @@ curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/scripts/i
 
 ## Featured Configurations
 
-### Doom Emacs
-
-My Doom Emacs configuration is a literate configuration written in Org mode. It includes:
-
-- Personal information setup
-- UI customization with Gruvbox theme and CaskaydiaCove Nerd Font
-- Org mode and Org Roam configuration
-- Development tools configuration for various languages
-- LSP integration with breadcrumb navigation
-- Debugging setup for Ruby applications
-- AI assistance with Aider integration
-
 ### Neovim
 
 My Neovim configuration uses `lazy.nvim` for package management. It's designed to be minimal and extensible.
@@ -86,11 +74,7 @@ If you've made changes to the Doom Emacs configuration:
 ~/.config/emacs/bin/doom sync
 ```
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ## Contact
 
 - **Name**: Cole Neville
-- **Email**: <me@coleneville.net>
+- **Email**: <git@coleneville.net>
