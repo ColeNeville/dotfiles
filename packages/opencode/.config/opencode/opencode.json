@@ -20,6 +20,7 @@
     "edit": "ask",
     "webfetch": "ask",
   },
+  "theme": "gruvbox",
   "provider": {
     "fuelix": {
       "npm": "@ai-sdk/openai-compatible",
