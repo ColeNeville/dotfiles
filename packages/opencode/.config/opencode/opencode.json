@@ -15,9 +15,10 @@
   },
   "permission": {
     "bash": {
+      "ls *": "allow",
       "*": "ask",
     },
-    "edit": "ask",
+    "edit": "allow",
     "webfetch": "ask",
   },
   "theme": "gruvbox",
