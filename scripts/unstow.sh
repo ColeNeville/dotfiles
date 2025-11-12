@@ -1,85 +1,31 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -euo pipefail
 
-set -e
+. "$(dirname "$0")/logging.sh"
+. "$(dirname "$0")/constants.sh"
 
-# Configuration
-DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
-STOW_TARGET="${STOW_TARGET:-$HOME}"
-
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
-
-# Logging functions
-log_info() {
-  echo -e "${GREEN}[INFO]${NC} $1"
+unstow_package() {
+  local package=$1
+  log_info "Unstowing package: $package"
+  # Change to the packages directory
+  cd "$STOW_PACKAGES_DIR"
+  # Unstow the specified package to the target directory
+  stow --target="$STOW_TARGET" --delete "$package"
 }
 
-log_warn() {
-  echo -e "${YELLOW}[WARN]${NC} $1"
-}
+if ! command -v stow &>/dev/null; then
+  echo "Error: stow is not installed or not in PATH"
+  echo "Please install stow first:"
+  echo "  - On macOS: brew install stow"
+  echo "  - On Ubuntu/Debian: sudo apt install stow"
+  echo "  - On Fedora/RHEL: sudo dnf install stow"
+  echo "  - On Arch Linux: sudo pacman -S stow"
+  exit 1
+fi
 
-log_error() {
-  echo -e "${RED}[ERROR]${NC} $1"
-}
+if [ $# -eq 0 ]; then
+  log_error "No package specified to unstow. Usage: $0 <package-name>"
+  exit 1
+fi
 
-# Check if stow is installed
-check_stow() {
-  if ! command -v stow &>/dev/null; then
-    log_error "GNU Stow is not installed. Cannot unstow dotfiles."
-    exit 1
-  fi
-}
-
-# Check if dotfiles directory exists
-check_dotfiles_dir() {
-  if [ ! -d "$DOTFILES_DIR" ]; then
-    log_error "Dotfiles directory not found at $DOTFILES_DIR"
-    exit 1
-  fi
-
-  if [ ! -d "$DOTFILES_DIR/packages" ]; then
-    log_error "Packages directory not found at $DOTFILES_DIR/packages"
-    exit 1
-  fi
-}
-
-# Unstow all packages
-unstow_packages() {
-  cd "$DOTFILES_DIR/packages"
-
-  log_info "Unstowing dotfiles packages to target: $STOW_TARGET"
-
-  # Find all directories that could be stow packages (exclude hidden dirs and common non-package dirs)
-  for package in */; do
-    package=${package%/} # Remove trailing slash
-
-    # Skip common non-package directories
-    if [[ "$package" == ".git" || "$package" == "scripts" || "$package" == "docs" ]]; then
-      continue
-    fi
-
-    log_info "Unstowing package: $package"
-    if stow -t "$STOW_TARGET" -D "$package" 2>/dev/null; then
-      log_info "Successfully unstowed $package"
-    else
-      log_warn "Failed to unstow $package (may not have been stowed)"
-    fi
-  done
-}
-
-# Main execution
-main() {
-  log_info "Starting dotfiles unstowing..."
-
-  check_stow
-  check_dotfiles_dir
-  unstow_packages
-
-  log_info "Dotfiles unstowing completed!"
-}
-
-# Run main function
-main "$@"
+unstow_package "$1"

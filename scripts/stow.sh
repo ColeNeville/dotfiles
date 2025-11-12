@@ -1,10 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -euo pipefail
 
-set -e
+. "$(dirname "$0")/logging.sh"
+. "$(dirname "$0")/constants.sh"
 
-# Configuration
-DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
-STOW_TARGET="${STOW_TARGET:-$HOME}"
+stow_package() {
+  local package=$1
+  if [ -d "$STOW_PACKAGES_DIR/$package" ]; then
+    log_info "Stowing package: $package"
+    if stow -t "$STOW_TARGET" -S "$package" -d "$STOW_PACKAGES_DIR"; then
+      log_info "Successfully stowed $package"
+    else
+      log_error "Failed to stow $package"
+      exit 1
+    fi
+  else
+    log_warn "Package directory does not exist: $package"
+  fi
+}
 
 # Check if stow is installed
 if ! command -v stow &>/dev/null; then
@@ -13,56 +26,13 @@ if ! command -v stow &>/dev/null; then
   echo "  - On macOS: brew install stow"
   echo "  - On Ubuntu/Debian: sudo apt install stow"
   echo "  - On Fedora/RHEL: sudo dnf install stow"
+  echo "  - On Arch Linux: sudo pacman -S stow"
   exit 1
 fi
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+if [ $# -eq 0 ]; then
+  log_error "No package specified to stow. Usage: $0 <package-name>"
+  exit 1
+fi
 
-# Logging functions
-log_info() {
-  echo -e "${GREEN}[INFO]${NC} $1"
-}
-
-log_warn() {
-  echo -e "${YELLOW}[WARN]${NC} $1"
-}
-
-log_error() {
-  echo -e "${RED}[ERROR]${NC} $1"
-}
-
-# Stow packages
-stow_packages() {
-  cd "$DOTFILES_DIR/packages"
-
-  log_info "Stowing dotfiles packages to target: $STOW_TARGET"
-
-  # List of packages to stow
-  packages=(bash git gnupg lazygit neovim tmux wezterm)
-
-  # Add macOS-specific package if running on macOS
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    packages+=(macos)
-  fi
-
-  for package in "${packages[@]}"; do
-    if [ -d "$package" ]; then
-      log_info "Stowing package: $package"
-      if stow -t "$STOW_TARGET" -S "$package"; then
-        log_info "Successfully stowed $package"
-      else
-        log_error "Failed to stow $package"
-        exit 1
-      fi
-    else
-      log_warn "Package directory not found: $package"
-    fi
-  done
-}
-
-# Main execution
-stow_packages
+stow_package "$1"

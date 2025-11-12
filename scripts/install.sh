@@ -6,6 +6,9 @@ set -e # Exit on any error
 DOTFILES_REPO="https://github.com/ColeNeville/dotfiles.git" # Replace with your actual repo URL
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
 
+# This script is build to run straigh from curl
+# I can't import the logging.sh file because it won't exist yet
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -87,18 +90,23 @@ setup_submodules() {
 
 create_xdg_locations() {
   mkdir -p "$HOME/.local/bin/"
+  mkdir -p "$HOME/.local/share/"
+  mkdir -p "$HOME/.local/state/"
   mkdir -p "$HOME/.config/"
+}
+
+create_shared_locations() {
+  mkdir -p "$HOME/.config/.bashrc.d/"
+  mkdir -p "$HOME/.config/.setup.d/"
 }
 
 # Run the stow script
 run_stow() {
-  cd "$DOTFILES_DIR"
-
-  if [ -f "scripts/stow.sh" ]; then
-    log_info "Running stow.sh..."
-    ./scripts/stow.sh
+  if [ -f "${DOTFILES_DIR}/scripts/stow.sh" ]; then
+    log_info "Running stow-all.sh..."
+    "${DOTFILES_DIR}/scripts/stow-all.sh"
   else
-    log_error "stow.sh not found in $DOTFILES_DIR"
+    log_error "stow-all.sh not found in $DOTFILES_DIR"
     exit 1
   fi
 }
@@ -112,6 +120,7 @@ main() {
   setup_dotfiles
   setup_submodules
   create_xdg_locations
+  create_shared_locations
   run_stow
 
   log_info "Dotfiles installation completed successfully!"
