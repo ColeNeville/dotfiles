@@ -4,10 +4,7 @@ return {
     {
       "<leader>pp",
       function()
-        Snacks.picker.projects({
-          dev = { "~/projects" },
-          patterns = { ".git", "package.json", "Makefile", "requirements.txt", "requirements.yaml", "requirements.yml" },
-        })
+        Snacks.picker.projects({})
       end,
       desc = "Find Project",
     },
@@ -27,6 +24,22 @@ return {
         files = {
           hidden = true,
           ignored = true,
+        },
+        projects = {
+          dev = {
+            "~",
+            "~/projects",
+            "~/**/projects", -- Glob doesn't work, I need to confirm with project
+            "~/projects/monorail/projects",
+            "~/dev",
+            "~/**/dev", -- Glob doesn't work, I need to confirm with project
+          },
+          patterns = {
+            ".git",
+            "package.json", -- NPM
+            "Gemfile", -- Ruby
+            "Makefile",
+          },
         },
       },
     },

@@ -1,6 +1,13 @@
 return {
   "neovim/nvim-lspconfig",
   opts = {
+    servers = {
+      ruby_lsp = {
+        init_options = {
+          provideFormatter = false,
+        },
+      },
+    },
     setup = {
       vtsls = function(_, _)
         LazyVim.lsp.on_attach(function(client, _)
