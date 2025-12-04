@@ -2,9 +2,7 @@
 # Contains settings for interactive shell behavior, aliases, functions, and prompt customization
 # This file is sourced by .bash_profile for login shells and directly for non-login interactive shells
 
-# Set XDG_CONFIG_HOME for setting config files consistent in mac and linux
-export XDG_CONFIG_HOME="$HOME/.config/"
-export BASH_CONFIG_DIR=${XDG_CONFIG_HOME}/bashrc.d/
+export BASH_CONFIG_DIR=$HOME/.config/bashrc.d/
 
 # Load all script files from $BASH_CONFIG_DIR directory
 # This allows for modular organization of bash configurations
