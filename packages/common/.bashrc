@@ -6,25 +6,6 @@
 export XDG_CONFIG_HOME="$HOME/.config/"
 export BASH_CONFIG_DIR=${XDG_CONFIG_HOME}/bashrc.d/
 
-# Function to add a directory to the PATH if it exists and is not already in the PATH
-add_to_path() {
-  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
-    PATH="$1:$PATH"
-  fi
-}
-
-# Environment Variables
-# Add Homebrew binaries to PATH
-add_to_path "/opt/homebrew/bin"
-
-# Add user's private bin directory to PATH
-add_to_path "$HOME/.local/bin"
-
-# Make PATH changes available to child processes
-export PATH
-
-export EDITOR=nvim
-
 # Load all script files from $BASH_CONFIG_DIR directory
 # This allows for modular organization of bash configurations
 # and injection via other stow packages

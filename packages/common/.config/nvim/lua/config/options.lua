@@ -49,4 +49,6 @@ opt.timeoutlen = 300 -- time to wait for a mapped sequence to complete (in milli
 opt.foldmethod = "indent" -- fold based on indent
 opt.foldlevelstart = 99 -- open all folds by default
 
+-- Code formatting
 vim.g.lazyvim_prettier_needs_config = true
+vim.g.autoformat = false

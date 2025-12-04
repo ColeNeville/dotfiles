@@ -33,10 +33,6 @@ stow_packages() {
   else
     log_info "No hostname-specific package found for $(hostname). Skipping."
   fi
-
-  for package in "${packages[@]}"; do
-    "${DOTFILES_DIR}/scripts/stow.sh" "$package"
-  done
 }
 
 # Main execution
