@@ -11,12 +11,30 @@ stow_packages() {
   log_info "Stowing dotfiles packages to target: $STOW_TARGET"
 
   # List of packages to stow
-  packages=(bash git gnupg lazygit neovim tmux wezterm)
+  packages=(common)
 
-  # Add macOS-specific package if running on macOS
-  if [[ "$OSTYPE" == "darwin"* ]]; then
+  # Determine OS type
+  case "$OSTYPE" in
+  linux-gnu*)
+    packages+=(linux)
+    ;;
+  darwin*)
     packages+=(macos)
-  fi
+    ;;
+  *)
+    log_warn "Unsupported OS type: $OSTYPE. Only 'linux' and 'macos' packages will be stowed."
+    ;;
+  esac
+
+  # Determine hostname-specific package
+  case "$HOSTNAME" in
+  garuda-v6)
+    packages+=(garuda-v6)
+    ;;
+  *)
+    log_info "No hostname-specific package found for: $HOSTNAME"
+    ;;
+  esac
 
   for package in "${packages[@]}"; do
     "${DOTFILES_DIR}/scripts/stow.sh" "$package"
