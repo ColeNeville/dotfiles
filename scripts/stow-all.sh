@@ -6,35 +6,33 @@ set -euo pipefail
 
 # Stow packages
 stow_packages() {
+  local stow_script="${DOTFILES_DIR}/scripts/stow.sh"
+
   cd "$DOTFILES_DIR/packages"
 
   log_info "Stowing dotfiles packages to target: $STOW_TARGET"
 
-  # List of packages to stow
-  packages=(common)
+  "${stow_script}" common
 
   # Determine OS type
   case "$OSTYPE" in
   linux-gnu*)
-    packages+=(linux)
+    "${stow_script}" linux
     ;;
   darwin*)
-    packages+=(macos)
+    "${stow_script}" macos
     ;;
   *)
     log_warn "Unsupported OS type: $OSTYPE. Only 'linux' and 'macos' packages will be stowed."
     ;;
   esac
 
-  # Determine hostname-specific package
-  case "$HOSTNAME" in
-  garuda-v6)
-    packages+=(garuda-v6)
-    ;;
-  *)
-    log_info "No hostname-specific package found for: $HOSTNAME"
-    ;;
-  esac
+  # Stow package for hostname if it exists
+  if [ -f "${DOTFILES_DIR}/packages/$(hostname)" ]; then
+    "${stow_script}" "$(hostname)"
+  else
+    log_info "No hostname-specific package found for $(hostname). Skipping."
+  fi
 
   for package in "${packages[@]}"; do
     "${DOTFILES_DIR}/scripts/stow.sh" "$package"
