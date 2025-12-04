@@ -96,8 +96,8 @@ create_xdg_locations() {
 }
 
 create_shared_locations() {
-  mkdir -p "$HOME/.config/.bashrc.d/"
-  mkdir -p "$HOME/.config/.setup.d/"
+  mkdir -p "$HOME/.config/bashrc.d/"
+  mkdir -p "$HOME/.config/setup.d/"
 }
 
 # Run the stow script
