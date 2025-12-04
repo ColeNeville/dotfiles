@@ -14,6 +14,8 @@ Use the automated install script:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/scripts/install.sh | bash
+source ~/.bashrc
+setup.sh
 ```
 
 ### Manual Setup
@@ -29,6 +31,8 @@ curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/scripts/i
    ```bash
    cd dotfiles
    ./scripts/install.sh
+   source ~/.bashrc
+   setup.sh
    ```
 
 ## Featured Configurations

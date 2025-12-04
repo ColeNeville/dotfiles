@@ -4,6 +4,7 @@ STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/setup"
 . "${DATA_DIR}/logging.sh"
 
 PACMAN_PACKAGES=(
+  "bash"
   "git"
   "curl"
   "htop"
@@ -12,6 +13,7 @@ PACMAN_PACKAGES=(
   "wget"
 )
 HOMEBREW_PACKAGES=(
+  "bash"
   "git"
   "curl"
   "htop"
@@ -50,7 +52,7 @@ fi
 
 # Install Node Version Manager (NVM)
 # Check if nvm is installed
-if [ -f "$NVM_DIR" ]; then
+if [ -d "$NVM_DIR" ]; then
   log_info "NVM is already installed."
 else
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh > "${STATE_DIR}/nvm-install.sh"
