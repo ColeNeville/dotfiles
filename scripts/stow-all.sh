@@ -28,10 +28,10 @@ stow_packages() {
   esac
 
   # Stow package for hostname if it exists
-  if [ -f "${DOTFILES_DIR}/packages/$(hostname)" ]; then
-    "${stow_script}" "$(hostname)"
+  if [ -d "${DOTFILES_DIR}/packages/${HOSTNAME}" ]; then
+    "${stow_script}" "${HOSTNAME}"
   else
-    log_info "No hostname-specific package found for $(hostname). Skipping."
+    log_info "No hostname-specific package found for ${HOSTNAME}. Skipping."
   fi
 }
 
