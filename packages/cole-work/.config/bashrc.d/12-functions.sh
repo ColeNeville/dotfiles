@@ -1,6 +1,6 @@
 refresh-gh-token() {
   if command -v gh &>/dev/null; then
-    gh auth refresh -h github.com -s repo,read:org
+    gh auth refresh -h github.com -s read:packages
     
     # Find all npmrc files in the home directory and its subdirectories
     local npmrc_files
