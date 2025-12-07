@@ -12,6 +12,9 @@ return {
           provideFormatter = false,
         },
       },
+      tofu_ls = {
+        filetypes = { "tofu", "tf" },
+      },
     },
   },
 }
