@@ -1,0 +1,5 @@
+debug/
+shell-snapshots/
+todos/
+.claude.json
+.claude.json.backup

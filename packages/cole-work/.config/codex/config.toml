@@ -23,3 +23,12 @@ wire_api = "chat"
 # If necessary, extra query params that need to be added to the URL.
 # See the Azure example below.
 query_params = {}
+
+[projects."/Users/x237983/.dotfiles"]
+trust_level = "untrusted"
+
+[projects."/Users/x237983/projects/akira-redux-core"]
+trust_level = "untrusted"
+
+[projects."/Users/x237983/projects/monorail"]
+trust_level = "trusted"

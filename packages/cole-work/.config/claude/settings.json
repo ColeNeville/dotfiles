@@ -1,5 +1,8 @@
 {
   "env": {
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_TELEMETRY": "1",
     "ANTHROPIC_BASE_URL": "https://api.fuelix.ai",
     "ANTHROPIC_MODEL": "claude-sonnet-4.5"
   }
