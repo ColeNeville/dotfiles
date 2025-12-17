@@ -5,4 +5,4 @@ STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/setup"
 
 # Create necessary directories
 mkdir -p "${STATE_DIR}"
-mkdir -p "${NVM_DIR:-$HOME/.nvm}"
+

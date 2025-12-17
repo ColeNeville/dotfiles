@@ -6,7 +6,6 @@
       "*": "ask",
     },
     "edit": "allow",
-    "webfetch": "ask",
   },
   "theme": "gruvbox",
   "provider": {
@@ -19,6 +18,18 @@
       "models": {
         "gemini-2.5-pro": {
           "name": "Gemini 2.5 Pro"
+        },
+        "gemini-3-pro": {
+          "name": "Gemini 3 Pro"
+        },
+        "gpt-5": {
+          "name": "GPT-5"
+        },
+        "claude-sonnet-4-5": {
+          "name": "Claude 4.5 Sonnet"
+        },
+        "llama-3.2-90b": {
+          "name": "LLaMA 3.2 90B"
         }
       }
     }

@@ -1,0 +1,6 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.fuelix.ai",
+    "ANTHROPIC_MODEL": "claude-sonnet-4.5"
+  }
+}

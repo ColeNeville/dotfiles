@@ -10,14 +10,14 @@ add_to_path() {
   fi
 }
 
-# Environment Variables
-# Add Homebrew binaries to PATH
+# Update PATH with common binary locations
 add_to_path "/opt/homebrew/bin"
-
-# Add user's private bin directory to PATH
 add_to_path "$HOME/.local/bin"
 
 # Make PATH changes available to child processes
 export PATH
-
 export EDITOR=nvim
+export NVM_DIR="$HOME/.nvm"
+
+export CODEX_HOME="$XDG_CONFIG_HOME/codex"
+export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME/claude"
