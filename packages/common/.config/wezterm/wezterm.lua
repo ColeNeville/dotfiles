@@ -11,9 +11,11 @@ config.hide_tab_bar_if_only_one_tab = true
 
 -- Host specific configuration
 local hostname = os.getenv("HOSTNAME")
-if hostname == "garuda-v5" then
+if hostname == "garuda-v6" then
 	config.enable_wayland = false
 	config.font_size = 12
 end
+
+config.default_prog = { "tmux" }
 
 return config

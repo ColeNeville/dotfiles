@@ -5,7 +5,8 @@
       "ls *": "allow",
       "*": "ask",
     },
-    "edit": "allow",
+    "edit": "ask",
+    "webfetch": "ask",
   },
   "theme": "gruvbox",
   "provider": {
@@ -34,7 +35,4 @@
       }
     }
   },
-  "disabled_providers": [
-    "opencode"
-  ]
 }
