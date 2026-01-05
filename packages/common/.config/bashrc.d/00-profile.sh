@@ -2,6 +2,7 @@
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_BIN_HOME="$HOME/.local/bin"
 
 # Function to add a directory to the PATH if it exists and is not already in the PATH
 add_to_path() {
