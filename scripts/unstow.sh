@@ -6,11 +6,16 @@ set -euo pipefail
 
 unstow_package() {
   local package=$1
+
   log_info "Unstowing package: $package"
-  # Change to the packages directory
-  cd "$STOW_PACKAGES_DIR"
+
   # Unstow the specified package to the target directory
-  stow --target="$STOW_TARGET" --delete "$package"
+  stow --target="$STOW_TARGET" --delete "$package" -d "$STOW_PACKAGES_DIR"
+
+  # Update the state file to remove the unstowed package
+  if [ -f "$STATE_FILE" ]; then
+    grep -vx "$package" "$STATE_FILE" > "${STATE_FILE}.tmp" && mv "${STATE_FILE}.tmp" "$STATE_FILE"
+  fi
 }
 
 if ! command -v stow &>/dev/null; then

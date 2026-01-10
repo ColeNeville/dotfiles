@@ -2,12 +2,19 @@
 
 set -e # Exit on any error
 
+LOG_LEVEL="${LOG_LEVEL:-info}"
+
 # Configuration
 DOTFILES_REPO="https://github.com/ColeNeville/dotfiles.git" # Replace with your actual repo URL
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
 
 # This script is build to run straigh from curl
 # I can't import the logging.sh file because it won't exist yet
+
+LOG_DEBUG_VALUE="0"
+LOG_INFO_VALUE="1"
+LOG_WARN_VALUE="2"
+LOG_ERROR_VALUE="3"
 
 # Colors for output
 RED='\033[0;31m'
@@ -16,16 +23,28 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Logging functions
+log_debug() {
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_DEBUG_VALUE" ]; then
+    echo -e "${BLUE}[DEBUG]${NC} $1"
+  fi
+}
+
 log_info() {
-  echo -e "${GREEN}[INFO]${NC} $1"
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_INFO_VALUE" ]; then
+    echo -e "${GREEN}[INFO]${NC} $1"
+  fi
 }
 
 log_warn() {
-  echo -e "${YELLOW}[WARN]${NC} $1"
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_WARN_VALUE" ]; then
+    echo -e "${YELLOW}[WARN]${NC} $1"
+  fi
 }
 
 log_error() {
-  echo -e "${RED}[ERROR]${NC} $1"
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_ERROR_VALUE" ]; then
+    echo -e "${RED}[ERROR]${NC} $1"
+  fi
 }
 
 # Check if git is installed

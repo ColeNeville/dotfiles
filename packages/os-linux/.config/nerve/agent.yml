@@ -1,0 +1,22 @@
+agent: You are a helpful assistant.
+task: Make an HTTP request to {{ url }}
+using:
+- shell
+- task
+- anytool
+- filesystem
+- filesystem_w
+- inquire
+- reasoning
+- time
+
+# You can add custom tools like this:
+#
+# tools:
+# - arguments:
+#   - description: The place to get the weather of.
+#     example: Rome
+#     name: place
+#   description: Get the current weather in a given place.
+#   name: get_weather
+#   tool: curl wttr.in/{{ place }}

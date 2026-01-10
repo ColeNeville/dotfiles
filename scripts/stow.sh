@@ -10,6 +10,12 @@ stow_package() {
     log_info "Stowing package: $package"
     if stow -t "$STOW_TARGET" -S "$package" -d "$STOW_PACKAGES_DIR"; then
       log_info "Successfully stowed $package"
+
+      # Record the stowed package in the state file if not already recorded
+      mkdir -p "$(dirname "$STATE_FILE")"
+      if ! grep -qx "$package" "$STATE_FILE" 2>/dev/null; then
+        echo "$package" >>"$STATE_FILE"
+      fi
     else
       log_error "Failed to stow $package"
       exit 1
