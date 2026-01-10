@@ -71,7 +71,3 @@ cd ~/dotfiles
 git pull
 git submodule update --recursive --remote
 ```
-
-## Contact
-
-- **Name**: Cole Neville
