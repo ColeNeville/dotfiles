@@ -1,4 +1,4 @@
-# Cole Neville's Dotfiles
+# Cole Dotfiles
 
 This repository contains my personal dotfiles and configuration files for various tools and applications I use daily.
 
@@ -15,7 +15,7 @@ Use the automated install script:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/coleneville/dotfiles/main/scripts/install.sh | bash
 source ~/.bashrc
-setup.sh
+dotfiles.sh setup
 ```
 
 ### Manual Setup
@@ -32,7 +32,7 @@ setup.sh
    cd dotfiles
    ./scripts/install.sh
    source ~/.bashrc
-   setup.sh
+   dotfiles.sh setup
    ```
 
 ## Featured Configurations
@@ -75,4 +75,3 @@ git submodule update --recursive --remote
 ## Contact
 
 - **Name**: Cole Neville
-- **Email**: <git@mail.coleslab.dev>
