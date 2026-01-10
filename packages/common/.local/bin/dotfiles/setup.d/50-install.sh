@@ -1,7 +1,7 @@
 set -euo pipefail
 
-DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/setup"
-STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/setup"
+. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
+. "${DATA_DIR}/logging.sh"
 
 NVM_VERSION="0.40.3"
 DEFAULT_NODE_VERSION="24"
@@ -9,8 +9,6 @@ DEFAULT_NODE_VERSION="24"
 CODEX_VERSION="0.72.0"
 CLAUDE_VERSION="2.0.71"
 OPENCODE_VERSION="1.0.164"
-
-. "${DATA_DIR}/logging.sh"
 
 PACMAN_PACKAGES=(
   "bash"

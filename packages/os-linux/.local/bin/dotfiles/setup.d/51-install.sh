@@ -18,17 +18,21 @@ pip install --upgrade pip
 pip install chainlit
 deactivate
 
-mkdir -p "${DATA_DIR}/downloads"
-cd "${DATA_DIR}/downloads"
-wget -qO- https://astral.sh/uv/install.sh > uv-install.sh
-log_info "SHA 256 checksum: $(sha256sum uv-install.sh | awk '{print $1}')"
+download_dir="$(mktemp -d)"
 
-if [ "$(sha256sum uv-install.sh | awk '{print $1}')" != "$VALID_UV_INSTALL_CHECKSUM" ]; then
+mkdir -p "${download_dir}"
+
+script_path="${download_dir}/uv-install.sh"
+
+wget -qO- https://astral.sh/uv/install.sh > "${script_path}"
+log_info "SHA 256 checksum: $(sha256sum "${script_path}" | awk '{print $1}')"
+
+if [ "$(sha256sum ${script_path} | awk '{print $1}')" != "$VALID_UV_INSTALL_CHECKSUM" ]; then
     log_error "Invalid checksum for uv install script. Aborting installation."
     log_error "Expected: $VALID_UV_INSTALL_CHECKSUM"
-    log_error "Got: $(sha256sum uv-install.sh | awk '{print $1}')"
+    log_error "Got: $(sha256sum "${script_path}" | awk '{print $1}')"
     exit 1
 fi
 
-chmod +x uv-install.sh
-./uv-install.sh
+chmod +x "${script_path}"
+"${script_path}"
