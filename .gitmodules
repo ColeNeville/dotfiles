@@ -1,5 +1,5 @@
 [submodule "packages/common/.config/tmux/plugins/tpm"]
-	path = packages/common/.config/tmux/plugins/tpm
+	path = packages/extra-tmux/.config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
 [submodule "packages/extra-nvim/.config/nvimk"]
 	path = packages/extra-nvim/.config/nvimk
