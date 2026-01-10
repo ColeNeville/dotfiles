@@ -26,8 +26,6 @@ map_log_level_to_value() {
 
 STOW_LOG_LEVEL_VALUE=$(map_log_level_to_value "$LOG_LEVEL")
 
-echo "$STOW_LOG_LEVEL_VALUE"
-
 # Logging functions
 log_debug() {
   if [ "$STOW_LOG_LEVEL_VALUE" -le "$LOG_DEBUG_VALUE" ]; then

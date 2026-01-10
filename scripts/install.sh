@@ -22,27 +22,37 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+map_log_level_to_value() {
+  case "$1" in
+  debug) echo "$LOG_DEBUG_VALUE" ;;
+  info) echo "$LOG_INFO_VALUE" ;;
+  warn) echo "$LOG_WARN_VALUE" ;;
+  error) echo "$LOG_ERROR_VALUE" ;;
+  *) echo "$LOG_INFO_VALUE" ;; # Default to info
+  esac
+}
+
 # Logging functions
 log_debug() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_DEBUG_VALUE" ]; then
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_DEBUG_VALUE" ]; then
     echo -e "${BLUE}[DEBUG]${NC} $1"
   fi
 }
 
 log_info() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_INFO_VALUE" ]; then
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_INFO_VALUE" ]; then
     echo -e "${GREEN}[INFO]${NC} $1"
   fi
 }
 
 log_warn() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_WARN_VALUE" ]; then
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_WARN_VALUE" ]; then
     echo -e "${YELLOW}[WARN]${NC} $1"
   fi
 }
 
 log_error() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -ge "$LOG_ERROR_VALUE" ]; then
+  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_ERROR_VALUE" ]; then
     echo -e "${RED}[ERROR]${NC} $1"
   fi
 }
@@ -69,7 +79,7 @@ check_stow() {
 # Clone or update dotfiles repository
 setup_dotfiles() {
   if [ -d "$DOTFILES_DIR" ]; then
-    log_warn "Dotfiles directory already exists at $DOTFILES_DIR"
+    echo "Dotfiles directory already exists at $DOTFILES_DIR"
     read -p "Do you want to update it? (y/N): " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then

@@ -16,7 +16,7 @@ prompt_for_extras() {
     mapfile -t stowed_packages <"$STATE_FILE"
   fi
 
-  log_info "Available extra packages:"
+  echo "Available extra packages:"
   for package_dir in "${STOW_PACKAGES_DIR}/extra-"*; do
     if [ -d "$package_dir" ]; then
       local package_name
