@@ -26,27 +26,29 @@ map_log_level_to_value() {
 
 STOW_LOG_LEVEL_VALUE=$(map_log_level_to_value "$LOG_LEVEL")
 
+echo "$STOW_LOG_LEVEL_VALUE"
+
 # Logging functions
 log_debug() {
-  if [ "$STOW_LOG_LEVEL_VALUE" -ge "$LOG_DEBUG_VALUE" ]; then
+  if [ "$STOW_LOG_LEVEL_VALUE" -le "$LOG_DEBUG_VALUE" ]; then
     echo -e "${BLUE}[DEBUG]${NC} $1"
   fi
 }
 
 log_info() {
-  if [ "$STOW_LOG_LEVEL_VALUE" -ge "$LOG_INFO_VALUE" ]; then
+  if [ "$STOW_LOG_LEVEL_VALUE" -le "$LOG_INFO_VALUE" ]; then
     echo -e "${GREEN}[INFO]${NC} $1"
   fi
 }
 
 log_warn() {
-  if [ "$STOW_LOG_LEVEL_VALUE" -ge "$LOG_WARN_VALUE" ]; then
+  if [ "$STOW_LOG_LEVEL_VALUE" -le "$LOG_WARN_VALUE" ]; then
     echo -e "${YELLOW}[WARN]${NC} $1"
   fi
 }
 
 log_error() {
-  if [ "$STOW_LOG_LEVEL_VALUE" -ge "$LOG_ERROR_VALUE" ]; then
+  if [ "$STOW_LOG_LEVEL_VALUE" -le "$LOG_ERROR_VALUE" ]; then
     echo -e "${RED}[ERROR]${NC} $1"
   fi
 }
