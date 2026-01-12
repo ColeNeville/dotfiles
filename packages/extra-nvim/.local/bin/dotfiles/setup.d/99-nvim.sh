@@ -1,4 +1,4 @@
-. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
+. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/setup.d/log.sh"
 . "${DATA_DIR}/logging.sh"
 
 PACMAN_PACKAGES=(

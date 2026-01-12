@@ -31,11 +31,11 @@ HOMEBREW_PACKAGES=(
   "wget"
 )
 
-NPM_PACKAGES=(
-  "@openai/codex@$CODEX_VERSION"
-  "@anthropic-ai/claude-code@$CLAUDE_VERSION"
-  "opencode-ai@$OPENCODE_VERSION"
-)
+# NPM_PACKAGES=(
+#   "@openai/codex@$CODEX_VERSION"
+#   "@anthropic-ai/claude-code@$CLAUDE_VERSION"
+#   "opencode-ai@$OPENCODE_VERSION"
+# )
 
 install_pacman_packages() {
   log_info "Installing packages using pacman..."
