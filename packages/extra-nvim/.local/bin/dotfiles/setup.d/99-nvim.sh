@@ -1,4 +1,3 @@
-. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/setup.d/log.sh"
 . "${DATA_DIR}/logging.sh"
 
 PACMAN_PACKAGES=(
@@ -10,14 +9,14 @@ PACMAN_PACKAGES=(
   "make"
   "unzip"
   "gcc" # GNU Compiler Collection
-  "rg" # ripgrep
-  "fd" # fd-find
+  "rg"  # ripgrep
+  "fd"  # fd-find
 )
 
 HOMEBREW_PACKAGES=(
   # Neovim itself
   "neovim"
- 
+
   # Language servers and tools
   "git"
   "make"
