@@ -2,7 +2,7 @@
 
 . "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
 
-BIN_DIR="${BIN_DIR:-$HOME/.local/bin}"
+BIN_DIR="${BIN_DIR:-$HOME/.local/bin}/dotfiles"
 
 SUB_COMMAND_HELP="Available sub-commands:
   setup      Run the dotfiles setup scripts"
