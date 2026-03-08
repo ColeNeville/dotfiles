@@ -1,3 +1,6 @@
 packages/common/.config/tmux/plugins
 packages/common/.gnupg/private-keys-v1.d/
+packages/common/.gnupg/public-keys.d/
+packages/common/.gnupg/.gpg-card_history
 packages/common/.gnupg/reader_0.status
+packages/common/.gnupg/trustdb.gpg
