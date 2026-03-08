@@ -1,1 +1,3 @@
 packages/common/.config/tmux/plugins
+packages/common/.gnupg/private-keys-v1.d/
+packages/common/.gnupg/reader_0.status

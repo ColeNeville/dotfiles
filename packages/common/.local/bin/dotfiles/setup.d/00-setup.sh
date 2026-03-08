@@ -1,5 +1,5 @@
-. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
+. "$HOME/.config/dotfiles/config.sh"
 
 # Create necessary directories
-mkdir -p "${SETUP_STATE_DIR}"
+mkdir -p "${SETUP_DATA_DIR}"
 
