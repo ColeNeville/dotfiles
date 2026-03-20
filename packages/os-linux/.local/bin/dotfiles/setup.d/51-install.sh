@@ -6,6 +6,10 @@ set -euo pipefail
 # shellcheck source=../../../../../../lib/logging.sh
 . "${DOTFILES_DIR}/lib/logging.sh"
 
+# Define data directories for Python tools
+NERVE_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nerve"
+CHAINLIT_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/chainlit"
+
 VALID_UV_INSTALL_CHECKSUM="e27424708d1ac59cfc94e3f540a111f2edbb37bc8164febce8ee7fa5d5505c71"
 
 python3 -m venv "${NERVE_DATA_DIR}/venv"

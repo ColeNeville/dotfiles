@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-. "${DATA_DIR}/logging.sh"
+# shellcheck source=./logging.sh
+. "${DOTFILES_DIR}/lib/logging.sh"
 
 PACMAN_PACKAGES=${PACMAN_PACKAGES:-()}
 PARU_PACKAGES=${PARU_PACKAGES:-()}
