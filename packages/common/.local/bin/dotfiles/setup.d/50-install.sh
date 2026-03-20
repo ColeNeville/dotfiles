@@ -1,7 +1,10 @@
+#!/bin/bash
 set -euo pipefail
 
-. "$HOME/.config/dotfiles/config.sh"
-. "${DATA_DIR}/logging.sh"
+. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
+
+# shellcheck source=../../../../../../lib/logging.sh
+. "${DOTFILES_DIR}/lib/logging.sh"
 
 NVM_VERSION="0.40.3"
 DEFAULT_NODE_VERSION="24"

@@ -1,4 +1,10 @@
-. "${DATA_DIR}/logging.sh"
+#!/bin/bash
+set -euo pipefail
+
+. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
+
+# shellcheck source=../../../../../../lib/logging.sh
+. "${DOTFILES_DIR}/lib/logging.sh"
 
 PACMAN_PACKAGES=(
   # Neovim itself
@@ -26,4 +32,5 @@ HOMEBREW_PACKAGES=(
   "fd"
 )
 
-. "${DATA_DIR}/install.sh"
+# shellcheck source=../../../../../../lib/install.sh
+. "${DOTFILES_DIR}/lib/install.sh"

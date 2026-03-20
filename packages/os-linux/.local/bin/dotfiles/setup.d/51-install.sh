@@ -1,10 +1,12 @@
+#!/bin/bash
 set -euo pipefail
 
-DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/setup"
+. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
+
+# shellcheck source=../../../../../../lib/logging.sh
+. "${DOTFILES_DIR}/lib/logging.sh"
 
 VALID_UV_INSTALL_CHECKSUM="e27424708d1ac59cfc94e3f540a111f2edbb37bc8164febce8ee7fa5d5505c71"
-
-. "${DATA_DIR}/logging.sh"
 
 python3 -m venv "${NERVE_DATA_DIR}/venv"
 source "${NERVE_DATA_DIR}/venv/bin/activate"

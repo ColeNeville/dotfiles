@@ -1,8 +1,7 @@
 #!/bin/bash
+set -euo pipefail
 
-set -eou pipefail
-
-. "${HOME}/.config/dotfiles/config.sh"
+. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
 
 PACMAN_PACKAGES=(
   "dnsmasq"
@@ -15,4 +14,5 @@ PARU_PACKAGES=(
   "greetd-dms-greeter-git"
 )
 
-. "${DATA_DIR}/install.sh"
+# shellcheck source=../../../../../../lib/install.sh
+. "${DOTFILES_DIR}/lib/install.sh"

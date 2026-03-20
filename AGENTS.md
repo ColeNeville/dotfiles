@@ -14,6 +14,9 @@ This is a personal dotfiles repository using GNU Stow for symlink management. Th
 - GNU Stow for package management
 
 **Directory Structure:**
+- `lib/` - Shared libraries sourced by setup scripts
+  - `logging.sh` - Logging functions (log_info, log_error, etc.)
+  - `install.sh` - Package installation helpers
 - `packages/` - Modular package configurations
   - `common/` - Core configurations shared across all systems
   - `os-linux/` - Linux-specific configurations
@@ -94,6 +97,24 @@ set -e  # For main/install scripts (less strict)
 - Files: `kebab-case.sh` (e.g., `stow-all.sh`, `install.sh`)
 
 **Sourcing:**
+
+For setup scripts (in `packages/*/...local/bin/dotfiles/setup.d/`):
+```bash
+#!/bin/bash
+set -euo pipefail
+
+# Always source config.sh first to get DOTFILES_DIR and other environment variables
+. "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
+
+# Source shared libraries from repository lib/ directory
+# shellcheck directives enable LSP go-to-definition in development
+# shellcheck source=../../../../../../lib/logging.sh
+. "${DOTFILES_DIR}/lib/logging.sh"
+# shellcheck source=../../../../../../lib/install.sh
+. "${DOTFILES_DIR}/lib/install.sh"
+```
+
+For other scripts:
 ```bash
 . "$(dirname "$0")/logging.sh"  # Relative path with dot notation
 . "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"  # With fallback
