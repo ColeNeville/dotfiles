@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
+# shellcheck source=../../../../../common/.config/dotfiles/config.sh
 . "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
 
 PACMAN_PACKAGES=(
@@ -8,6 +9,7 @@ PACMAN_PACKAGES=(
   "niri"
   "greetd"
   "qemu-full"
+  "quickshell"
 )
 PARU_PACKAGES=(
   "dms-shell-bin"
