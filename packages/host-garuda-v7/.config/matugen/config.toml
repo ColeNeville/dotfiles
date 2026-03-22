@@ -1,3 +1,0 @@
-[templates.nvim-base16-matugen]
-input_path = "~/.config/matugen/templates/nvim-base16-matugen.tera"
-output_path = "~/.config/nvim/colors/base16-matugen.vim"

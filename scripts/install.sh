@@ -23,138 +23,141 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 map_log_level_to_value() {
-  case "$1" in
-  debug) echo "$LOG_DEBUG_VALUE" ;;
-  info) echo "$LOG_INFO_VALUE" ;;
-  warn) echo "$LOG_WARN_VALUE" ;;
-  error) echo "$LOG_ERROR_VALUE" ;;
-  *) echo "$LOG_INFO_VALUE" ;; # Default to info
-  esac
+	case "$1" in
+	debug) echo "$LOG_DEBUG_VALUE" ;;
+	info) echo "$LOG_INFO_VALUE" ;;
+	warn) echo "$LOG_WARN_VALUE" ;;
+	error) echo "$LOG_ERROR_VALUE" ;;
+	*) echo "$LOG_INFO_VALUE" ;; # Default to info
+	esac
 }
 
 # Logging functions
 log_debug() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_DEBUG_VALUE" ]; then
-    echo -e "${BLUE}[DEBUG]${NC} $1"
-  fi
+	if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_DEBUG_VALUE" ]; then
+		echo -e "${BLUE}[DEBUG]${NC} $1"
+	fi
 }
 
 log_info() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_INFO_VALUE" ]; then
-    echo -e "${GREEN}[INFO]${NC} $1"
-  fi
+	if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_INFO_VALUE" ]; then
+		echo -e "${GREEN}[INFO]${NC} $1"
+	fi
 }
 
 log_warn() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_WARN_VALUE" ]; then
-    echo -e "${YELLOW}[WARN]${NC} $1"
-  fi
+	if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_WARN_VALUE" ]; then
+		echo -e "${YELLOW}[WARN]${NC} $1"
+	fi
 }
 
 log_error() {
-  if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_ERROR_VALUE" ]; then
-    echo -e "${RED}[ERROR]${NC} $1"
-  fi
+	if [ "$(map_log_level_to_value "$LOG_LEVEL")" -le "$LOG_ERROR_VALUE" ]; then
+		echo -e "${RED}[ERROR]${NC} $1"
+	fi
 }
 
 # Check if git is installed
 check_git() {
-  if ! command -v git &>/dev/null; then
-    log_error "Git is not installed. Please install git first."
-    exit 1
-  fi
+	if ! command -v git &>/dev/null; then
+		log_error "Git is not installed. Please install git first."
+		exit 1
+	fi
 }
 
 # Check if stow is installed
 check_stow() {
-  if ! command -v stow &>/dev/null; then
-    log_error "GNU Stow is not installed. Please install stow first."
-    log_info "On macOS: brew install stow"
-    log_info "On Ubuntu/Debian: sudo apt install stow"
-    log_info "On Fedora: sudo dnf install stow"
-    exit 1
-  fi
+	if ! command -v stow &>/dev/null; then
+		log_error "GNU Stow is not installed. Please install stow first."
+		log_info "On macOS: brew install stow"
+		log_info "On Ubuntu/Debian: sudo apt install stow"
+		log_info "On Fedora: sudo dnf install stow"
+		exit 1
+	fi
 }
 
 # Clone or update dotfiles repository
 setup_dotfiles() {
-  if [ -d "$DOTFILES_DIR" ]; then
-    echo "Dotfiles directory already exists at $DOTFILES_DIR"
-    read -p "Do you want to update it? (y/N): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      log_info "Updating existing dotfiles..."
-      cd "$DOTFILES_DIR"
-      git pull origin main || git pull origin master
-    else
-      log_info "Using existing dotfiles directory"
-    fi
-  else
-    log_info "Cloning dotfiles repository to $DOTFILES_DIR..."
-    git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
-  fi
+	if [ -d "$DOTFILES_DIR" ]; then
+		echo "Dotfiles directory already exists at $DOTFILES_DIR"
+		read -p "Do you want to update it? (y/N): " -n 1 -r
+		echo
+		if [[ $REPLY =~ ^[Yy]$ ]]; then
+			log_info "Updating existing dotfiles..."
+			cd "$DOTFILES_DIR"
+			git pull origin main || git pull origin master
+		else
+			log_info "Using existing dotfiles directory"
+		fi
+	else
+		log_info "Cloning dotfiles repository to $DOTFILES_DIR..."
+		git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+	fi
 }
 
 # Initialize and update git submodules
 setup_submodules() {
-  cd "$DOTFILES_DIR"
+	cd "$DOTFILES_DIR"
 
-  if [ -f ".gitmodules" ]; then
-    log_info "Initializing and updating git submodules..."
+	if [ -f ".gitmodules" ]; then
+		log_info "Initializing and updating git submodules..."
 
-    # Initialize submodules if they haven't been initialized yet
-    git submodule init
+		# Initialize submodules if they haven't been initialized yet
+		git submodule init
 
-    # Update submodules to the commit specified in the main repo
-    git submodule update --recursive
+		# Update submodules to the commit specified in the main repo
+		git submodule update --recursive
 
-    # Optional: Update submodules to their latest commits (uncomment if desired)
-    # git submodule update --remote --recursive
+		# Optional: Update submodules to their latest commits (uncomment if desired)
+		# git submodule update --remote --recursive
 
-    log_info "Git submodules updated successfully"
-  else
-    log_info "No git submodules found, skipping submodule setup"
-  fi
+		log_info "Git submodules updated successfully"
+	else
+		log_info "No git submodules found, skipping submodule setup"
+	fi
 }
 
 create_xdg_locations() {
-  mkdir -p "$HOME/.local/bin/"
-  mkdir -p "$HOME/.local/share/"
-  mkdir -p "$HOME/.local/state/"
-  mkdir -p "$HOME/.config/"
+	mkdir -p "$HOME/.local/bin/"
+	mkdir -p "$HOME/.local/share/"
+	mkdir -p "$HOME/.local/state/"
+	mkdir -p "$HOME/.config/"
 }
 
 create_shared_locations() {
-  mkdir -p "$HOME/.config/bashrc.d/"
-  mkdir -p "$HOME/.config/dotfiles/"
-  mkdir -p "$HOME/.local/bin/dotfiles/setup.d"
+	mkdir -p "$HOME/.config/bashrc.d/"
+	mkdir -p "$HOME/.config/dotfiles/"
+	mkdir -p "$HOME/.local/bin/dotfiles/setup.d"
 }
 
 # Run the stow script
 run_stow() {
-  if [ -f "${DOTFILES_DIR}/scripts/stow.sh" ]; then
-    log_info "Running stow-all.sh..."
-    "${DOTFILES_DIR}/scripts/stow-all.sh"
-  else
-    log_error "stow-all.sh not found in $DOTFILES_DIR"
-    exit 1
-  fi
+	if [ -f "${DOTFILES_DIR}/scripts/stow.sh" ]; then
+		log_info "Running stow-all.sh..."
+		"${DOTFILES_DIR}/scripts/stow-all.sh"
+	else
+		log_error "stow-all.sh not found in $DOTFILES_DIR"
+		exit 1
+	fi
 }
 
 # Main execution
 main() {
-  log_info "Starting dotfiles installation..."
+	log_info "Starting dotfiles installation..."
 
-  check_git
-  check_stow
-  setup_dotfiles
-  setup_submodules
-  create_xdg_locations
-  create_shared_locations
-  run_stow
+	check_git
+	check_stow
+	setup_dotfiles
+	setup_submodules
+	create_xdg_locations
+	create_shared_locations
+	run_stow
 
-  log_info "Dotfiles installation completed successfully!"
-  log_info "Your dotfiles are now installed from $DOTFILES_DIR"
+	log_info "Running dotfiles setup..."
+	"${HOME}/.local/bin/dotfiles.sh" setup
+
+	log_info "Dotfiles installation completed successfully!"
+	log_info "Your dotfiles are now installed from $DOTFILES_DIR"
 }
 
 # Run main function
