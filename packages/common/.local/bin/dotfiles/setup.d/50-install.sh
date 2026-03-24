@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
+# shellcheck source=../../../../.config/dotfiles/config.sh
 . "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"
 
 # shellcheck source=../../../../../../lib/logging.sh
@@ -63,3 +64,13 @@ install_npm_packages() {
 
 install_nvm
 install_npm_packages
+
+PACMAN_PACKAGES=("zsh")
+HOMEBREW_PACKAGES=("zsh")
+
+# shellcheck source=../../../../../../lib/install.sh
+. "${DOTFILES_DIR}/lib/install.sh"
+
+# ZSH Setup
+# Note: Oh My Zsh will be installed automatically on first terminal launch
+# via the 00-oh-my-zsh.zsh configuration file in ~/.config/zshrc.d/

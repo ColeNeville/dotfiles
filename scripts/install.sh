@@ -126,6 +126,7 @@ create_xdg_locations() {
 
 create_shared_locations() {
 	mkdir -p "$HOME/.config/bashrc.d/"
+  mkdir -p "$HOME/.config/zshrc.d/"
 	mkdir -p "$HOME/.config/dotfiles/"
 	mkdir -p "$HOME/.local/bin/dotfiles/setup.d"
 }
