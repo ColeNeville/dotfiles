@@ -22,6 +22,7 @@ This dotfiles repository uses a **modular package-based architecture** powered b
   - macOS: `brew install stow`
   - Arch Linux: `sudo pacman -S stow`
   - Ubuntu/Debian: `sudo apt install stow`
+- **Bash 3.2+**: All scripts are compatible with bash 3.2 (the version shipped with macOS). No newer bash is required on macOS.
 - **Optional**: `pacman` or `homebrew` for automated package installation
 
 ## Installation

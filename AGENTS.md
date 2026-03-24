@@ -75,6 +75,41 @@ stylua packages/extra-old-nvim/.config/nvim/
 
 ### Shell Scripts (Bash)
 
+**Minimum Bash Version: 3.2**
+
+All shell scripts must be compatible with bash 3.2, which is the version shipped with macOS. Do not use any bash 4.0+ features.
+
+**Forbidden patterns (bash 4.0+):**
+```bash
+mapfile -t arr <file          # Use while-read loop instead
+readarray -t arr <file        # Same
+[[ -v VAR ]]                  # Use [ -z "${VAR+x}" ] instead
+${var,,} / ${var^^}           # No case modification operators
+declare -A                    # No associative arrays
+local -n / declare -n         # No namerefs
+((i++))                       # Unsafe under set -e; use i=$((i + 1))
+${ARRAY:-()}                  # Broken for arrays; see below
+```
+
+**Array initialization (bash 3.2-compatible default values):**
+```bash
+# WRONG — broken in bash 3.2 and unreliable with set -u:
+MY_ARRAY=${MY_ARRAY:-()}
+
+# CORRECT — works in bash 3.2 and with set -u:
+if [ -z "${MY_ARRAY+x}" ]; then MY_ARRAY=(); fi
+```
+
+**Empty array expansion under `set -u`:**
+
+Expanding `"${ARRAY[@]}"` when the array is empty triggers an "unbound variable" error in bash < 4.4. Always guard array use with a length check:
+```bash
+if [[ ${#MY_ARRAY[@]} -eq 0 ]]; then
+  return 0
+fi
+# safe to expand "${MY_ARRAY[@]}" here
+```
+
 **File Headers:**
 ```bash
 #!/bin/bash
