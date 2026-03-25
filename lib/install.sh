@@ -14,7 +14,14 @@ function install_pacman_packages {
 		return 0
 	fi
 	log_info "Installing packages using pacman..."
-	sudo pacman -Sy --noconfirm "${PACMAN_PACKAGES[@]}" 1>/dev/null
+	for package in "${PACMAN_PACKAGES[@]}"; do
+		if ! pacman -Q "$package" &>/dev/null; then
+			sudo pacman -Sy --noconfirm "$package" 1>/dev/null
+			log_info "Installed $package via pacman."
+		else
+			log_info "$package is already installed via pacman."
+		fi
+	done
 	log_info "Pacman package installation completed."
 }
 
@@ -47,10 +54,19 @@ function install_paru_packages {
 		return 0
 	fi
 	log_info "Installing packages using paru..."
-	paru -Sy --noconfirm "${PARU_PACKAGES[@]}" 1>/dev/null
+	for package in "${PARU_PACKAGES[@]}"; do
+		if ! paru -Q "$package" &>/dev/null; then
+			paru -Sy --noconfirm "$package" 1>/dev/null
+			log_info "Installed $package via paru."
+		else
+			log_info "$package is already installed via paru."
+		fi
+	done
 	log_info "Paru packages installation completed."
 }
 
 if command -v paru &>/dev/null; then
 	install_paru_packages
+elif command -v pacman &>/dev/null && [[ ${#PARU_PACKAGES[@]} -gt 0 ]]; then
+	log_error "paru is not installed but PARU_PACKAGES is not empty: ${PARU_PACKAGES[*]}"
 fi
