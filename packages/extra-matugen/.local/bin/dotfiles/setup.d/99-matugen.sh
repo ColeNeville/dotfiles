@@ -20,10 +20,10 @@ GENERATED_FILES_MANIFEST="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/packages
 
 log_info "Generating matugen config.toml..."
 
-config=""
+config='[config]\n'
 
 if grep -qxE "extra-nvim|extra-old-nvim" "$STATE_FILE" 2>/dev/null; then
-	config+='[templates.nvim-base16-matugen]\n'
+	config+='\n[templates.nvim-base16-matugen]\n'
 	config+='input_path = "~/.config/matugen/templates/nvim-base16-matugen.tera"\n'
 	config+='output_path = "~/.config/nvim/colors/base16-matugen.vim"\n'
 	log_info "  + nvim-base16-matugen (extra-nvim/extra-old-nvim is stowed)"
