@@ -1,8 +1,9 @@
 ---
 name: semantic-commit
 description: |
-  Creates semantic (conventional) commit messages for staged or working-tree changes, with
-  a co-author attribution line crediting the pi coding agent and the LLM model used.
+  Use this skill when asked to commit code. Creates semantic (conventional) commit messages
+  for staged or working-tree changes, with a co-author attribution line crediting the
+  pi coding agent and the LLM model used.
 license: MIT
 ---
 
@@ -40,15 +41,17 @@ and adds a `Co-authored-by` trailer so the source of the changes is credited.
 ```
 type(scope): description
 
-[optional body]
+* bullet point 1
+* bullet point 2
+* bullet point 3
 
 Co-authored-by: pi-coding-agent <pi@agent.local> (model: <model-name>)
 ```
 
 - **Type**: one of the values above, lowercase.
 - **Scope** (optional): the module or file affected, e.g. `(bash)`, `(nvim)`, `(dotfiles.sh)`. Omit when changes span many areas.
-- **Description**: imperative mood, present tense, no period at end. Max ~72 chars. E.g. `add skill for semantic commits`.
-- **Body** (optional): explain motivation and contrast with previous behaviour. Wrap at 72 chars.
+- **Description**: imperative mood, present tense, no period at end. Soft limit 50 chars; hard limit 72 chars. E.g. `add semantic-commit skill`.
+- **Body** (optional): use bullet points (`* `) to summarize key changes concisely. No full sentences — keep each bullet short and scannable.
 
 ## Co-author Line
 
@@ -76,7 +79,7 @@ Co-authored-by: pi-coding-agent <pi@agent.local> (model: anthropic/claude-sonnet
 
 1. **Gather changes**: Run `git diff --cached` for staged changes and `git diff` for unstaged. If only working-tree files need committing, stage them first with `git add`.
 2. **Classify**: Pick the most appropriate type from the table above. If multiple types apply, choose the dominant one.
-3. **Write message**: Compose using the format above. Include a body when the change warrants context.
+3. **Write message**: Compose using the format above — keep the subject under 50 chars (hard 72) and use bullet points for the body.
 4. **Commit**: Run `git commit -m "..."` or `git commit -m "$(cat <<< "$message")"` to ensure proper formatting with the co-author footer.
 
 ## Examples
@@ -84,24 +87,27 @@ Co-authored-by: pi-coding-agent <pi@agent.local> (model: anthropic/claude-sonnet
 ### Simple feature change
 ```bash
 git add packages/extra-pi/.config/pi/agent/skills/semantic-commit/
-git commit -m "feat(pi): add semantic-commit skill for conventional commits
+git commit -m "feat(pi): add semantic-commit skill
+
+* conventional commits with co-author trailer
+* type/scope reference table included
 
 Co-authored-by: pi-coding-agent <pi@agent.local> (model: qwen3.6-35b-a3b)"
 ```
 
 ### Bug fix with scope
 ```bash
-git commit -m "fix(bash): correct array expansion under set -u in setup scripts
+git commit -m "fix(bash): guard empty array expansion under set -u
 
-Empty arrays now use the bash 3.2-compatible pattern to avoid
-'unbound variable' errors.
+* replace ${ARRAY:-()} with conditional init
+* add length check before \"${ARRAY[@]}\" expansion
 
 Co-authored-by: pi-coding-agent <pi@agent.local> (model: anthropic/claude-sonnet-4-20250514)"
 ```
 
 ### Chore / housekeeping
 ```bash
-git commit -m "chore(deps): update git submodules to latest versions
+git commit -m "chore(deps): update git submodules to latest
 
 Co-authored-by: pi-coding-agent <pi@agent.local> (model: qwen3.6-35b-a3b)"
 ```
@@ -112,5 +118,6 @@ Co-authored-by: pi-coding-agent <pi@agent.local> (model: qwen3.6-35b-a3b)"
 - Use imperative mood in the subject line ("add" not "added", "fix" not "fixed").
 - Do not capitalize the first letter of the subject after the type prefix.
 - No period at the end of the subject line.
-- Keep the subject under 72 characters when possible.
+- Soft limit 50 chars on the subject; hard limit 72 chars.
+- Use bullet points (`* `) in the body, no full sentences — keep each line short and scannable.
 - If there are no staged or unstaged changes, inform the user before committing.
