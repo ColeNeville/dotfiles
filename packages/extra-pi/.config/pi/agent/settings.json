@@ -2,13 +2,12 @@
   "lastChangelogVersion": "0.68.0",
   "quietStartup": false,
   "defaultProvider": "omega",
-  "defaultModel": "qwen3-coder-next",
+  "defaultModel": "qwen3.6-35b-a3b",
   "packages": [
     "npm:pi-mcp-adapter",
-    "npm:pi-subagents"
-  ],
-  "extensions": [
-    "~/.config/pi/extensions/auto-discover"
+    "npm:pi-subagents",
+    "npm:@burneikis/pi-nolo",
+    "npm:pi-aliases"
   ],
   "hideThinkingBlock": false
 }

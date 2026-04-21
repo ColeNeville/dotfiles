@@ -67,7 +67,7 @@ export default async function (pi: ExtensionAPI) {
 function findModelsJson(): string | null {
   // Get agent directory - same logic as pi's getAgentDir()
   // Respects PI_CODING_AGENT_DIR env var, falls back to ~/.pi/agent
-  const agentDirEnv = process.env.PI_CODING_AGENT_DIR || process.env.PI_CONFIG_DIR;
+  const agentDirEnv = process.env.PI_CODING_AGENT_DIR;
   let agentDir: string;
 
   if (agentDirEnv) {
