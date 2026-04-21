@@ -16,7 +16,8 @@ import * as path from "path";
  * - API keys can be set via environment variables or as literals in models.json
  */
 export default async function (pi: ExtensionAPI) {
-  // Find models.json - check both XDG_CONFIG_HOME and default location
+  // Find models.json - use the same logic as pi's getModelsPath()
+  // This respects PI_CODING_AGENT_DIR and falls back to ~/.pi/agent
   const modelsJsonPath = findModelsJson();
   
   if (!modelsJsonPath) {
@@ -64,18 +65,29 @@ export default async function (pi: ExtensionAPI) {
 }
 
 function findModelsJson(): string | null {
-  // Check XDG_CONFIG_HOME first
-  if (process.env.XDG_CONFIG_HOME) {
-    const xdgPath = path.join(process.env.XDG_CONFIG_HOME, "pi", "models.json");
-    if (fs.existsSync(xdgPath)) {
-      return xdgPath;
+  // Get agent directory - same logic as pi's getAgentDir()
+  // Respects PI_CODING_AGENT_DIR env var, falls back to ~/.pi/agent
+  const agentDirEnv = process.env.PI_CODING_AGENT_DIR || process.env.PI_CONFIG_DIR;
+  let agentDir: string;
+
+  if (agentDirEnv) {
+    // Expand tilde
+    if (agentDirEnv === "~") {
+      agentDir = process.env.HOME || "";
+    } else if (agentDirEnv.startsWith("~/")) {
+      agentDir = (process.env.HOME || "") + agentDirEnv.slice(1);
+    } else {
+      agentDir = agentDirEnv;
     }
+  } else {
+    // Default: ~/.pi/agent
+    agentDir = path.join(process.env.HOME || "", ".pi", "agent");
   }
 
-  // Check default location
-  const defaultPath = path.join(process.env.HOME || "", ".config", "pi", "models.json");
-  if (fs.existsSync(defaultPath)) {
-    return defaultPath;
+  const modelsJsonPath = path.join(agentDir, "models.json");
+  
+  if (fs.existsSync(modelsJsonPath)) {
+    return modelsJsonPath;
   }
 
   return null;
