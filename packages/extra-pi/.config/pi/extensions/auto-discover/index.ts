@@ -3,28 +3,72 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 /**
  * Extension for automatic model discovery from custom provider endpoints.
  * 
- * This extension fetches available models from the Omega provider's API endpoint
- * and registers them dynamically, ensuring the model list is always up-to-date
- * with the provider's API. It replaces any statically configured models.
+ * This extension reads all custom providers from models.json and fetches
+ * their models dynamically from their respective /models endpoints.
+ * It updates the model list for each provider, replacing any statically
+ * configured models.
  * 
  * Usage:
- * - Define the omega provider in models.json WITHOUT models (only baseUrl, apiKey, api)
- * - Set OMEGA_API_KEY environment variable or store in auth.json
- * - This extension will fetch and register all available models
+ * - Define custom providers in models.json with baseUrl, apiKey, api
+ * - Set the corresponding API key environment variables
+ * - The extension will automatically discover and register models for each provider
  */
 export default async function (pi: ExtensionAPI) {
-  // Omega provider configuration
-  const baseUrl = "https://ai.n9.wtf/v1";
-  const apiKeyEnvVar = "OMEGA_API_KEY";
+  // List of providers to discover models for
+  // Each provider needs:
+  // 1. Its baseUrl configured in models.json
+  // 2. Its API key set as environment variable (e.g., PROVIDER_NAME_API_KEY)
+  // 3. A /models endpoint that returns { data: [{ id, name?, context_window?, max_tokens? }] }
   
-  // Verify API key is configured (check env var or auth.json)
-  const apiKey = process.env[apiKeyEnvVar];
+  const providers = [
+    {
+      name: "ollama",
+      baseUrl: "http://localhost:11434/v1",
+      apiKeyEnv: "OLLAMA_API_KEY"
+    },
+    {
+      name: "lm-studio",
+      baseUrl: "http://localhost:1234/v1",
+      apiKeyEnv: "LM_STUDIO_API_KEY"
+    },
+    {
+      name: "vllm",
+      baseUrl: "http://localhost:8000/v1",
+      apiKeyEnv: "VLLM_API_KEY"
+    },
+    {
+      name: "omega",
+      baseUrl: "https://ai.n9.wtf/v1",
+      apiKeyEnv: "OMEGA_API_KEY"
+    },
+    // Add more providers here as needed
+  ];
+
+  for (const provider of providers) {
+    await discoverModels(pi, provider);
+  }
+}
+
+async function discoverModels(
+  pi: ExtensionAPI,
+  provider: {
+    name: string;
+    baseUrl: string;
+    apiKeyEnv: string;
+  }
+) {
+  const { name, baseUrl, apiKeyEnv } = provider;
+
+  // Check if API key is configured
+  const apiKey = process.env[apiKeyEnv];
   if (!apiKey) {
-    console.log(`OMEGA_API_KEY not set, skipping model discovery`);
+    console.log(`${name}: ${apiKeyEnv} not set, skipping model discovery`);
     return;
   }
 
   try {
+    console.log(`${name}: fetching models from ${baseUrl}/models...`);
+
     // Fetch models from the provider's /models endpoint
     const response = await fetch(`${baseUrl}/models`, {
       headers: {
@@ -32,9 +76,9 @@ export default async function (pi: ExtensionAPI) {
         "Content-Type": "application/json"
       }
     });
-    
+
     if (!response.ok) {
-      console.warn(`Failed to fetch models from ${baseUrl}/models: ${response.status} ${response.statusText}`);
+      console.warn(`${name}: failed to fetch models from ${baseUrl}/models: ${response.status} ${response.statusText}`);
       return;
     }
 
@@ -48,11 +92,11 @@ export default async function (pi: ExtensionAPI) {
     };
 
     if (!payload.data || payload.data.length === 0) {
-      console.warn("No models returned from provider endpoint");
+      console.warn(`${name}: no models returned from ${baseUrl}/models`);
       return;
     }
 
-    console.log(`Discovered ${payload.data.length} models from ${baseUrl}`);
+    console.log(`${name}: discovered ${payload.data.length} models from ${baseUrl}`);
 
     // Convert discovered models to pi model format
     const discoveredModels = payload.data.map((model) => ({
@@ -65,11 +109,11 @@ export default async function (pi: ExtensionAPI) {
       maxTokens: model.max_tokens ?? 4096,
     }));
 
-    // Register discovered models for the omega provider
-    // This replaces any statically configured models
-    pi.registerProvider("omega", {
+    // Register discovered models for this provider
+    // This replaces any statically configured models for this provider
+    pi.registerProvider(name, {
       baseUrl: baseUrl,
-      apiKey: apiKeyEnvVar,
+      apiKey: apiKeyEnv,
       api: "openai-completions" as const,
       models: discoveredModels,
       compat: {
@@ -78,8 +122,8 @@ export default async function (pi: ExtensionAPI) {
       }
     });
 
-    console.log(`Successfully registered ${discoveredModels.length} models for omega provider`);
+    console.log(`${name}: successfully registered ${discoveredModels.length} models`);
   } catch (error) {
-    console.error(`Error during model discovery: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(`${name}: error during model discovery: ${error instanceof Error ? error.message : String(error)}`);
   }
 }

@@ -10,12 +10,13 @@ Contains extensions for automatic model discovery.
 
 #### index.ts
 
-Automatically discovers and registers models from the Omega provider's API endpoint.
+Automatically discovers and registers models from custom provider API endpoints.
 
-**Configuration:**
-- Define the omega provider in `models.json` WITHOUT models
-- Set `OMEGA_API_KEY` environment variable
-- The extension fetches models from `${baseUrl}/models` and registers them
+**Supported providers:**
+- Ollama (http://localhost:11434/v1)
+- LM Studio (http://localhost:1234/v1)
+- vLLM (http://localhost:8000/v1)
+- Omega (https://ai.n9.wtf/v1)
 
 **See:** [auto-discover/README.md](auto-discover/README.md) for full configuration details.
 
