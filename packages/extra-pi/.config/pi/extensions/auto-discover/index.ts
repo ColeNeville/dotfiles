@@ -1,4 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import * as fs from "fs";
+import * as path from "path";
 
 /**
  * Extension for automatic model discovery from custom provider endpoints.
@@ -10,75 +12,108 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
  * 
  * Usage:
  * - Define custom providers in models.json with baseUrl, apiKey, api
- * - Set the corresponding API key environment variables
  * - The extension will automatically discover and register models for each provider
+ * - API keys can be set via environment variables or as literals in models.json
  */
 export default async function (pi: ExtensionAPI) {
-  // List of providers to discover models for
-  // Each provider needs:
-  // 1. Its baseUrl configured in models.json
-  // 2. Its API key set as environment variable (e.g., PROVIDER_NAME_API_KEY)
-  // 3. A /models endpoint that returns { data: [{ id, name?, context_window?, max_tokens? }] }
+  // Find models.json - check both XDG_CONFIG_HOME and default location
+  const modelsJsonPath = findModelsJson();
   
-  const providers = [
-    {
-      name: "ollama",
-      baseUrl: "http://localhost:11434/v1",
-      apiKeyEnv: "OLLAMA_API_KEY"
-    },
-    {
-      name: "lm-studio",
-      baseUrl: "http://localhost:1234/v1",
-      apiKeyEnv: "LM_STUDIO_API_KEY"
-    },
-    {
-      name: "vllm",
-      baseUrl: "http://localhost:8000/v1",
-      apiKeyEnv: "VLLM_API_KEY"
-    },
-    {
-      name: "omega",
-      baseUrl: "https://ai.n9.wtf/v1",
-      apiKeyEnv: "OMEGA_API_KEY"
-    },
-    // Add more providers here as needed
-  ];
-
-  for (const provider of providers) {
-    await discoverModels(pi, provider);
+  if (!modelsJsonPath) {
+    console.log("models.json not found, skipping model discovery");
+    return;
   }
+
+  console.log(`Reading models.json from: ${modelsJsonPath}`);
+
+  try {
+    const content = fs.readFileSync(modelsJsonPath, "utf-8");
+    const parsed = JSON.parse(content) as {
+      providers?: Record<string, {
+        baseUrl?: string;
+        apiKey?: string;
+        api?: string;
+        compat?: any;
+      }>;
+    };
+
+    if (!parsed.providers) {
+      console.log("No providers defined in models.json, skipping model discovery");
+      return;
+    }
+
+    // Get all provider names from models.json
+    const providerNames = Object.keys(parsed.providers);
+
+    console.log(`Found ${providerNames.length} provider(s) in models.json: ${providerNames.join(", ")}`);
+
+    // Process each provider
+    for (const providerName of providerNames) {
+      const providerConfig = parsed.providers[providerName];
+      
+      if (!providerConfig.baseUrl) {
+        console.log(`${providerName}: no baseUrl configured, skipping`);
+        continue;
+      }
+
+      await discoverModels(pi, providerName, providerConfig);
+    }
+  } catch (error) {
+    console.error(`Error reading models.json: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+function findModelsJson(): string | null {
+  // Check XDG_CONFIG_HOME first
+  if (process.env.XDG_CONFIG_HOME) {
+    const xdgPath = path.join(process.env.XDG_CONFIG_HOME, "pi", "models.json");
+    if (fs.existsSync(xdgPath)) {
+      return xdgPath;
+    }
+  }
+
+  // Check default location
+  const defaultPath = path.join(process.env.HOME || "", ".config", "pi", "models.json");
+  if (fs.existsSync(defaultPath)) {
+    return defaultPath;
+  }
+
+  return null;
 }
 
 async function discoverModels(
   pi: ExtensionAPI,
-  provider: {
-    name: string;
+  providerName: string,
+  providerConfig: {
     baseUrl: string;
-    apiKeyEnv: string;
+    apiKey?: string;
+    api?: string;
+    compat?: any;
   }
 ) {
-  const { name, baseUrl, apiKeyEnv } = provider;
+  const { baseUrl, apiKey, api, compat } = providerConfig;
 
-  // Check if API key is configured
-  const apiKey = process.env[apiKeyEnv];
-  if (!apiKey) {
-    console.log(`${name}: ${apiKeyEnv} not set, skipping model discovery`);
+  // Resolve the API key
+  const resolvedApiKey = await resolveApiKey(apiKey);
+  
+  if (!resolvedApiKey) {
+    console.log(`${providerName}: no API key configured, skipping model discovery`);
     return;
   }
 
   try {
-    console.log(`${name}: fetching models from ${baseUrl}/models...`);
+    console.log(`${providerName}: fetching models from ${baseUrl}/models...`);
 
     // Fetch models from the provider's /models endpoint
     const response = await fetch(`${baseUrl}/models`, {
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
+        "Authorization": `Bearer ${resolvedApiKey}`,
         "Content-Type": "application/json"
       }
     });
 
     if (!response.ok) {
-      console.warn(`${name}: failed to fetch models from ${baseUrl}/models: ${response.status} ${response.statusText}`);
+      console.warn(`${providerName}: failed to fetch models from ${baseUrl}/models: ${response.status} ${response.statusText}`);
       return;
     }
 
@@ -92,11 +127,11 @@ async function discoverModels(
     };
 
     if (!payload.data || payload.data.length === 0) {
-      console.warn(`${name}: no models returned from ${baseUrl}/models`);
+      console.warn(`${providerName}: no models returned from ${baseUrl}/models`);
       return;
     }
 
-    console.log(`${name}: discovered ${payload.data.length} models from ${baseUrl}`);
+    console.log(`${providerName}: discovered ${payload.data.length} models from ${baseUrl}`);
 
     // Convert discovered models to pi model format
     const discoveredModels = payload.data.map((model) => ({
@@ -111,19 +146,53 @@ async function discoverModels(
 
     // Register discovered models for this provider
     // This replaces any statically configured models for this provider
-    pi.registerProvider(name, {
+    pi.registerProvider(providerName, {
       baseUrl: baseUrl,
-      apiKey: apiKeyEnv,
-      api: "openai-completions" as const,
+      apiKey: apiKey,
+      api: (api as any) || "openai-completions",
       models: discoveredModels,
-      compat: {
-        supportsDeveloperRole: false,
-        supportsReasoningEffort: false
-      }
+      compat: compat
     });
 
-    console.log(`${name}: successfully registered ${discoveredModels.length} models`);
+    console.log(`${providerName}: successfully registered ${discoveredModels.length} models`);
   } catch (error) {
-    console.error(`${name}: error during model discovery: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(`${providerName}: error during model discovery: ${error instanceof Error ? error.message : String(error)}`);
   }
+}
+
+/**
+ * Resolve an API key from models.json configuration.
+ * Supports:
+ * - Environment variable name (e.g., "MY_API_KEY")
+ * - Shell command (e.g., "!command")
+ * - Literal value
+ */
+async function resolveApiKey(apiKey?: string): Promise<string | null> {
+  if (!apiKey) {
+    return null;
+  }
+
+  // Shell command - execute it
+  if (apiKey.startsWith("!")) {
+    const command = apiKey.slice(1);
+    try {
+      const { exec } = await import("node:child_process");
+      const util = await import("node:util");
+      const execPromise = util.promisify(exec);
+      const { stdout } = await execPromise(command, { maxBuffer: 1024 * 1024 });
+      return stdout.trim();
+    } catch (error) {
+      console.error(`Failed to execute API key command: ${error instanceof Error ? error.message : String(error)}`);
+      return null;
+    }
+  }
+
+  // Environment variable
+  const envValue = process.env[apiKey];
+  if (envValue) {
+    return envValue;
+  }
+
+  // Literal value
+  return apiKey;
 }

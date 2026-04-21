@@ -1,35 +1,19 @@
 # Auto-Discover Extension
 
-This extension automatically discovers and registers models from custom provider API endpoints.
+This extension automatically discovers and registers models from any custom provider defined in `models.json`.
 
-## Supported Providers
+## How It Works
 
-The extension includes built-in support for:
-
-| Provider | Base URL | Environment Variable |
-|----------|----------|---------------------|
-| Ollama | `http://localhost:11434/v1` | `OLLAMA_API_KEY` |
-| LM Studio | `http://localhost:1234/v1` | `LM_STUDIO_API_KEY` |
-| vLLM | `http://localhost:8000/v1` | `VLLM_API_KEY` |
-| Omega | `https://ai.n9.wtf/v1` | `OMEGA_API_KEY` |
-
-## Adding Custom Providers
-
-To add support for a new provider, add it to the `providers` array in `index.ts`:
-
-```typescript
-{
-  name: "my-provider",
-  baseUrl: "https://my-provider.com/v1",
-  apiKeyEnv: "MY_PROVIDER_API_KEY"
-}
-```
+1. The extension reads `models.json` to find all custom providers
+2. For each provider with a `baseUrl`, it fetches models from `${baseUrl}/models`
+3. The discovered models replace any statically configured models for that provider
+4. Models are available immediately during startup and to `pi --list-models`
 
 ## Configuration
 
-### 1. models.json
+### models.json
 
-Define each provider WITHOUT models (only baseUrl, apiKey, api):
+Define your custom providers with `baseUrl`, `apiKey`, and `api`:
 
 ```json
 {
@@ -42,7 +26,7 @@ Define each provider WITHOUT models (only baseUrl, apiKey, api):
     "omega": {
       "baseUrl": "https://ai.n9.wtf/v1",
       "api": "openai-completions",
-      "apiKey": "OMEGA_API_KEY",
+      "apiKey": "!pass-cli item view pass://homelab/llama-swap-api-key/password 2> /dev/null",
       "compat": {
         "supportsDeveloperRole": false,
         "supportsReasoningEffort": false
@@ -52,29 +36,17 @@ Define each provider WITHOUT models (only baseUrl, apiKey, api):
 }
 ```
 
-### 2. Environment Variables
+### API Key Resolution
 
-Set the API key environment variables:
+The extension supports three API key formats:
 
-```bash
-export OLLAMA_API_KEY=your-ollama-api-key
-export OMEGA_API_KEY=your-omega-api-key
-# Add more as needed
-```
+| Format | Example | Description |
+|--------|---------|-------------|
+| Environment variable | `OLLAMA_API_KEY` | Uses the value of the named env var |
+| Shell command | `!pass-cli item view pass://...` | Executes command and uses stdout |
+| Literal value | `sk-abc123...` | Used directly |
 
-Or use shell commands in models.json:
-
-```json
-{
-  "providers": {
-    "omega": {
-      "apiKey": "!pass-cli item view pass://homelab/llama-swap-api-key/password 2> /dev/null"
-    }
-  }
-}
-```
-
-### 3. settings.json
+### settings.json
 
 Ensure the extension is loaded:
 
@@ -86,17 +58,19 @@ Ensure the extension is loaded:
 }
 ```
 
-## How It Works
+## Supported APIs
 
-1. On startup, the extension iterates through all configured providers
-2. For each provider, it checks if the API key environment variable is set
-3. If the API key is configured, it fetches models from `${baseUrl}/models`
-4. The extension registers the discovered models, replacing any statically configured models
-5. Models are available immediately during startup and to `pi --list-models`
+The extension supports any provider that speaks a supported API:
+- OpenAI Completions (most compatible)
+- OpenAI Responses API
+- Anthropic Messages API
+- Google Generative AI
+
+Set `api` at the provider level (default for all models) or model level (override per model).
 
 ## Notes
 
 - The extension replaces any models defined in `models.json` for each provider
-- If a provider's API key is not configured, that provider is skipped
+- If a provider's API key cannot be resolved, that provider is skipped
 - If no models are returned from an API, that provider's models list is not updated
 - The extension logs the status for each provider (skipped, discovered X models, registered X models)
