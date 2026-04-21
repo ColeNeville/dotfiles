@@ -1,0 +1,13 @@
+{
+  "providers": {
+    "omega": {
+      "baseUrl": "https://ai.n9.wtf/v1",
+      "api": "openai-completions",
+      "apiKey": "!pass-cli item view pass://homelab/llama-swap-api-key/password 2> /dev/null",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false
+      }
+    }
+  }
+}

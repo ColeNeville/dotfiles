@@ -1,0 +1,14 @@
+{
+  "lastChangelogVersion": "0.68.0",
+  "quietStartup": false,
+  "defaultProvider": "omega",
+  "defaultModel": "qwen3-coder-next",
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-subagents"
+  ],
+  "extensions": [
+    "~/.config/pi/extensions/auto-discover"
+  ],
+  "hideThinkingBlock": false
+}
