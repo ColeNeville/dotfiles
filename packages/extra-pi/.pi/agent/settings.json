@@ -1,0 +1,44 @@
+{
+  "packages": [
+    "npm:pi-lens",
+    "npm:pi-permission-system",
+    "npm:pi-mcp-adapter",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "git:github.com/cgxeiji/pi-emote",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:context-mode",
+    "npm:pi-subagents"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "scout": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      },
+      "researcher": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      },
+      "planner": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      },
+      "worker": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      },
+      "reviewer": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      },
+      "context-builder": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      },
+      "oracle": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      },
+      "delegate": {
+        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+      }
+    }
+  },
+  "lastChangelogVersion": "0.74.0",
+  "defaultProvider": "omega-open-webui",
+  "defaultModel": "qwen36-35b-a3b-coder",
+  "defaultThinkingLevel": "medium"
+}
