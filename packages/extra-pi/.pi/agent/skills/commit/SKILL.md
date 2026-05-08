@@ -11,11 +11,11 @@ Create conventional commits with well-structured messages.
 
 Use one of these base types:
 
-| Type    | When to use                                       |
-| ------- | ------------------------------------------------- |
-| `feat`  | A new feature                                     |
-| `fix`   | A bug fix                                         |
-| `chore` | Other changes that don't modify src or test files |
+| Type    | When to use                                                                                           |
+| ------- | ----------------------------------------------------------------------------------------------------- |
+| `feat`  | Slightly larger changes: adding new features or substantially updating an existing feature            |
+| `fix`   | Bug fixes, but also small tweaks to existing features                                                 |
+| `chore` | Tiny changes or non-code-based changes: documentation, tests, copy, dependencies, configuration, etc. |
 
 Add an optional but meaningful scope in parentheses after the type, e.g. `feat(auth):`, `fix(api):`, `chore(deps):`. Omit the scope if it's not clear or not useful.
 
