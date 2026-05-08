@@ -8,6 +8,7 @@ set -euo pipefail
 if [ -z "${PACMAN_PACKAGES+x}" ]; then PACMAN_PACKAGES=(); fi
 if [ -z "${PARU_PACKAGES+x}" ]; then PARU_PACKAGES=(); fi
 if [ -z "${HOMEBREW_PACKAGES+x}" ]; then HOMEBREW_PACKAGES=(); fi
+if [ -z "${BUN_PACKAGES+x}" ]; then BUN_PACKAGES=(); fi
 
 function install_pacman_packages {
 	if [[ ${#PACMAN_PACKAGES[@]} -eq 0 ]]; then
@@ -69,4 +70,20 @@ if command -v paru &>/dev/null; then
 	install_paru_packages
 elif command -v pacman &>/dev/null && [[ ${#PARU_PACKAGES[@]} -gt 0 ]]; then
 	log_error "paru is not installed but PARU_PACKAGES is not empty: ${PARU_PACKAGES[*]}"
+fi
+
+function install_bun_packages {
+  if [[ ${#BUN_PACKAGES[@]} -eq 0 ]]; then
+    return 0
+  fi
+  log_info "Installing packages using Bun..."
+  for package in "${BUN_PACKAGES[@]}"; do
+    bun install -g "${package}" &>/dev/null
+  done
+}
+
+if command -v bun &>/dev/null; then
+  install_bun_packages
+elif [[ ${#BUN_PACKAGES[@]} -gt 0 ]]; then
+  log_error "Bun is not installed but BUN_PACKAGES is not empty: ${BUN_PACKAGES[*]}"
 fi
