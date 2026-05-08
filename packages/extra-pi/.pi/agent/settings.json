@@ -1,4 +1,8 @@
 {
+  "logLevel": "warn",
+  "extensions": [
+    "extensions/model-aliases"
+  ],
   "packages": [
     "npm:pi-lens",
     "npm:pi-permission-system",
@@ -38,7 +42,7 @@
     }
   },
   "lastChangelogVersion": "0.74.0",
-  "defaultProvider": "omega-open-webui",
-  "defaultModel": "qwen36-35b-a3b-coder",
+  "defaultProvider": "omega",
+  "defaultModel": "qwen36-35b-a3b-precise",
   "defaultThinkingLevel": "medium"
 }
