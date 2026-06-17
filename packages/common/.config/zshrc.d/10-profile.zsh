@@ -19,3 +19,8 @@ add_to_path "$HOME/.local/bin"
 export PATH
 export EDITOR=nvim
 export NVM_DIR="$HOME/.nvm"
+export PYENV_ROOT="$HOME/.pyenv"
+add_to_path "$PYENV_ROOT/bin"
+
+# Load pyenv if available
+[ -s "$PYENV_ROOT/bin/pyenv" ] && eval "$(pyenv init - --no-rehash zsh)"

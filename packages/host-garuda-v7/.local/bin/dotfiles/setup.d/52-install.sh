@@ -12,7 +12,7 @@ PACMAN_PACKAGES=(
   "quickshell"
 )
 PARU_PACKAGES=(
-  "dms-shell-bin"
+  "dms-shell"
   "greetd-dms-greeter-git"
 )
 

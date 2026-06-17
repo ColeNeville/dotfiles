@@ -124,11 +124,13 @@ create_xdg_locations() {
 	mkdir -p "$HOME/.config/"
 }
 
-create_shared_locations() {
-	mkdir -p "$HOME/.config/bashrc.d/"
-  mkdir -p "$HOME/.config/zshrc.d/"
-	mkdir -p "$HOME/.config/dotfiles/"
-	mkdir -p "$HOME/.local/bin/dotfiles/setup.d"
+create_stowrc() {
+	if ! grep -qx '\-\-no-folding' "$HOME/.stowrc" 2>/dev/null; then
+		log_info "Adding --no-folding to ~/.stowrc..."
+		printf '%s\n' '--no-folding' >>"$HOME/.stowrc"
+	else
+		log_info "~/.stowrc already contains --no-folding, skipping"
+	fi
 }
 
 # Run the stow script
@@ -151,7 +153,7 @@ main() {
 	setup_dotfiles
 	setup_submodules
 	create_xdg_locations
-	create_shared_locations
+	create_stowrc
 	run_stow
 
 	log_info "Running dotfiles setup..."

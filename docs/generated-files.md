@@ -52,7 +52,9 @@ printf '%s\n' \
 ```
 
 Because the manifest itself lives under `~/.local/share/dotfiles/` (not under
-`~/.config/` or any stowed path), it does not need to be listed in itself.
+`~/.config/` or any stowed path), it does not need to be listed in itself. The
+`~/.local/share/dotfiles/packages/<package_name>/` directory is created at runtime
+by the setup script — it is not seeded from the repo.
 
 ## Cleanup on Unstow
 

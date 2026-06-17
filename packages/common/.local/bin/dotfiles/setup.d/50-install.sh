@@ -65,6 +65,12 @@ install_npm_packages() {
 install_nvm
 install_npm_packages
 
+if ! command -v bun &>/dev/null; then
+  log_info "Bun is not installed, proceeding with installation..."
+  curl -fsSL https://bun.sh/install | bash
+  log_info "Bun installation completed."
+fi
+
 PACMAN_PACKAGES=("zsh")
 HOMEBREW_PACKAGES=("zsh")
 
