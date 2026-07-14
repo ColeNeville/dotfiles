@@ -4,8 +4,37 @@ set -euo pipefail
 . "$(dirname "$0")/logging.sh"
 . "$(dirname "$0")/constants.sh"
 
-# List all the extra packages available and ask the user which ones to install
+# Parse CLI arguments
+EXTRA_PACKAGES=""
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+	--extra=*)
+		EXTRA_PACKAGES="${1#--extra=}"
+		shift
+		;;
+	*)
+		log_warn "Unknown option: $1. Ignoring."
+		shift
+		;;
+	esac
+done
+
+# Stow extra packages from --extra flag or prompt interactively
 prompt_for_extras() {
+	# If --extra was provided, stow those packages directly
+	if [ -n "$EXTRA_PACKAGES" ]; then
+		IFS=',' read -ra pkg_list <<<"$EXTRA_PACKAGES"
+		for pkg in "${pkg_list[@]}"; do
+			# Trim whitespace
+			pkg="$(echo "$pkg" | xargs)"
+			if [ -n "$pkg" ]; then
+				log_info "Stowing extra package: $pkg"
+				"${DOTFILES_DIR}/scripts/stow.sh" "$pkg"
+			fi
+		done
+		return 0
+	fi
+
 	local packages=()
 	local index=1
 

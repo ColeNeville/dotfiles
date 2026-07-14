@@ -8,6 +8,10 @@ LOG_LEVEL="${LOG_LEVEL:-info}"
 DOTFILES_REPO="https://github.com/ColeNeville/dotfiles.git" # Replace with your actual repo URL
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
 
+# CLI flags
+UPDATE_MODE=""    # "" (default), "update", "no-update"
+EXTRA_PACKAGES="" # comma-separated list of extra packages
+
 # This script is build to run straigh from curl
 # I can't import the logging.sh file because it won't exist yet
 
@@ -57,6 +61,55 @@ log_error() {
 	fi
 }
 
+# Show usage information
+show_usage() {
+	cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Options:
+  --update          Auto-update existing dotfiles repo (skip prompt)
+  --no-update       Skip updating existing dotfiles repo (clone if missing)
+  --extra=<list>    Comma-separated list of extra packages to stow
+                    (bypasses interactive prompt, e.g. --extra=nvim,tmux)
+  --help            Show this help message
+
+Examples:
+  $(basename "$0")                          # Interactive install
+  $(basename "$0") --update                 # Auto-update existing repo
+  $(basename "$0") --no-update              # Use existing or clone, no pull
+  $(basename "$0") --update --extra=nvim    # Update and install nvim extra
+EOF
+}
+
+# Parse command-line arguments
+parse_args() {
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+		--update)
+			UPDATE_MODE="update"
+			shift
+			;;
+		--no-update)
+			UPDATE_MODE="no-update"
+			shift
+			;;
+		--extra=*)
+			EXTRA_PACKAGES="${1#--extra=}"
+			shift
+			;;
+		--help)
+			show_usage
+			exit 0
+			;;
+		*)
+			log_error "Unknown option: $1"
+			show_usage
+			exit 1
+			;;
+		esac
+	done
+}
+
 # Check if git is installed
 check_git() {
 	if ! command -v git &>/dev/null; then
@@ -79,15 +132,23 @@ check_stow() {
 # Clone or update dotfiles repository
 setup_dotfiles() {
 	if [ -d "$DOTFILES_DIR" ]; then
-		echo "Dotfiles directory already exists at $DOTFILES_DIR"
-		read -p "Do you want to update it? (y/N): " -n 1 -r
-		echo
-		if [[ $REPLY =~ ^[Yy]$ ]]; then
+		if [[ "$UPDATE_MODE" == "update" ]]; then
 			log_info "Updating existing dotfiles..."
 			cd "$DOTFILES_DIR"
 			git pull origin main || git pull origin master
+		elif [[ "$UPDATE_MODE" == "no-update" ]]; then
+			log_info "Using existing dotfiles directory (no update)"
 		else
-			log_info "Using existing dotfiles directory"
+			echo "Dotfiles directory already exists at $DOTFILES_DIR"
+			read -p "Do you want to update it? (y/N): " -n 1 -r
+			echo
+			if [[ $REPLY =~ ^[Yy]$ ]]; then
+				log_info "Updating existing dotfiles..."
+				cd "$DOTFILES_DIR"
+				git pull origin main || git pull origin master
+			else
+				log_info "Using existing dotfiles directory"
+			fi
 		fi
 	else
 		log_info "Cloning dotfiles repository to $DOTFILES_DIR..."
@@ -137,7 +198,11 @@ create_stowrc() {
 run_stow() {
 	if [ -f "${DOTFILES_DIR}/scripts/stow.sh" ]; then
 		log_info "Running stow-all.sh..."
-		"${DOTFILES_DIR}/scripts/stow-all.sh"
+		if [ -n "$EXTRA_PACKAGES" ]; then
+			"${DOTFILES_DIR}/scripts/stow-all.sh" --extra="$EXTRA_PACKAGES"
+		else
+			"${DOTFILES_DIR}/scripts/stow-all.sh"
+		fi
 	else
 		log_error "stow-all.sh not found in $DOTFILES_DIR"
 		exit 1
@@ -146,6 +211,8 @@ run_stow() {
 
 # Main execution
 main() {
+	parse_args "$@"
+
 	log_info "Starting dotfiles installation..."
 
 	check_git
