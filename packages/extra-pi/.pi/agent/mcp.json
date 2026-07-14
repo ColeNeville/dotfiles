@@ -3,8 +3,9 @@
     "exa": {
       "url": "https://mcp.exa.ai/mcp"
     },
-    "context-mode": {
-      "command": "context-mode"
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"]
     }
   }
 }

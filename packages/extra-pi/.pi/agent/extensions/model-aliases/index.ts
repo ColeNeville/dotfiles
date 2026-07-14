@@ -162,73 +162,45 @@ function buildModelEntry(
 }
 
 /**
- * Processes aliases on a single model and registers them under the same provider.
+ * Builds a clean copy of all original models with required field defaults.
  */
-function processModelAliases(
+function buildOriginalModels(
+	originalModels: Array<Record<string, unknown>>,
+): Record<string, unknown>[] {
+	const result: Record<string, unknown>[] = [];
+	for (const m of originalModels) {
+		log(
+			"debug",
+			`original model: ${m.id} input=${JSON.stringify(m.input)} reasoning=${m.reasoning} keys=${Object.keys(m)}`,
+		);
+		result.push({
+			id: m.id,
+			name: m.name,
+			input: Array.isArray(m.input) ? m.input : ["text"],
+			reasoning: Boolean(m.reasoning),
+			contextWindow: m.contextWindow ?? 128000,
+			maxTokens: m.maxTokens ?? 16384,
+			cost:
+				typeof m.cost === "object" && m.cost !== null
+					? (m.cost as Record<string, unknown>)
+					: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+		});
+	}
+	return result;
+}
+
+/**
+ * Registers a provider with all original models and aliases.
+ */
+function registerProviderWithModels(
 	pi: ExtensionAPI,
 	providerName: string,
 	providerConfig: Record<string, unknown>,
-	modelEntry: Record<string, unknown>,
-	aliasList: Array<{ id: string; name: string }>,
-): number {
-	const api = resolveApiType(providerName);
-	const baseUrl = providerConfig.baseUrl as string | undefined;
-	const apiKey = providerConfig.apiKey as string | undefined;
-
-	if (!baseUrl) {
-		console.warn(
-			`[model-aliases] Skipping "${providerName}/${modelEntry.id}": provider has no baseUrl`,
-		);
-		return 0;
-	}
-
-	if (!apiKey) {
-		console.warn(
-			`[model-aliases] Skipping "${providerName}/${modelEntry.id}": provider has no apiKey (OAuth targets not supported)`,
-		);
-		return 0;
-	}
-
-	let registered = 0;
-	const aliasedModels: Record<string, unknown>[] = [];
-
-	// Copy all original models, ensuring required fields have defaults
-	// (registerProvider doesn't apply the same nullish coalescing fallback)
-	// Exclude 'aliases' — it's not a valid ProviderModelConfig field
-	const originalModels = providerConfig.models as
-		| Array<Record<string, unknown>>
-		| undefined;
-	if (originalModels) {
-		for (const m of originalModels) {
-			log(
-				"debug",
-				`original model: ${m.id} input=${JSON.stringify(m.input)} reasoning=${m.reasoning} keys=${Object.keys(m)}`,
-			);
-			// Build a clean copy with only known ProviderModelConfig fields
-			aliasedModels.push({
-				id: m.id,
-				name: m.name,
-				input: Array.isArray(m.input) ? m.input : ["text"],
-				reasoning: Boolean(m.reasoning),
-				contextWindow: m.contextWindow ?? 128000,
-				maxTokens: m.maxTokens ?? 16384,
-				cost:
-					typeof m.cost === "object" && m.cost !== null
-						? (m.cost as Record<string, unknown>)
-						: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-			});
-		}
-	}
-
-	// Add alias models
-	for (const alias of aliasList) {
-		const aliasModel = buildModelEntry(modelEntry, alias);
-		aliasedModels.push(aliasModel);
-		log("info", `Registered "${alias.id}" → ${providerName}/${modelEntry.id}`);
-		registered++;
-	}
-
-	// Re-register the provider with all models (original + aliases)
+	api: string,
+	baseUrl: string,
+	apiKey: string,
+	aliasedModels: Record<string, unknown>[],
+): void {
 	pi.unregisterProvider(providerName);
 	pi.registerProvider(providerName, {
 		name: providerConfig.name ?? providerName,
@@ -237,8 +209,6 @@ function processModelAliases(
 		api,
 		models: aliasedModels,
 	});
-
-	return registered;
 }
 
 /**
@@ -336,7 +306,18 @@ export default async function (pi: ExtensionAPI) {
 		return event.payload;
 	});
 
-	let totalRegistered = 0;
+	// Collect all aliases per provider before registering.
+	// This ensures we register each provider only once with ALL aliases.
+	// The original code registered per-model, which overwrote previous
+	// registrations — only the last model's aliases survived.
+	interface ProviderAliasEntry {
+		providerName: string;
+		providerConfig: Record<string, unknown>;
+		modelEntry: Record<string, unknown>;
+		aliasList: Array<{ id: string; name: string }>;
+	}
+
+	const allEntries: ProviderAliasEntry[] = [];
 
 	for (const [providerName, providerConfig] of Object.entries(providers)) {
 		const models = providerConfig.models as
@@ -359,15 +340,77 @@ export default async function (pi: ExtensionAPI) {
 				aliasMap.set(alias.id, model.id as string);
 			}
 
-			const registered = processModelAliases(
-				pi,
+			allEntries.push({
 				providerName,
-				providerConfig,
-				model,
+				providerConfig: providerConfig as Record<string, unknown>,
+				modelEntry: model as Record<string, unknown>,
 				aliasList,
-			);
-			totalRegistered += registered;
+			});
 		}
+	}
+
+	// Group entries by provider
+	const providerEntries = new Map<string, ProviderAliasEntry[]>();
+	for (const entry of allEntries) {
+		const existing = providerEntries.get(entry.providerName) ?? [];
+		existing.push(entry);
+		providerEntries.set(entry.providerName, existing);
+	}
+
+	// Register each provider once with all aliases
+	let totalRegistered = 0;
+
+	for (const [providerName, entries] of providerEntries) {
+		const providerConfig = entries[0].providerConfig;
+		const api = resolveApiType(providerName);
+		const baseUrl = providerConfig.baseUrl as string | undefined;
+		const apiKey = providerConfig.apiKey as string | undefined;
+
+		if (!baseUrl) {
+			console.warn(
+				`[model-aliases] Skipping "${providerName}": provider has no baseUrl`,
+			);
+			continue;
+		}
+
+		if (!apiKey) {
+			console.warn(
+				`[model-aliases] Skipping "${providerName}": provider has no apiKey (OAuth targets not supported)`,
+			);
+			continue;
+		}
+
+		// Build clean copies of all original models (once per provider)
+		const originalModels = providerConfig.models as
+			| Array<Record<string, unknown>>
+			| undefined;
+		const aliasedModels = originalModels
+			? buildOriginalModels(originalModels)
+			: [];
+
+		// Add all alias models
+		for (const entry of entries) {
+			for (const alias of entry.aliasList) {
+				const aliasModel = buildModelEntry(entry.modelEntry, alias);
+				aliasedModels.push(aliasModel);
+				log(
+					"info",
+					`Registered "${alias.id}" → ${providerName}/${entry.modelEntry.id}`,
+				);
+				totalRegistered++;
+			}
+		}
+
+		// Register provider once with all models + aliases
+		registerProviderWithModels(
+			pi,
+			providerName,
+			providerConfig,
+			api,
+			baseUrl,
+			apiKey,
+			aliasedModels,
+		);
 	}
 
 	if (totalRegistered > 0) {

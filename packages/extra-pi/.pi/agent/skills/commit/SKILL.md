@@ -49,6 +49,10 @@ The commit message follows this structure:
 - Each item describes one distinct change
 - **Maximum 5 items** — if there are more than 5 distinct changes, ask the user to describe a more limited commit
 
+## Important
+
+- **Do NOT use `--signoff`** — it adds a `Signed-off-by` trailer which is different from `Co-authored-by` and should not be included.
+
 ## Staging Files
 
 - **Stage specific files only** — never use `git add -A` or `git add *`
@@ -62,10 +66,16 @@ The commit message follows this structure:
 3. Inspect the staged changes to determine the type, scope, and content
 4. Write a subject line within the 50/70 character limits
 5. Write a body with up to 5 bullet points describing the changes
-6. Run `git commit -m "subject" -m "body"`
-7. If there are more than 5 distinct changes, ask the user to narrow the scope before committing
-8. Always add a `Co-authored-by` trailer to every commit:
-   ```
-   Co-authored-by: Pi Coding Agent <pi.local>
-   ```
-   Append this after the body, separated by a blank line.
+6. If there are more than 5 distinct changes, ask the user to narrow the scope before committing
+7. Run `git commit -m "$(cat <<'EOF'
+<type>(<scope>): <subject>
+
+- bullet 1
+- bullet 2
+- bullet 3
+
+Co-authored-by: Pi Coding Agent <pi.local>
+EOF
+)"`
+
+The `Co-authored-by` trailer is always appended after the body, separated by a blank line.

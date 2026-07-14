@@ -7,42 +7,56 @@
     "npm:pi-lens",
     "npm:pi-permission-system",
     "npm:pi-mcp-adapter",
-    "npm:@juicesharp/rpiv-ask-user-question",
-    "git:github.com/cgxeiji/pi-emote",
+    {
+      "source": "npm:@juicesharp/rpiv-ask-user-question",
+      "extensions": [
+        "+index.ts"
+      ]
+    },
     "npm:@juicesharp/rpiv-todo",
-    "npm:context-mode",
-    "npm:pi-subagents"
+    "npm:pi-subagents",
+    "npm:pi-emote",
+    "npm:pi-total-recall"
   ],
   "subagents": {
     "agentOverrides": {
       "scout": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "plan"
       },
       "researcher": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "plan"
       },
       "planner": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "plan"
       },
       "worker": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "code"
       },
       "reviewer": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "review"
       },
       "context-builder": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "plan"
       },
       "oracle": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "plan"
       },
       "delegate": {
-        "model": "omega-open-webui/qwen36-35b-a3b-coder"
+        "model": "plan"
       }
     }
   },
-  "lastChangelogVersion": "0.74.0",
+  "lastChangelogVersion": "0.80.3",
   "defaultProvider": "omega",
-  "defaultModel": "qwen36-35b-a3b-precise",
-  "defaultThinkingLevel": "medium"
+  "defaultModel": "qwen3.6-35b-a3b",
+  "defaultThinkingLevel": "medium",
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3,
+    "baseDelayMs": 2000,
+    "provider": {
+      "timeoutMs": 1800000
+    }
+  },
+  "theme": "dark"
 }

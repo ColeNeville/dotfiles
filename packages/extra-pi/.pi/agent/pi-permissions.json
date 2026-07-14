@@ -7,9 +7,7 @@
     "special": "ask"
   },
   "tools": {
-    "read": "allow",
-    "grep": "allow",
-    "ls": "allow"
+    "read": "allow"
   },
   "bash": {
     "git diff *": "allow",
@@ -19,7 +17,9 @@
     "mcp_list": "allow",
     "mcp_search": "allow",
     "mcp_status": "allow",
-    "mcp_describe": "allow"
+    "mcp_describe": "allow",
+    "exa_web_fetch_exa": "allow",
+    "exa_web_search_exa": "allow"
   },
   "special": {
     "doom_loop": "deny"

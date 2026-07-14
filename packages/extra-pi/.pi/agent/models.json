@@ -1,0 +1,45 @@
+{
+  "providers": {
+    "omega": {
+      "baseUrl": "https://ai.n9.wtf/v1",
+      "api": "openai-completions",
+      "apiKey": "uWcNmcutXjye5HPRh4nuZSmsru3VZ7vYC1BQ10xAnRVYmJzJtwKUUpZuXT31jKfd",
+      "models": [
+        {
+          "id": "qwen3.6-35b-a3b-mtp-precise",
+          "input": ["text", "image"],
+          "contextWindow": 131072,
+          "reasoning": true,
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          },
+          "aliases": [
+            { "id": "plan", "name": "Plan" },
+            { "id": "code", "name": "Code" }
+          ]
+        },
+        {
+          "id": "qwen3.6-35b-a3b-mtp",
+          "input": ["text", "image"],
+          "contextWindow": 131072,
+          "reasoning": true,
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          },
+          "aliases": [
+            { "id": "chat", "name": "Chat" }
+          ]
+        },
+        {
+          "id": "gemma-4-26b-a4b",
+          "name": "Gemma 4 26B A4B",
+          "contextWindow": 131072,
+          "reasoning": true,
+          "aliases": [
+            { "id": "review", "name": "Review" }
+          ]
+        }
+      ]
+    }
+  }
+}
