@@ -16,7 +16,16 @@ PACMAN_PACKAGES=("matugen")
 STATE_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/stow/state"
 MATUGEN_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/matugen"
 MATUGEN_CONFIG="${MATUGEN_CONFIG_DIR}/config.toml"
-GENERATED_FILES_MANIFEST="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/packages/extra-matugen/generated-files"
+PACKAGE_DATA_DIRECTORY="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/packages/extra-matugen"
+GENERATED_FILES_MANIFEST="${PACKAGE_DATA_DIRECTORY}/generated-files"
+
+# mkdir -p "${PACKAGE_DATA_DIRECTORY}"
+# touch "${GENERATED_FILES_MANIFEST}"
+#
+# Create generated files manifest directory
+mkdir -p "${PACKAGE_DATA_DIRECTORY}"
+# mkdir -p "$(dirname "$GENERATED_FILES_MANIFEST")"
+touch "${GENERATED_FILES_MANIFEST}"
 
 log_info "Generating matugen config.toml..."
 
