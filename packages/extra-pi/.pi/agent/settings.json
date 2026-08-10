@@ -5,17 +5,11 @@
   ],
   "packages": [
     "npm:pi-lens",
-    "npm:pi-permission-system",
     "npm:pi-mcp-adapter",
-    {
-      "source": "npm:@juicesharp/rpiv-ask-user-question",
-      "extensions": [
-        "+index.ts"
-      ]
-    },
-    "npm:@juicesharp/rpiv-todo",
     "npm:pi-subagents",
     "npm:pi-emote",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:pi-atelier",
     "npm:pi-total-recall"
   ],
   "subagents": {
@@ -46,10 +40,10 @@
       }
     }
   },
-  "lastChangelogVersion": "0.80.3",
+  "lastChangelogVersion": "0.84.0",
   "defaultProvider": "omega",
-  "defaultModel": "qwen3.6-35b-a3b",
-  "defaultThinkingLevel": "medium",
+  "defaultModel": "code",
+  "defaultThinkingLevel": "high",
   "retry": {
     "enabled": true,
     "maxRetries": 3,

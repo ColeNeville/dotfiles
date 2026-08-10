@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/gotgenes/pi-packages/main/packages/pi-permission-system/schemas/permissions.schema.json",
+  "permission": {
+    "*": "ask",
+    "read": "allow",
+    "bash": {
+      "*": "ask",
+      "git status *": "allow",
+      "git diff *": "allow",
+      "fj issue search *": "allow",
+      "fj issue view *": "allow",
+      "openspec instructions *": "allow",
+      "openspec spec *": "allow",
+      "openspec sync *": "allow",
+      "openspec show *": "allow"
+    },
+    "mcp": {
+      "*": "ask",
+      "mcp_list": "allow",
+      "mcp_search": "allow",
+      "mcp_status": "allow",
+      "mcp_describe": "allow",
+      "exa_web_fetch_exa": "allow",
+      "exa_web_search_exa": "allow"
+    },
+    "skill": {
+      "*": "ask"
+    }
+  }
+}
