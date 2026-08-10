@@ -27,55 +27,6 @@ This is a personal dotfiles repository using GNU Stow for symlink management. Th
   - `extra-*` - Optional tool configurations (nvim, tmux, zellij, wezterm, etc.)
 - `scripts/` - Installation and management scripts
 
-## Build, Test, and Validation Commands
-
-### Installation and Setup
-
-```bash
-# Full installation
-./scripts/install.sh
-
-# Setup after installation
-dotfiles.sh setup
-
-# Stow a specific package
-./scripts/stow.sh <package-name>
-
-# Stow all packages
-./scripts/stow-all.sh
-
-# Unstow a package
-./scripts/unstow.sh <package-name>
-```
-
-### Testing/Validation
-
-```bash
-# Test script syntax (run for any changed shell script)
-bash -n <script-path>
-
-# Check if stow works without conflicts (dry run)
-stow -n -t "$HOME" -S <package-name> -d packages/
-
-# Verify XDG directory structure
-ls -la ~/.local/bin ~/.local/share ~/.config
-
-# Check git submodules status
-git submodule status
-```
-
-### Linting
-
-```bash
-# Lua formatting (for Neovim configs)
-stylua --check packages/extra-old-nvim/.config/nvim/
-
-# Lua formatting (fix)
-stylua packages/extra-old-nvim/.config/nvim/
-```
-
-**No automated tests exist** - validation is primarily manual verification of symlink creation and tool functionality.
-
 ## Code Style Guidelines
 
 ### Shell Scripts (Bash)
@@ -252,24 +203,21 @@ Follow conventional commits format defined in `.gitmessage`:
 
 **Types:**
 
-- `feat`: A new feature
-- `fix`: A bug fix
-- `docs`: Documentation only changes
-- `style`: Changes that do not affect the meaning of the code
-- `refactor`: A code change that neither fixes a bug nor adds a feature
-- `perf`: A code change that improves performance
-- `test`: Adding missing tests or correcting existing tests
-- `build`: Changes that affect the build system or external dependencies
-- `ci`: Changes to CI configuration files and scripts
-- `chore`: Other changes that don't modify src or test files
+- `feat`: A new feature or substantial update to an existing feature
+- `fix`: A bug fix or small tweak to an existing feature
+- `chore`: Non-code changes (docs, config, deps, maintenance)
+
+Breaking changes append `!` before the colon, after the type or scope:
+
+- `feat!: rewrite auth module`
+- `feat(auth)!: change token format`
 
 **Examples:**
 
 ```
 feat(nvim): add new keybinding for file search
 fix(bash): correct PATH ordering in profile
-docs(README): update installation instructions
-refactor(stow): simplify package detection logic
+chore(stow): simplify package detection logic
 ```
 
 ## Important Patterns and Conventions
@@ -293,44 +241,13 @@ refactor(stow): simplify package detection logic
 - Host-specific configurations in `host-<hostname>/`
 - Optional tools in `extra-<toolname>/`
 
-## Common Tasks
-
-### Adding a New Package
-
-1. Create `packages/<package-name>/` directory
-2. Add configuration files mirroring home directory structure
-3. Add setup script to `.local/bin/dotfiles/setup.d/` if needed
-4. Test with `./scripts/stow.sh <package-name>`
-
-### Modifying Shell Scripts
-
-1. Edit the script
-2. Validate syntax: `bash -n <script-path>`
-3. Test manually by running the script
-4. Commit with appropriate conventional commit message
-
-### Updating Git Submodules
-
-```bash
-git submodule update --recursive --remote
-git add .gitmodules <submodule-path>
-git commit -m "chore(submodules): update to latest versions"
-```
-
-### Scoping Documentation Changes
+### Documentation Changes
 
 When adding or modifying a package, always update relevant documentation:
 
 - **README.md** — add new packages to the "Available Packages" list
 - **AGENTS.md** — update patterns, conventions, or examples if the change introduces a new pattern
-- **openspec/specs/** — create or update capability specs for new features
-
-Add documentation tasks to the change's `tasks.md` so they are tracked alongside implementation tasks. For example:
-
-```markdown
-- [ ] 7.1 Update README.md to document the new package
-- [ ] 7.2 Update AGENTS.md if new patterns are introduced
-```
+- **openspec/specs/** — create or update capability specs for new features (statement, not a task)
 
 ## Testing Changes
 
