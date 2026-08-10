@@ -89,6 +89,7 @@ packages/extra-nvim/.config/nvim → ~/.config/nvim
 ```
 
 **XDG Base Directory Compliance**: Files are organized following modern standards:
+
 - `~/.config/` - Configuration files
 - `~/.local/bin/` - User executables
 - `~/.local/share/` - User data files
@@ -99,21 +100,26 @@ packages/extra-nvim/.config/nvim → ~/.config/nvim
 ## Available Packages
 
 ### Core Packages
+
 - **`common`** - Essential configs (git, bash, gpg, tmux plugins)
 
 ### OS-Specific Packages
+
 - **`os-linux`** - Linux configurations and package installation scripts
 - **`os-macos`** - macOS configurations and Homebrew formulas
 
 ### Host-Specific Packages
+
 - **`host-garuda-v6`** - Configuration for garuda-v6 machine
 - **`host-garuda-v7`** - Configuration for garuda-v7 machine
 
 ### Optional Tool Packages (Extra)
+
 - **`extra-nvim`** - Neovim configuration with lazy.nvim
 - **`extra-old-nvim`** - Alternative Neovim setup
 - **`extra-tmux`** - Tmux configuration with TPM plugin manager
 - **`extra-wezterm`** - WezTerm terminal emulator config
+- **`extra-zellij`** - Zellij terminal multiplexer with session persistence and modular wezterm overrides
 - **`extra-zsh`** - Zsh shell with Oh My Zsh integration
 - **`extra-lazygit`** - Lazygit TUI configuration
 - **`extra-vifm`** - Vifm file manager configuration
@@ -139,11 +145,13 @@ Each package can contribute setup scripts that run when you execute `dotfiles.sh
 **Location in packages**: `.local/bin/dotfiles/setup.d/XX-name.sh`
 
 **How it works**:
+
 1. Each package places numbered scripts in `setup.d/` (e.g., `00-setup.sh`, `50-install.sh`, `99-nvim.sh`)
 2. When packages are stowed, these scripts are merged into `~/.local/bin/dotfiles/setup.d/`
 3. Running `dotfiles.sh setup` executes all scripts in sorted order (00-99)
 
 **Example setup scripts**:
+
 - `00-setup.sh` (common) - Creates required directories
 - `50-install.sh` (common) - Installs NVM and Node.js
 - `51-install.sh` (os-linux) - Installs Linux packages via pacman
@@ -189,12 +197,14 @@ done
 Files are named with numeric prefixes to control load order:
 
 **Examples**:
+
 - `00-profile.sh` / `01-profile.zsh` - XDG paths, environment variables
 - `10-functions.sh` / `10-functions.zsh` - Shell functions
 - `20-aliases.sh` / `20-aliases.zsh` - Command aliases  
 - `99-nvim.sh` / `99-nvim.zsh` - Tool-specific environment setup
 
 This design means:
+
 - The `os-linux` package can add Linux-specific aliases to `bashrc.d/21-aliases.sh`
 - The `extra-work` package can add work functions to `bashrc.d/12-functions.sh`
 - The `host-garuda-v7` package can add host-specific aliases to `bashrc.d/22-aliases.sh`
