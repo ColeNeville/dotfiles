@@ -1,7 +1,7 @@
 [user]
 	name = Cole Neville
 	email = git@coleneville.net
-	signingkey = 14FEE86E0FF89260
+	signingkey = 86EF21EDC8C8609C
 [commit]
 	gpgsign = true
 [init]

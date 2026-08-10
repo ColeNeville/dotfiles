@@ -49,3 +49,9 @@ flycheck_*.el
 
 # direnv environment files
 .envrc
+
+# pi directories
+.pi-subagents/
+
+# mcp directories
+.playwright-mcp/
