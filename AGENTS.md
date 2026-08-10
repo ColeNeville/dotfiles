@@ -7,6 +7,7 @@ This document provides guidelines for AI coding agents working in this dotfiles 
 This is a personal dotfiles repository using GNU Stow for symlink management. The repository contains configuration files for various tools organized in a modular package structure under `packages/`.
 
 **Tech Stack:**
+
 - Shell scripts (Bash)
 - Lua (Neovim configuration)
 - TOML/YAML configuration files
@@ -14,6 +15,7 @@ This is a personal dotfiles repository using GNU Stow for symlink management. Th
 - GNU Stow for package management
 
 **Directory Structure:**
+
 - `lib/` - Shared libraries sourced by setup scripts
   - `logging.sh` - Logging functions (log_info, log_error, etc.)
   - `install.sh` - Package installation helpers
@@ -22,12 +24,13 @@ This is a personal dotfiles repository using GNU Stow for symlink management. Th
   - `os-linux/` - Linux-specific configurations
   - `os-macos/` - macOS-specific configurations
   - `host-*` - Host-specific configurations
-  - `extra-*` - Optional tool configurations (nvim, tmux, wezterm, etc.)
+  - `extra-*` - Optional tool configurations (nvim, tmux, zellij, wezterm, etc.)
 - `scripts/` - Installation and management scripts
 
 ## Build, Test, and Validation Commands
 
 ### Installation and Setup
+
 ```bash
 # Full installation
 ./scripts/install.sh
@@ -46,6 +49,7 @@ dotfiles.sh setup
 ```
 
 ### Testing/Validation
+
 ```bash
 # Test script syntax (run for any changed shell script)
 bash -n <script-path>
@@ -61,6 +65,7 @@ git submodule status
 ```
 
 ### Linting
+
 ```bash
 # Lua formatting (for Neovim configs)
 stylua --check packages/extra-old-nvim/.config/nvim/
@@ -80,6 +85,7 @@ stylua packages/extra-old-nvim/.config/nvim/
 All shell scripts must be compatible with bash 3.2, which is the version shipped with macOS. Do not use any bash 4.0+ features.
 
 **Forbidden patterns (bash 4.0+):**
+
 ```bash
 mapfile -t arr <file          # Use while-read loop instead
 readarray -t arr <file        # Same
@@ -92,6 +98,7 @@ ${ARRAY:-()}                  # Broken for arrays; see below
 ```
 
 **Array initialization (bash 3.2-compatible default values):**
+
 ```bash
 # WRONG — broken in bash 3.2 and unreliable with set -u:
 MY_ARRAY=${MY_ARRAY:-()}
@@ -103,6 +110,7 @@ if [ -z "${MY_ARRAY+x}" ]; then MY_ARRAY=(); fi
 **Empty array expansion under `set -u`:**
 
 Expanding `"${ARRAY[@]}"` when the array is empty triggers an "unbound variable" error in bash < 4.4. Always guard array use with a length check:
+
 ```bash
 if [[ ${#MY_ARRAY[@]} -eq 0 ]]; then
   return 0
@@ -111,6 +119,7 @@ fi
 ```
 
 **File Headers:**
+
 ```bash
 #!/bin/bash
 set -euo pipefail  # For library scripts
@@ -119,6 +128,7 @@ set -e  # For main/install scripts (less strict)
 ```
 
 **Script Structure:**
+
 1. Shebang and set options
 2. Source dependencies (logging.sh, constants.sh)
 3. Function definitions
@@ -126,6 +136,7 @@ set -e  # For main/install scripts (less strict)
 5. Call main function at end
 
 **Naming Conventions:**
+
 - Functions: `snake_case` (e.g., `stow_package`, `log_info`, `setup_dotfiles`)
 - Variables: `SCREAMING_SNAKE_CASE` for constants/env vars (e.g., `DOTFILES_DIR`, `LOG_LEVEL`)
 - Variables: `snake_case` for local variables (e.g., `package`, `setup_script`)
@@ -134,6 +145,7 @@ set -e  # For main/install scripts (less strict)
 **Sourcing:**
 
 For setup scripts (in `packages/*/...local/bin/dotfiles/setup.d/`):
+
 ```bash
 #!/bin/bash
 set -euo pipefail
@@ -150,12 +162,14 @@ set -euo pipefail
 ```
 
 For other scripts:
+
 ```bash
 . "$(dirname "$0")/logging.sh"  # Relative path with dot notation
 . "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/config.sh"  # With fallback
 ```
 
 **Error Handling:**
+
 - Use `set -e` to exit on errors in main scripts
 - Use `set -euo pipefail` for stricter error handling in library scripts
 - Check command availability with `command -v <cmd> &>/dev/null`
@@ -163,6 +177,7 @@ For other scripts:
 
 **Logging:**
 Always use the logging functions from `logging.sh`:
+
 ```bash
 log_debug "Debug message"
 log_info "Info message"
@@ -171,6 +186,7 @@ log_error "Error message"
 ```
 
 **Conditionals:**
+
 ```bash
 # Prefer [[ ]] over [ ]
 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -189,6 +205,7 @@ fi
 ```
 
 **Environment Variables:**
+
 - Use XDG Base Directory spec: `XDG_CONFIG_HOME`, `XDG_DATA_HOME`, `XDG_STATE_HOME`, `XDG_BIN_HOME`
 - Always provide fallback: `${XDG_CONFIG_HOME:-$HOME/.config}`
 - Export variables used by child processes: `export DOTFILES_DIR`
@@ -196,6 +213,7 @@ fi
 ### Lua (Neovim Configuration)
 
 **Formatting (StyLua):**
+
 ```lua
 -- stylua.toml settings
 indent_type = "Spaces"
@@ -204,6 +222,7 @@ column_width = 120
 ```
 
 **Style:**
+
 - Use 2 spaces for indentation
 - Max line width: 120 characters
 - Prefer double quotes for strings (per StyLua default)
@@ -211,6 +230,7 @@ column_width = 120
 ### Configuration Files
 
 **TOML:**
+
 ```toml
 # Use underscores for keys
 indent_type = "Spaces"
@@ -218,6 +238,7 @@ indent_width = 2
 ```
 
 **YAML:**
+
 - Use 2 spaces for indentation
 - Use lowercase with hyphens for keys
 
@@ -230,6 +251,7 @@ Follow conventional commits format defined in `.gitmessage`:
 ```
 
 **Types:**
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation only changes
@@ -242,6 +264,7 @@ Follow conventional commits format defined in `.gitmessage`:
 - `chore`: Other changes that don't modify src or test files
 
 **Examples:**
+
 ```
 feat(nvim): add new keybinding for file search
 fix(bash): correct PATH ordering in profile
@@ -252,16 +275,19 @@ refactor(stow): simplify package detection logic
 ## Important Patterns and Conventions
 
 ### Package Organization
+
 - Each package is self-contained in `packages/<package-name>/`
 - Files within packages mirror home directory structure (`.config/`, `.local/bin/`, etc.)
 - Setup scripts go in `.local/bin/dotfiles/setup.d/XX-name.sh` (numbered for execution order)
 - Bash snippets go in `.config/bashrc.d/XX-name.sh` (sourced in order)
 
 ### State Management
+
 - Stowed packages are tracked in `$XDG_DATA_HOME/stow/state`
 - One package name per line
 
 ### Modular Design
+
 - Common configurations in `common/` package
 - OS-specific overrides in `os-linux/` or `os-macos/`
 - Host-specific configurations in `host-<hostname>/`
@@ -270,22 +296,40 @@ refactor(stow): simplify package detection logic
 ## Common Tasks
 
 ### Adding a New Package
+
 1. Create `packages/<package-name>/` directory
 2. Add configuration files mirroring home directory structure
 3. Add setup script to `.local/bin/dotfiles/setup.d/` if needed
 4. Test with `./scripts/stow.sh <package-name>`
 
 ### Modifying Shell Scripts
+
 1. Edit the script
 2. Validate syntax: `bash -n <script-path>`
 3. Test manually by running the script
 4. Commit with appropriate conventional commit message
 
 ### Updating Git Submodules
+
 ```bash
 git submodule update --recursive --remote
 git add .gitmodules <submodule-path>
 git commit -m "chore(submodules): update to latest versions"
+```
+
+### Scoping Documentation Changes
+
+When adding or modifying a package, always update relevant documentation:
+
+- **README.md** — add new packages to the "Available Packages" list
+- **AGENTS.md** — update patterns, conventions, or examples if the change introduces a new pattern
+- **openspec/specs/** — create or update capability specs for new features
+
+Add documentation tasks to the change's `tasks.md` so they are tracked alongside implementation tasks. For example:
+
+```markdown
+- [ ] 7.1 Update README.md to document the new package
+- [ ] 7.2 Update AGENTS.md if new patterns are introduced
 ```
 
 ## Testing Changes
