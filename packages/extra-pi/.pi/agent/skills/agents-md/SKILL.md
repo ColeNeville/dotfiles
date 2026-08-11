@@ -66,17 +66,6 @@ Per-file commands are faster and cheaper than full project builds. Include when 
 | Test | `pnpm jest path/to/file.test.ts` |
 ```
 
-### Commit Attribution
-
-Always include this section. Agents should use their own identity:
-
-```markdown
-## Commit Attribution
-AI commits MUST include:
-
-Co-Authored-By: (the agent's name and attribution byline)
-```
-
 ### Key Conventions
 
 Project-specific patterns agents must follow. Keep brief — one line per convention.
@@ -85,6 +74,7 @@ Project-specific patterns agents must follow. Keep brief — one line per conven
 
 Add only if truly needed:
 
+- Commit attribution (agent identity conventions)
 - API route patterns (show template, not explanation)
 - CLI commands (table format)
 - File naming conventions
