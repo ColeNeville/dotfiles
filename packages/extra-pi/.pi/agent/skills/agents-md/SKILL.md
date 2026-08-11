@@ -22,6 +22,31 @@ Do NOT use this skill for:
 - Writing README.md, CONTRIBUTING.md, or other human-facing docs
 - General project documentation updates
 
+## AGENTS.md vs SKILL.md
+
+AGENTS.md carries stable, always-on context. SKILL.md carries task-specific procedures.
+
+Put in **AGENTS.md** (always loaded):
+
+- Repo-wide rules and conventions
+- Tech stack, file structure, build commands
+- Boundaries and protected areas
+- Gotchas that cause mistakes on any task
+
+Put in **SKILL.md** (loaded on demand):
+
+- Multi-step workflows or procedures
+- Task-specific instructions (e.g., "deploy to staging")
+- Situational knowledge that only applies sometimes
+- Detailed guidance that would bloat AGENTS.md
+
+Suggest a SKILL.md when:
+
+- The content is a procedure with numbered steps
+- It only applies to a specific kind of task
+- It would push AGENTS.md past 60 lines
+- The user is asking about a workflow, not a rule
+
 ## Before Writing
 
 Analyze the project to understand what belongs in the file:
