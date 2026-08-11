@@ -1,6 +1,6 @@
 ---
 name: dotfiles-build
-description: Install, stow, test, and lint dotfiles. Use when the user wants to install, stow, unstow, validate, or lint dotfiles configuration.
+description: Install, stow, test, and lint dotfiles. Use when the user wants to install, stow, unstow, validate, or lint dotfiles configuration. Do NOT use for adding new packages or modifying shell scripts — use `dotfiles-workflow` for those tasks.
 ---
 
 # Dotfiles Build, Test, and Validation
@@ -44,10 +44,16 @@ git submodule status
 
 ```bash
 # Lua formatting (for Neovim configs)
-stylua --check packages/extra-old-nvim/.config/nvim/
+stylua --check <neovim-config-path>
 
 # Lua formatting (fix)
-stylua packages/extra-old-nvim/.config/nvim/
+stylua <neovim-config-path>
 ```
 
 **No automated tests exist** — validation is primarily manual verification of symlink creation and tool functionality.
+
+## Gotchas
+
+- **Dry-run first** — always test stow with `-n` before committing; conflicts will silently fail
+- **Script syntax check is mandatory** — run `bash -n` on any changed script before stowing
+- **Linting path is package-specific** — replace the hardcoded Neovim path with the actual config directory; don't assume a single package

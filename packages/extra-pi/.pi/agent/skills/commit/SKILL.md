@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Create conventional commit messages. Use when asked to commit changes. Accepts a description of what to commit, e.g. "changes from the session", "staged changes", or "changes relating to x".
+description: Create conventional commit messages. Use when asked to commit changes. Accepts a description of what to commit, e.g. "changes from the session", "staged changes", or "changes relating to x". Do NOT use for non-conventional-commit workflows (e.g., merge commits, squash messages, or release tags).
 ---
 
 # Conventional Commit Skill
@@ -79,3 +79,11 @@ EOF
 )"`
 
 The `Co-authored-by` trailer is always appended after the body, separated by a blank line.
+
+## Gotchas
+
+- **Never use `git add -A`** — always stage specific files to avoid committing unrelated changes
+- **Subject line limits are strict** — 50-char soft limit, 70-char hard limit; the commit will still work if exceeded but follow the convention
+- **Ask before committing** — always confirm what should be committed; don't assume the user wants everything staged
+- **Maximum 5 body items** — if there are more distinct changes, ask the user to narrow the scope
+- **This skill is for conventional commits only** — do not use for merge commits, squash messages, or release tags
