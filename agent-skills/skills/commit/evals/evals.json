@@ -1,0 +1,36 @@
+{
+  "skill_name": "commit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "commit the changes from the session",
+      "expected_output": "A conventional commit with type (feat/fix/chore), a meaningful scope, subject under 50 chars, and a body with bullet points describing the changes",
+      "files": [],
+      "assertions": [
+        "The commit message follows conventional commits format",
+        "The subject line is under 50 characters",
+        "The message includes a Co-authored-by trailer"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I've added user authentication, fixed a bug in the password reset flow, and updated the README. What should I commit?",
+      "expected_output": "A commit message that groups related changes (auth + password reset as feat(auth)), and README update as chore or separate commit",
+      "files": [],
+      "assertions": [
+        "The commit message correctly identifies feat(auth) as the primary type and scope",
+        "The body bullets describe each distinct change"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I'm rewriting the entire auth module to use JWT instead of session-based auth. This is a breaking change.",
+      "expected_output": "A commit message with a breaking change marker (feat(auth)! or feat!), a subject describing the JWT migration, and body bullets explaining the breaking change",
+      "files": [],
+      "assertions": [
+        "The commit message includes a ! for the breaking change",
+        "The body explains why the change is breaking"
+      ]
+    }
+  ]
+}

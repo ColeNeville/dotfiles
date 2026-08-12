@@ -1,0 +1,35 @@
+{
+  "skill_name": "exa-fetch",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you fetch the content from https://example.com and give me the text?",
+      "expected_output": "The fetched content from example.com returned as clean markdown text",
+      "files": [],
+      "assertions": [
+        "The output contains the page content, not an error",
+        "The content is formatted as readable text/markdown"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I need to read this article: https://agentskills.io/skill-creation/evaluating-skills. Can you grab it for me?",
+      "expected_output": "The full article content about evaluating skills, returned as clean markdown",
+      "files": [],
+      "assertions": [
+        "The output includes the article title",
+        "The output contains the main body content with sections"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Fetch https://httpbin.org/status/404 and tell me what happens",
+      "expected_output": "An error or empty result indicating the page could not be fetched (404)",
+      "files": [],
+      "assertions": [
+        "The output indicates the fetch failed or returned empty",
+        "The agent informs the user about the error"
+      ]
+    }
+  ]
+}

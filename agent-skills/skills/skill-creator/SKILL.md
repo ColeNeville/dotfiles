@@ -11,11 +11,14 @@ Create, scaffold, edit, and validate agent skills. This skill encodes best pract
 
 ```bash
 # Scaffold a new skill
-./packages/extra-pi/.pi/agent/skills/skill-creator/scripts/scaffold.sh <skill-name>
+./scripts/scaffold.sh <skill-name>
 
 # Options
-./packages/extra-pi/.pi/agent/skills/skill-creator/scripts/scaffold.sh <skill-name> --no-scripts
-./packages/extra-pi/.pi/agent/skills/skill-creator/scripts/scaffold.sh <skill-name> --no-references
+./scripts/scaffold.sh <skill-name> --no-scripts
+./scripts/scaffold.sh <skill-name> --no-references
+
+# Run evals for a skill
+./scripts/eval.sh <skill-dir> [iteration]
 ```
 
 ## Skill Anatomy
@@ -135,6 +138,21 @@ Test along three axes:
 2. **Functional correctness** — Does it produce correct outputs consistently across 3–5 runs?
 3. **Performance** — Compare tool calls, messages, and tokens with vs. without the skill. An effective skill reduces all three.
 
+## Evals
+
+Every skill MUST have an `evals/evals.json` file. When creating or updating a skill:
+
+1. **Create or update `evals/evals.json`** with 2–3 test cases covering the skill's core capabilities. Include varied prompts (casual, precise, edge cases) and specific assertions.
+2. **Run the evals** with `scripts/eval.sh <skill-dir>`:
+   - Reads test cases from the skill's `evals/evals.json`
+   - Spawns with-skill and without-skill runs into the shared workspace
+   - Saves outputs, timing, and grading stubs to `iteration-N/`
+3. **Grade outputs** — fill in `grading.json` for each eval with PASS/FAIL and concrete evidence
+4. **Aggregate** — run `agent-skills/scripts/run-evals.sh aggregate N` to compare pass rates
+5. **Iterate** — if pass rates are low or the skill adds cost without quality gains, refine the SKILL.md and rerun
+
+See **references/eval-workflow.md** for the full eval workflow and instruction template.
+
 ## Gotchas
 
 - **Description too vague** → Add specific trigger phrases users would say
@@ -151,3 +169,4 @@ For detailed guidance, see:
 - **references/authoring-guide.md** — Deep dive into description craft, scripting, and patterns
 - **references/validation-checklist.md** — Pre-merge validation checklist
 - **references/common-mistakes.md** — Real-world pitfalls and corrections
+- **references/eval-workflow.md** — Eval system and iteration workflow

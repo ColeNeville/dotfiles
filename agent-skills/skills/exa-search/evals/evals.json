@@ -1,0 +1,35 @@
+{
+  "skill_name": "exa-search",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Search for best practices on writing agent skills in 2025",
+      "expected_output": "Search results listing relevant articles, documentation, or blog posts about agent skill best practices",
+      "files": [],
+      "assertions": [
+        "The output contains search results with titles and URLs",
+        "The results are relevant to agent skill creation"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Look up the latest news about Claude Code's skill system",
+      "expected_output": "Recent news or announcements about Claude Code's skill system",
+      "files": [],
+      "assertions": [
+        "The output contains recent results (not outdated)",
+        "The results mention Claude Code and skills"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Find me something about LLM evals",
+      "expected_output": "Search results related to LLM evaluation methods or frameworks",
+      "files": [],
+      "assertions": [
+        "The output contains search results about LLM evaluation",
+        "The results are relevant despite the vague query"
+      ]
+    }
+  ]
+}

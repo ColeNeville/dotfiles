@@ -4,3 +4,10 @@ packages/common/.gnupg/public-keys.d/
 packages/common/.gnupg/.gpg-card_history
 packages/common/.gnupg/reader_0.status
 packages/common/.gnupg/trustdb.gpg
+
+# Agent skill eval outputs
+agent-skills/skill-eval/**/iteration-*/eval-*/with_skill/outputs/
+agent-skills/skill-eval/**/iteration-*/eval-*/without_skill/outputs/
+agent-skills/skill-eval/**/iteration-*/eval-*/with_skill/grading.json
+agent-skills/skill-eval/**/iteration-*/eval-*/without_skill/grading.json
+agent-skills/skill-eval/**/iteration-*/benchmark.json

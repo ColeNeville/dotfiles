@@ -1,0 +1,39 @@
+{
+  "skill_name": "agents-md",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm starting a new Python project with FastAPI and pytest. Can you create an AGENTS.md file that covers the package manager, test commands, and commit conventions?",
+      "expected_output": "An AGENTS.md file with sections for Package Manager (uv commands), File-Scoped Commands (pytest, ruff), and Key Conventions (conventional commits)",
+      "files": [],
+      "assertions": [
+        "The output contains a Package Manager section with uv commands",
+        "The output contains a File-Scoped Commands section with pytest and ruff",
+        "The output contains a Key Conventions section mentioning conventional commits",
+        "The file is under 60 lines"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Hey, can you fix up my AGENTS.md? It's got too much fluff and some outdated stuff. Here's what I have:\n\n# Agent Instructions\n\nWelcome to our project! This document provides guidelines for AI coding agents working in this repository.\n\n## Overview\n\nThis is a Node.js project that uses pnpm for package management. The project has a monorepo structure...\n\n(continues with verbose prose)",
+      "expected_output": "A trimmed AGENTS.md with verbose prose removed, replaced with concise bullet lists, package manager section, and key conventions",
+      "files": [],
+      "assertions": [
+        "The output removes welcome text and verbose prose",
+        "The output uses bullet lists instead of paragraphs",
+        "The output is under 60 lines"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create AGENTS.md for a Rust workspace with cargo, clippy, and tests in /crates/*/Cargo.toml. Use conventional commits.",
+      "expected_output": "An AGENTS.md with Package Manager (cargo commands), File-Scoped Commands (clippy, test per crate), and Key Conventions (conventional commits, workspace structure)",
+      "files": [],
+      "assertions": [
+        "The output contains cargo commands (build, test, clippy)",
+        "The output shows per-crate test command pattern",
+        "The output mentions conventional commits"
+      ]
+    }
+  ]
+}

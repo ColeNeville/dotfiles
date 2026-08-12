@@ -12,7 +12,8 @@
       "openspec instructions *": "allow",
       "openspec spec *": "allow",
       "openspec sync *": "allow",
-      "openspec show *": "allow"
+      "openspec show *": "allow",
+      "openspec status *": "allow"
     },
     "mcp": {
       "*": "ask",
@@ -25,6 +26,16 @@
     },
     "skill": {
       "*": "ask"
+    },
+    "write": {
+      "*": "ask",
+      "openspec/changes/*": "allow",
+      "openspec/specs/*": "allow"
+    },
+    "edit": {
+      "*": "ask",
+      "openspec/changes/*": "allow",
+      "openspec/specs/*": "allow"
     }
   }
 }

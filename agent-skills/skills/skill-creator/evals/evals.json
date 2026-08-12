@@ -1,0 +1,50 @@
+{
+  "skill_name": "skill-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to create a new skill called 'code-review' that helps review pull requests. Can you scaffold it for me?",
+      "expected_output": "A new skill directory at the appropriate location with SKILL.md, frontmatter, and basic structure",
+      "files": [],
+      "assertions": [
+        "The skill directory is created with a SKILL.md file",
+        "The SKILL.md has proper YAML frontmatter with name and description",
+        "The description includes trigger phrases and negative triggers"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "My skill's description is too vague. It says 'Helps with data visualization.' Can you fix it?",
+      "expected_output": "A refined description that specifies what the skill does, when to use it, and key capabilities",
+      "files": [],
+      "assertions": [
+        "The new description is more specific than the original",
+        "The description includes what the skill does and when to use it",
+        "The description is under 1024 characters"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I have a skill that runs shell commands to deploy infrastructure. It has too much inline code in the SKILL.md. Can you help me restructure it?",
+      "expected_output": "A refactored skill that moves shell logic to scripts/ and keeps SKILL.md focused on workflow and guidance",
+      "files": [],
+      "assertions": [
+        "The SKILL.md is shorter and focuses on workflow rather than inline code",
+        "The scripts/ directory contains the shell logic",
+        "The skill follows CLI-first design patterns"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create a new skill called 'deploy-staging' that wraps a shell script to deploy to staging. Include evals for it.",
+      "expected_output": "A new skill with SKILL.md, a scripts/deploy.sh, and evals/evals.json with 2-3 test cases",
+      "files": [],
+      "assertions": [
+        "The skill directory is created with SKILL.md, scripts/, and evals/",
+        "evals/evals.json has at least 2 test cases with prompts and assertions",
+        "The SKILL.md includes an Evals section describing how to run evals",
+        "The eval test cases cover varied prompts (casual and precise)"
+      ]
+    }
+  ]
+}
